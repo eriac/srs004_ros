@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="my_robo" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find s4_gun)/urdf/common.urdf.xacro"/>
+  <xacro:include filename="$(find s4_gun)/urdf/gun.urdf.xacro"/>
+
+  <link name="world"/>
+  <link name="base_link"/>
+  <joint name="base_joint" type="fixed"><!--floating-->
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <xacro:gun_tullet prefix="gun0" parent="base_link" pos_x="0.010" pos_z="0.038" />
+
+  <!-- ===============  Gazebo =============== -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>my_robo</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>

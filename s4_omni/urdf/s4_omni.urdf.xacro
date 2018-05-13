@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot name="my_robo" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find s4_omni)/urdf/body.urdf.xacro"/>
+  <xacro:include filename="$(find s4_omni)/urdf/wheel.urdf.xacro"/>
+
+  <xacro:macro name="s4_omni" params="prefix parent">
+<!--
+    <joint name="${prefix}_joint" type="floating">
+      <parent link="${parent}"/>
+      <child link="${prefix}_target0_link"/>
+      <origin rpy="0 0 ${dir}" xyz="${0.106*cos(dir)} ${0.106*sin(dir)} 0.098"/>
+    </joint>
+-->
+    <xacro:body prefix="body0" parent="base_link" />
+    <xacro:omni_wheel prefix="wheel0" parent="base_link" radius="0.075" dir="${pi/3}"   height="-0.022" />
+    <xacro:omni_wheel prefix="wheel1" parent="base_link" radius="0.075" dir="${pi}"     height="-0.022" />
+    <xacro:omni_wheel prefix="wheel2" parent="base_link" radius="0.075" dir="${5*pi/3}" height="-0.022" />
+  </xacro:macro>
+
+  <!-- ===============  Gazebo =============== -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>my_robo</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>

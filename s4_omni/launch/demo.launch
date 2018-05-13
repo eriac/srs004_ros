@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="model" default="$(find s4_omni)/urdf/world.urdf.xacro"/>
+    <!--<arg name="model" default="$(find s4_omni)/urdf/robot.urdf"/>-->
+    <arg name="gui" default="true" />
+    <arg name="robot" default="sim"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+    <param name="use_gui" value="$(arg gui)"/>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />  
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sfp03)/config/SETTING.rviz" required="true" />
+
+    <node name="joy_node"  pkg="joy" type="joy_node" />
+    <node name="s4_omni_demo" pkg="s4_omni" type="s4_omni_demo" output="screen">
+        <param name="linear_velocity"  value="1.0"/>
+        <param name="angular_velocity" value="2.0"/>
+    </node>
+    
+    <node name="s4_omni_commander" pkg="s4_omni" type="s4_omni_commander" output="screen">
+        <remap from="wheel0" to="phycon/wheel0/target"/>
+        <remap from="wheel1" to="phycon/wheel1/target"/>
+        <remap from="wheel2" to="phycon/wheel2/target"/>
+        <param name="wheel_base" value="0.0972"/>
+        <param name="wheel_radius" value="0.019"/>
+        <param name="linear_velocity" value="1.5"/>
+        <param name="angular_velocity" value="4.0"/>
+        <param name="wheel0" value="$(eval 3.1415/3)"/>
+        <param name="wheel1" value="$(eval 3.1415)"/>
+        <param name="wheel2" value="$(eval 5*3.1415/3)"/>
+    </node>
+
+    <node name="s4_omni_odometry" pkg="s4_omni" type="s4_omni_odometry" output="screen">
+        <remap from="odometry0" to="phycon/wheel0/odometry"/>
+        <remap from="odometry1" to="phycon/wheel1/odometry"/>
+        <remap from="odometry2" to="phycon/wheel2/odometry"/>
+        <param name="wheel_base" value="0.0972"/>
+        <param name="wheel_radius" value="0.019"/>
+        <param name="joint0_name" value="wheel0_housing_joint"/>
+        <param name="joint1_name" value="wheel1_housing_joint"/>
+        <param name="joint2_name" value="wheel2_housing_joint"/>
+    </node>
+
+    <group ns="phycon" unless="$(eval robot == 'sim')">
+        <node name="wheel0" pkg="srs004host" type="phycon_wheel_actual" >
+            <remap from="CANLink_out" to="comport/CANLink_out"/>
+            <remap from="CANLink_in"  to="comport/CANLink_in"/>
+            <param name="CAN_CH" value="A"/>
+            <param name="CAN_ID" value="1"/>
+            <param name="PPR" value="-397"/>
+        </node>
+        <node name="wheel1" pkg="srs004host" type="phycon_wheel_actual" >
+            <remap from="CANLink_out" to="comport/CANLink_out"/>
+            <remap from="CANLink_in"  to="comport/CANLink_in"/>
+            <param name="CAN_CH" value="A"/>
+            <param name="CAN_ID" value="2"/>
+            <param name="PPR" value="-397"/>
+        </node>
+        <node name="wheel2" pkg="srs004host" type="phycon_wheel_actual" >
+            <remap from="CANLink_out" to="comport/CANLink_out"/>
+            <remap from="CANLink_in"  to="comport/CANLink_in"/>
+            <param name="CAN_CH" value="A"/>
+            <param name="CAN_ID" value="3"/>
+            <param name="PPR" value="-397"/>
+        </node>
+        <include file="$(find s4_comport)/launch/demo.launch" />
+    </group>
+
+    <group ns="phycon" if="$(eval robot == 'sim')">
+        <node name="wheel0" pkg="s4_omni" type="s4_omni_wheel_sim" />
+        <node name="wheel1" pkg="s4_omni" type="s4_omni_wheel_sim" />
+        <node name="wheel2" pkg="s4_omni" type="s4_omni_wheel_sim" />
+    </group>
+</launch>
+

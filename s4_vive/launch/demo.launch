@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="model" default="$(find s4_vive)/urdf/robot.urdf"/>
+  <arg name="gui" default="true" />
+  <arg name="vive" default="true"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sfp03)/config/SETTING.rviz" required="true" />
+
+  <group unless="$(arg vive)">
+    <node name="joy_node"  pkg="joy" type="joy_node" />
+    <node name="s4_vive_joy_sim0"  pkg="s4_vive" type="s4_vive_joy_sim" output="screen">
+      <param name="udp_address" value="127.0.0.1"/>
+      <param name="udp_port" value="4001"/>
+      <param name="device_index" value="device2"/>
+      <param name="selector" value="L1"/>
+    </node>
+    <node name="s4_vive_joy_sim1"  pkg="s4_vive" type="s4_vive_joy_sim" output="screen">
+      <param name="udp_address" value="127.0.0.1"/>
+      <param name="udp_port" value="4001"/>
+      <param name="device_index" value="device3"/>
+      <param name="selector" value="R1"/>
+    </node>
+  </group>
+
+  <node name="s4_vive_recieve"  pkg="s4_vive" type="s4_vive_recieve" output="screen">
+    <param name="udp_address" value="0.0.0.0"/>
+    <param name="udp_port" value="4001"/>
+  </node>
+  <node name="s4_vive_goal_publisher"  pkg="s4_vive" type="s4_vive_goal_publisher" output="screen" >
+    <param name="pointer_frame" value="pointer0_link"/>
+    <param name="goal_frame" value="goal0_link"/>
+  </node>
+
+</launch>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="target" params="prefix parent dir">
+    <joint name="${prefix}_target0_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}_target0_link"/>
+      <origin rpy="0 0 ${dir}" xyz="${0.106*cos(dir)} ${0.106*sin(dir)} 0.098"/>
+    </joint>
+
+    <link name="${prefix}_target0_link">
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>  
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="body" params="prefix parent">
+    <joint name="${prefix}_body_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}_body_link"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </joint>
+
+    <link name="${prefix}_body_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://srs004host/urdf/body.stl" />
+        </geometry>
+        <material name="gray"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.002"/>
+        <geometry>
+          <cylinder radius="0.119" length="0.004"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="2.0"/>
+        <inertia ixx="0.03" ixy="0" ixz="0" iyy="0.03" iyz="0" izz="0.01"/>
+      </inertial>  
+    </link>
+
+    <joint name="${prefix}_tracker_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}_tracker_link"/>
+      <origin rpy="0 0 0" xyz="-0.010 0.060 0.201"/>
+    </joint>
+
+    <link name="${prefix}_tracker_link">
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>  
+    </link>
+
+  <xacro:target prefix="target0" parent="base_link" dir="${pi/3}"/>
+  <xacro:target prefix="target1" parent="base_link" dir="${pi}"/>
+  <xacro:target prefix="target2" parent="base_link" dir="${5*pi/3}"/>
+
+
+  </xacro:macro>
+</robot>

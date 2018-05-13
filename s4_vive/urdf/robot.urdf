@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot name="my_robot">
+  <link name="world" />
+ 
+  <link name="controller0_link">
+   <visual>
+     <origin rpy="0 0 0" xyz="0 0 0"/>
+     <geometry>
+       <mesh filename="package://s4_vive/stl/vive_controller.stl"/>
+     </geometry>
+     <material name="green">
+       <color rgba="0 1 0 1"/>
+     </material>
+   </visual>
+  </link>
+  <joint name="controller0_joint" type="floating">
+    <parent link="world"/>
+    <child link="controller0_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+  </joint>
+
+  <link name="pointer0_link" />
+  <joint name="pointer0_joint" type="fixed">
+    <parent link="controller0_link"/>
+    <child link="pointer0_link"/>
+    <origin xyz="0 0 -0.0685" rpy="0 1.01 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+  </joint>
+
+  <link name="goal0_link" />
+  <joint name="goal0_joint" type="floating">
+    <parent link="pointer0_link"/>
+    <child link="goal0_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+  </joint>
+
+<link name="controller1_link">
+   <visual>
+     <origin rpy="0 0 0" xyz="0 0 0"/>
+     <geometry>
+       <mesh filename="package://s4_vive/stl/vive_controller.stl"/>
+     </geometry>
+     <material name="green">
+       <color rgba="0 1 0 1"/>
+     </material>
+   </visual>
+  </link>
+  <joint name="controller1_joint" type="floating">
+    <parent link="world"/>
+    <child link="controller1_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+  </joint>
+
+
+</robot>
