@@ -13,7 +13,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://srs004host/urdf/base1.stl" />
+          <mesh filename="package://s4_gun/stl/base1.stl" />
         </geometry>
         <material name="gray"/>
       </visual>
@@ -35,7 +35,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://srs004host/urdf/base2.stl" />
+          <mesh filename="package://s4_gun/stl/base2.stl" />
         </geometry>
         <material name="gray"/>
       </visual>
@@ -57,7 +57,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://srs004host/urdf/gun.stl" />
+          <mesh filename="package://s4_gun/stl/gun.stl" />
         </geometry>
         <material name="light_red"/>
       </visual>

@@ -10,6 +10,13 @@
     <child link="base_link"/>
   </joint>
 
+  <link name="target/t1"/>
+  <joint name="target/t1_joint" type="fixed">
+    <parent link="world"/>
+    <child link="target/t1"/>
+  </joint>
+
+
   <xacro:s4_omni prefix="body0" parent="base_link" />
 
   <!-- ===============  Gazebo =============== -->
