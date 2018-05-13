@@ -11,6 +11,9 @@
 #include <sstream>
 #include <string>
 
+std::string joint1_name="";
+std::string joint2_name="";
+
 ros::Publisher laser_pub;
 geometry_msgs::Twist twist_last;
 bool twist_enable;
@@ -39,6 +42,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "s4_gun_commander");
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
+
 	//publish
 	ros::Publisher joint_pub = n.advertise<sensor_msgs::JointState>("joint_states", 1000);
 	ros::Publisher twist_pub = n.advertise<geometry_msgs::Twist>("twist_out", 1000);
@@ -48,6 +52,10 @@ int main(int argc, char **argv)
 	//Subscribe
 	ros::Subscriber twist_sub   = n.subscribe("twist_in", 10, twist_callback);
 	ros::Subscriber command_sub = n.subscribe("command", 10, command_callback);
+
+	//rosparam
+	pn.getParam("joint1_name", joint1_name);
+	pn.getParam("joint2_name", joint2_name);
 
 	float yaw_velocity=1.0;
 	float pitch_velocity=1.0;
@@ -94,8 +102,8 @@ int main(int argc, char **argv)
 		sensor_msgs::JointState js0;
 		js0.header.stamp = ros::Time::now();
 		js0.name.resize(2);
-		js0.name[0]="gun0_base2_joint";
-		js0.name[1]="gun0_gun_joint";
+		js0.name[0]=joint1_name;
+		js0.name[1]=joint2_name;
 		js0.position.resize(2);
 		js0.position[0]=yaw;
 		js0.position[1]=pitch;
