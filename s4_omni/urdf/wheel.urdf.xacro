@@ -60,13 +60,13 @@
   </xacro:macro>
 
   <xacro:macro name="omni_wheel" params="prefix parent radius dir height">
-    <joint name="${prefix}_motor_joint" type="fixed">
+    <joint name="${prefix}/motor_joint" type="fixed">
       <parent link="${parent}"/>
-      <child link="${prefix}_motor_link"/>
+      <child link="${prefix}/motor_link"/>
       <origin rpy="0 ${pi/2} ${dir}" xyz="${radius*cos(dir)} ${radius*sin(dir)} ${height}"/>
     </joint>
  
-    <link name="${prefix}_motor_link">
+    <link name="${prefix}/motor_link">
       <visual>
         <geometry>
           <mesh filename="package://srs004host/urdf/motor.stl" />
@@ -80,15 +80,15 @@
       </inertial>
     </link>
 
-    <joint name="${prefix}_housing_joint" type="continuous">
+    <joint name="${prefix}/housing_joint" type="continuous">
       <parent link="${parent}"/>
-      <child link="${prefix}_housing_link"/>
+      <child link="${prefix}/housing_link"/>
       <origin rpy="0 ${pi/2} ${dir}" xyz="${(radius+0.0222)*cos(dir)} ${(radius+0.0222)*sin(dir)} ${height}"/>
       <axis xyz="0 0 1"/>
       <dynamics damping="0.1"/>
     </joint>
  
-    <link name="${prefix}_housing_link">
+    <link name="${prefix}/housing_link">
       <visual>
         <geometry>
           <mesh filename="package://srs004host/urdf/housing.stl" />
@@ -102,27 +102,27 @@
       </inertial>  
     </link>
 
-    <joint name="${prefix}_housing_s_joint" type="fixed">
-      <parent link="${prefix}_housing_link"/>
-      <child link="${prefix}_housing_s_link"/>
+    <joint name="${prefix}/housing_s_joint" type="fixed">
+      <parent link="${prefix}/housing_link"/>
+      <child link="${prefix}/housing_s_link"/>
       <origin rpy="0 ${pi} ${pi/4}" xyz="0 0 0"/>
     </joint>
 
-    <link name="${prefix}_housing_s_link">
+    <link name="${prefix}/housing_s_link">
       <inertial>
         <mass value="0.001"/>
         <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.00001"/>
       </inertial>  
     </link>
 
-    <xacro:barrel prefix="${prefix}_barrel_1" parent="${prefix}_housing_link" dir="0"/>
-    <xacro:barrel prefix="${prefix}_barrel_2" parent="${prefix}_housing_link" dir="${pi/2}"/>
-    <xacro:barrel prefix="${prefix}_barrel_3" parent="${prefix}_housing_link" dir="${pi}"/>
-    <xacro:barrel prefix="${prefix}_barrel_4" parent="${prefix}_housing_link" dir="${-pi/2}"/>
-    <xacro:barrel prefix="${prefix}_barrel_5" parent="${prefix}_housing_s_link" dir="0"/>
-    <xacro:barrel prefix="${prefix}_barrel_6" parent="${prefix}_housing_s_link" dir="${pi/2}"/>
-    <xacro:barrel prefix="${prefix}_barrel_7" parent="${prefix}_housing_s_link" dir="${pi}"/>
-    <xacro:barrel prefix="${prefix}_barrel_8" parent="${prefix}_housing_s_link" dir="${-pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_1" parent="${prefix}/housing_link" dir="0"/>
+    <xacro:barrel prefix="${prefix}/barrel_2" parent="${prefix}/housing_link" dir="${pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_3" parent="${prefix}/housing_link" dir="${pi}"/>
+    <xacro:barrel prefix="${prefix}/barrel_4" parent="${prefix}/housing_link" dir="${-pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_5" parent="${prefix}/housing_s_link" dir="0"/>
+    <xacro:barrel prefix="${prefix}/barrel_6" parent="${prefix}/housing_s_link" dir="${pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_7" parent="${prefix}/housing_s_link" dir="${pi}"/>
+    <xacro:barrel prefix="${prefix}/barrel_8" parent="${prefix}/housing_s_link" dir="${-pi/2}"/>
 
     <!-- ===============  Transmission =============== -->
     <transmission name="${prefix}_housing_trans">

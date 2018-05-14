@@ -61,7 +61,7 @@ void set_robot(float *position, float *direction){
 	tf::Quaternion q;
 	q.setRPY(direction[0], direction[1], direction[2]);
 	transform.setRotation(q);
-	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "base_link"));	
+	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "robot0/base_link"));	
 }
 
 int main(int argc, char **argv){

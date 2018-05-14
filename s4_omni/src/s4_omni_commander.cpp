@@ -41,9 +41,9 @@ int main(int argc, char **argv)
 	pn.getParam("wheel2", wheel[2]);
 
 	//publish
-	ros::Publisher wheel0_pub = n.advertise<std_msgs::Float32>("wheel0", 1000);
-	ros::Publisher wheel1_pub = n.advertise<std_msgs::Float32>("wheel1", 1000);
-	ros::Publisher wheel2_pub = n.advertise<std_msgs::Float32>("wheel2", 1000);
+	ros::Publisher wheel0_pub = n.advertise<std_msgs::Float32>("wheel0/target", 1000);
+	ros::Publisher wheel1_pub = n.advertise<std_msgs::Float32>("wheel1/target", 1000);
+	ros::Publisher wheel2_pub = n.advertise<std_msgs::Float32>("wheel2/target", 1000);
 	//Subscribe
 	ros::Subscriber joy_sub     = n.subscribe("cmd_vel", 10, twist_callback); 
 

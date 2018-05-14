@@ -4,20 +4,13 @@
   <xacro:include filename="$(find s4_omni)/urdf/s4_omni.urdf.xacro"/>
 
   <link name="world"/>
-  <link name="base_link"/>
-  <joint name="base_joint" type="floating">
+  <link name="robot0/base_link"/>
+  <joint name="robot0/base_joint" type="floating">
     <parent link="world"/>
-    <child link="base_link"/>
+    <child link="robot0/base_link"/>
   </joint>
 
-  <link name="target/t1"/>
-  <joint name="target/t1_joint" type="fixed">
-    <parent link="world"/>
-    <child link="target/t1"/>
-  </joint>
-
-
-  <xacro:s4_omni prefix="body0" parent="base_link" />
+  <xacro:s4_omni prefix="robot0/omni0" parent="robot0/base_link" />
 
   <!-- ===============  Gazebo =============== -->
   <gazebo>
