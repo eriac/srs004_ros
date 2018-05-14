@@ -45,12 +45,12 @@ int main(int argc, char **argv)
 
 	//publish
 	ros::Publisher joint_pub = n.advertise<sensor_msgs::JointState>("joint_states", 1000);
-	ros::Publisher twist_pub = n.advertise<geometry_msgs::Twist>("twist_out", 1000);
+	ros::Publisher twist_pub = n.advertise<geometry_msgs::Twist>("aim_pos", 1000);
 	ros::Publisher shot_pub  = n.advertise<std_msgs::Int32>("shot", 1000);
 	laser_pub = n.advertise<std_msgs::Int32>("laser", 1000);
 	
 	//Subscribe
-	ros::Subscriber twist_sub   = n.subscribe("twist_in", 10, twist_callback);
+	ros::Subscriber twist_sub   = n.subscribe("aim_vel", 10, twist_callback);
 	ros::Subscriber command_sub = n.subscribe("command", 10, command_callback);
 
 	//rosparam

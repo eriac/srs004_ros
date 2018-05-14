@@ -3,35 +3,56 @@
     <arg name="model" default="$(find s4_gun)/urdf/world.urdf.xacro"/>
     <arg name="gui" default="true" />
     <arg name="robot" default="sim"/>
-
+    <arg name="robot_name" default="robot0"/>
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
     <param name="use_gui" value="$(arg gui)"/>
 
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />  
+    <group ns="share">
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />  
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sfp03)/config/SETTING.rviz" required="true" />
+        <node name="joy_node"  pkg="joy" type="joy_node" />
+    </group>
 
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sfp03)/config/SETTING.rviz" required="true" />
+    <group ns="$(arg robot_name)">
+        <group ns="gun0">
+            <node name="s4_gun_demo" pkg="s4_gun" type="s4_gun_demo" >
+                <remap from="joy"  to="/share/joy"/>
+            </node>
+            <node name="s4_gun_commander" pkg="s4_gun" type="s4_gun_commander">
+                <remap from="joint_states"  to="/share/joint_states"/>
+                <param name="yaw_lower_limit" value="-0.18"/>
+                <param name="yaw_upper_limit" value="0.16"/>
+                <param name="pitch_lower_limit" value="-0.2"/>
+                <param name="pitch_upper_limit" value="0.2"/>
+                <param name="yaw_velocity" value="0.3"/>
+                <param name="pitch_velocity" value="0.3"/>
+                <param name="joint1_name" value="$(arg robot_name)/gun0/base2_joint"/>
+                <param name="joint2_name" value="$(arg robot_name)/gun0/gun_joint"/>
+            </node>
+            <group unless="$(eval robot == 'sim')">
+                <node name="s4_gun_phycon" pkg="s4_gun" type="s4_gun_phycon" >
+                    <remap from="twist" to="gun/twist"/>
+                    <remap from="shot"  to="gun/shot"/>
+                    <remap from="laser" to="gun/laser"/>
+                    <remap from="CANLink_out" to="/comport/CANLink_out"/>
+                    <param name="CAN_CH" value="A"/>
+                    <param name="CAN_ID" value="0"/>
+                    <param name="y_ajust" value="0.055"/>
+                    <param name="z_ajust" value="-0.045"/>
+                </node>
+            </group>
+            <group if="$(eval robot == 'sim')">
+                <node name="s4_gun_sim" pkg="s4_gun" type="s4_gun_sim" />
+            </group>            
+        </group>
+        <group ns="comport" unless="$(eval robot == 'sim')">
+            <include file="$(find s4_comport)/launch/demo.launch" />
+        </group>
 
-    <node name="joy_node"  pkg="joy" type="joy_node" />
-    <node name="s4_gun_demo" pkg="s4_gun" type="s4_gun_demo" />
+    </group>
 
-    <node name="s4_gun_commander" pkg="s4_gun" type="s4_gun_commander">
-        <remap from="twist_in"  to="gun_twist"/>
-        <remap from="twist_out" to="phycon/gun/twist"/>
-        <remap from="command"   to="gun_command"/>
-        <remap from="shot"      to="phycon/gun/shot"/>
-        <remap from="laser"     to="phycon/gun/laser"/>
 
-        <param name="yaw_lower_limit" value="-0.18"/>
-        <param name="yaw_upper_limit" value="0.16"/>
-        <param name="pitch_lower_limit" value="-0.2"/>
-        <param name="pitch_upper_limit" value="0.2"/>
-        <param name="yaw_velocity" value="0.3"/>
-        <param name="pitch_velocity" value="0.3"/>
-
-        <param name="joint1_name" value="gun0_base2_joint"/>
-        <param name="joint2_name" value="gun0_gun_joint"/>
-    </node>
-
+<!--
     <group ns="phycon" unless="$(eval robot == 'sim')">
         <node name="s4_gun_phycon" pkg="s4_gun" type="s4_gun_phycon" >
             <remap from="twist" to="gun/twist"/>
@@ -49,6 +70,6 @@
     <group ns="phycon" if="$(eval robot == 'sim')">
         <node name="s4_gun_sim" pkg="s4_gun" type="s4_gun_sim" />
     </group>
-
+-->
 </launch>
 

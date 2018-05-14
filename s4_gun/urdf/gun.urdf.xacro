@@ -3,13 +3,13 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="gun_tullet" params="prefix parent pos_x pos_z">
-    <joint name="${prefix}_base1_joint" type="fixed">
+    <joint name="${prefix}/base1_joint" type="fixed">
       <parent link="${parent}"/>
-      <child link="${prefix}_base1_link"/>
+      <child link="${prefix}/base1_link"/>
       <origin rpy="0 0 0" xyz="${pos_x} 0 ${pos_z}"/>
     </joint>
  
-    <link name="${prefix}_base1_link">
+    <link name="${prefix}/base1_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -23,15 +23,15 @@
       </inertial>  
     </link>
 
-    <joint name="${prefix}_base2_joint" type="continuous">
-      <parent link="${prefix}_base1_link"/>
-      <child link="${prefix}_base2_link"/>
+    <joint name="${prefix}/base2_joint" type="continuous">
+      <parent link="${prefix}/base1_link"/>
+      <child link="${prefix}/base2_link"/>
       <origin rpy="0 0 0" xyz="0 0 0.016"/>
       <axis xyz="0 0 1"/>
       <dynamics damping="0.7"/>
     </joint>
 
-    <link name="${prefix}_base2_link">
+    <link name="${prefix}/base2_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -45,15 +45,15 @@
       </inertial>  
     </link>
 
-    <joint name="${prefix}_gun_joint" type="continuous">
-      <parent link="${prefix}_base2_link"/>
-      <child link="${prefix}_gun_link"/>
+    <joint name="${prefix}/gun_joint" type="continuous">
+      <parent link="${prefix}/base2_link"/>
+      <child link="${prefix}/gun_link"/>
       <origin rpy="0 0 0" xyz="0 0 0.070"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.1"/>
     </joint>
 
-    <link name="${prefix}_gun_link">
+    <link name="${prefix}/gun_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
