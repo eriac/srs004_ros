@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="model" default="$(find s4_omni)/urdf/world.urdf.xacro"/>
-    <!--<arg name="model" default="$(find s4_omni)/urdf/robot.urdf"/>-->
     <arg name="gui" default="true" />
     <arg name="robot" default="sim"/>
 
@@ -10,7 +9,7 @@
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />  
 
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sfp03)/config/SETTING.rviz" required="true" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_omni)/config/SETTING.rviz" required="true" />
 
     <node name="joy_node"  pkg="joy" type="joy_node" />
     <node name="s4_omni_demo" pkg="s4_omni" type="s4_omni_demo" output="screen">

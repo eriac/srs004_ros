@@ -9,7 +9,7 @@
 
     <group ns="share">
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />  
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sfp03)/config/SETTING.rviz" required="true" />
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_gun)/config/SETTING.rviz" required="true" />
         <node name="joy_node"  pkg="joy" type="joy_node" />
     </group>
 

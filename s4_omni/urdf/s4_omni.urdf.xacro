@@ -11,7 +11,9 @@
       <origin rpy="0 0 ${dir}" xyz="${0.106*cos(dir)} ${0.106*sin(dir)} 0.098"/>
     </joint>
 -->
+<!--
     <xacro:body prefix="body0" parent="base_link" />
+-->
     <xacro:omni_wheel prefix="wheel0" parent="base_link" radius="0.075" dir="${pi/3}"   height="-0.022" />
     <xacro:omni_wheel prefix="wheel1" parent="base_link" radius="0.075" dir="${pi}"     height="-0.022" />
     <xacro:omni_wheel prefix="wheel2" parent="base_link" radius="0.075" dir="${5*pi/3}" height="-0.022" />
