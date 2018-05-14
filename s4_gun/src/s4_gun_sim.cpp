@@ -17,41 +17,31 @@ void diagnostic0(diagnostic_updater::DiagnosticStatusWrapper &stat){
 	stat.summaryf(diagnostic_msgs::DiagnosticStatus::OK, "Simulation.");
 }
 
-float gun_yaw=0;
-float gun_tilt=0;
-int   gun_shot=0;
-std::string gun_command="";
-int   gun_sum=0;
+geometry_msgs::Twist aim_pos;
+void pos_callback(const geometry_msgs::Twist& twist_msg){
+	aim_pos=twist_msg;
+}
 
-void yaw_callback(const std_msgs::Float32& float_msg){
-	gun_yaw=float_msg.data;
-}
-void tilt_callback(const std_msgs::Float32& float_msg){
-	gun_tilt=float_msg.data;
-}
+int   gun_shot=0;
 void shot_callback(const std_msgs::Int32& int_msg){
 	gun_shot=int_msg.data;
 }
-void command_callback(const std_msgs::String& string_msg){
-	gun_command=string_msg.data;
-}
 
-int main(int argc, char **argv)
-{
-	ros::init(argc, argv, "phycon_gun_sim");
+int main(int argc, char **argv){
+	ros::init(argc, argv, "s4_gun_sim");
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
+
 	//publish
-	ros::Publisher status_pub = n.advertise<std_msgs::Float32>(ros::this_node::getName()+"/status", 1000);
+	ros::Publisher status_pub = n.advertise<std_msgs::Float32>("status", 1000);
 
 	//Subscribe
-	ros::Subscriber gun0_sub     = n.subscribe(ros::this_node::getName()+"/yaw", 10, yaw_callback);
-	ros::Subscriber gun1_sub     = n.subscribe(ros::this_node::getName()+"/pitch", 10, tilt_callback);
-	ros::Subscriber gun2_sub     = n.subscribe(ros::this_node::getName()+"/shot", 10, shot_callback);
+	ros::Subscriber pos_sub  = n.subscribe("aim_pos", 10, pos_callback);
+	ros::Subscriber shot_sub  = n.subscribe("shot", 10, shot_callback);
 
 	//Diagnostic
 	diagnostic_updater::Updater updater;
-	updater.setHardwareID("WheelModule");
+	updater.setHardwareID("GunModule");
 	updater.add("Connection", diagnostic0);
 		
 	float dt=1.0/20;
@@ -62,7 +52,6 @@ int main(int argc, char **argv)
 			static int timer=0;
 			if(timer%2==0){
 				gun_shot--;
-				gun_sum++;
 			}
 			timer++;
 		}
