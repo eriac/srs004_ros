@@ -14,13 +14,13 @@
     <link name="${prefix}_link">
       <visual>
         <geometry>
-          <mesh filename="package://srs004host/urdf/barrel.stl" />
+          <mesh filename="package://s4_omni/stl/barrel.stl" />
         </geometry>
         <material name="black"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://srs004host/urdf/barrel.stl" />
+          <mesh filename="package://s4_omni/stl/barrel.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -69,7 +69,7 @@
     <link name="${prefix}/motor_link">
       <visual>
         <geometry>
-          <mesh filename="package://srs004host/urdf/motor.stl" />
+          <mesh filename="package://s4_omni/stl/motor.stl" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="gray"/>
@@ -91,7 +91,7 @@
     <link name="${prefix}/housing_link">
       <visual>
         <geometry>
-          <mesh filename="package://srs004host/urdf/housing.stl" />
+          <mesh filename="package://s4_omni/stl/housing.stl" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="gray"/>

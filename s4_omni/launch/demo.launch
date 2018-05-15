@@ -29,7 +29,7 @@
                 <param name="wheel1" value="$(eval 3.1415)"/>
                 <param name="wheel2" value="$(eval 5*3.1415/3)"/>
             </node>
-            <!-->
+            <!--
             <group unless="$(eval robot == 'sim')">
                 <node name="s4_omni_wheel0" pkg="s4_omni" type="s4_omni_wheel_phycon" >
                     <remap from="CANLink_out" to="comport/CANLink_out"/>
@@ -73,51 +73,10 @@
                 </node>
         </group>
     </group>
-
-    
-<!--
-    <node name="s4_omni_odometry" pkg="s4_omni" type="s4_omni_odometry" output="screen">
-        <remap from="odometry0" to="phycon/wheel0/odometry"/>
-        <remap from="odometry1" to="phycon/wheel1/odometry"/>
-        <remap from="odometry2" to="phycon/wheel2/odometry"/>
-        <remap from="joint_states" to="/joint_states"/>
-        <param name="wheel_base" value="0.0972"/>
-        <param name="wheel_radius" value="0.019"/>
-        <param name="joint0_name" value="robot0/omni0/wheel0/housing_joint"/>
-        <param name="joint1_name" value="robot0/omni0/wheel1/housing_joint"/>
-        <param name="joint2_name" value="robot0/omni0/wheel2/housing_joint"/>        
-    </node>
-
-    <group ns="phycon" unless="$(eval robot == 'sim')">
-        <node name="wheel0" pkg="srs004host" type="phycon_wheel_actual" >
-            <remap from="CANLink_out" to="comport/CANLink_out"/>
-            <remap from="CANLink_in"  to="comport/CANLink_in"/>
-            <param name="CAN_CH" value="A"/>
-            <param name="CAN_ID" value="1"/>
-            <param name="PPR" value="-397"/>
-        </node>
-        <node name="wheel1" pkg="srs004host" type="phycon_wheel_actual" >
-            <remap from="CANLink_out" to="comport/CANLink_out"/>
-            <remap from="CANLink_in"  to="comport/CANLink_in"/>
-            <param name="CAN_CH" value="A"/>
-            <param name="CAN_ID" value="2"/>
-            <param name="PPR" value="-397"/>
-        </node>
-        <node name="wheel2" pkg="srs004host" type="phycon_wheel_actual" >
-            <remap from="CANLink_out" to="comport/CANLink_out"/>
-            <remap from="CANLink_in"  to="comport/CANLink_in"/>
-            <param name="CAN_CH" value="A"/>
-            <param name="CAN_ID" value="3"/>
-            <param name="PPR" value="-397"/>
-        </node>
+    <!--
+    <group unless="$(eval robot == 'sim')">
         <include file="$(find s4_comport)/launch/demo.launch" />
     </group>
-
-    <group ns="phycon" if="$(eval robot == 'sim')">
-        <node name="wheel0" pkg="s4_omni" type="s4_omni_wheel_sim" />
-        <node name="wheel1" pkg="s4_omni" type="s4_omni_wheel_sim" />
-        <node name="wheel2" pkg="s4_omni" type="s4_omni_wheel_sim" />
-    </group>
--->
+    -->
 </launch>
 
