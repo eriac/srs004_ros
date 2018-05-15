@@ -14,8 +14,8 @@
 #include <iostream>
 #include <sstream>
 
-std::string pointer_frame="pointer_link";
-std::string goal_frame="goal_link";
+std::string pointer_frame="";
+std::string goal_frame="";
 
 void set_goal(float x, float y, float z){
 	static tf::TransformBroadcaster br;
@@ -73,12 +73,11 @@ int main(int argc, char **argv)
 
     //rosparam
 	pn.getParam("pointer_frame", pointer_frame);
-    printf("%s\n",pointer_frame.c_str());
-	pn.getParam("goal_frame",   goal_frame);
+	pn.getParam("goal_frame",    goal_frame);
 	tf::TransformListener tflistener;
 
     //publisher
-    marker_pub   = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+    marker_pub   = n.advertise<visualization_msgs::Marker>("marker", 1);
 
 
 	ros::Rate loop_rate(20); 

@@ -27,8 +27,10 @@ std::vector<std::string> split(const std::string &str, char sep){
     return v;
 }
 
-int main(int argc, char **argv)
-{
+std::string controller0_name="";
+std::string controller1_name="";
+
+int main(int argc, char **argv){
   ros::init(argc, argv, "s4_vive_recieve");
   ros::NodeHandle n;
 	ros::NodeHandle pn("~");
@@ -36,6 +38,8 @@ int main(int argc, char **argv)
   //rosparam
 	pn.getParam("udp_address",  udp_address);
 	pn.getParam("udp_port",     udp_port);
+	pn.getParam("controller0_name", controller0_name);
+	pn.getParam("controller1_name", controller1_name);
 
   ros::Rate loop_rate(10);
 
@@ -69,10 +73,10 @@ int main(int argc, char **argv)
         else if(c1_name=="" && c0_name!=process1[1])c1_name=process1[1];
       }
       if(process1[1]==c0_name){
-        set_frame("controller0_link",pos,dir);
+        set_frame(controller0_name,pos,dir);
       }
       else if(process1[1]==c1_name){
-        set_frame("controller1_link",pos,dir);
+        set_frame(controller1_name,pos,dir);
       }
     }
   }
