@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="hitsensor" params="prefix parent xyz rpy">
+
+    <link name="${prefix}/frame_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://s4_hitsensor/stl/target_frame.stl" />
+        </geometry>
+        <material name="gray"/>
+      </visual>
+    </link>
+    <joint name="${prefix}/frame_joint" type="fixed"><!--floating-->
+      <parent link="${parent}"/>
+      <child  link="${prefix}/frame_link"/>
+      <origin rpy="${rpy}" xyz="${xyz}"/>
+    </joint>
+
+    <link name="${prefix}/plate_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://s4_hitsensor/stl/target_plate.stl" />
+        </geometry>
+        <material name="gray"/>
+      </visual>
+    </link>
+    <joint name="${prefix}/plate_joint" type="fixed"><!--floating-->
+      <parent link="${prefix}/frame_link"/>
+      <child  link="${prefix}/plate_link"/>
+      <origin rpy="0 0 0" xyz="0 0 0.06"/>
+    </joint>
+
+  </xacro:macro>
+</robot>
