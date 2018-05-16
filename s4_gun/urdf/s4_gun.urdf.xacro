@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="gun_tullet" params="prefix parent pos_x pos_z">
+  <xacro:macro name="s4_gun" params="prefix parent pos_x pos_z">
     <joint name="${prefix}/base1_joint" type="fixed">
       <parent link="${parent}"/>
       <child link="${prefix}/base1_link"/>

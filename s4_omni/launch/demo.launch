@@ -3,7 +3,6 @@
     <arg name="model" default="$(find s4_omni)/urdf/world.urdf.xacro"/>
     <arg name="gui" default="true" />
     <arg name="robot" default="sim"/>
-
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
     <param name="use_gui" value="$(arg gui)"/>
 
@@ -15,68 +14,15 @@
 
     <group ns="robot0">
         <group ns="omni0">
-            <node name="s4_omni_demo" pkg="s4_omni" type="s4_omni_demo" output="screen">
-                <param name="linear_velocity"  value="1.0"/>
-                <param name="angular_velocity" value="2.0"/>
-                <remap from="joy" to="/share/joy"/>
-            </node>
-            <node name="s4_omni_commander" pkg="s4_omni" type="s4_omni_commander" output="screen">
-                <param name="wheel_base" value="0.0972"/>
-                <param name="wheel_radius" value="0.019"/>
-                <param name="linear_velocity" value="1.5"/>
-                <param name="angular_velocity" value="4.0"/>
-                <param name="wheel0" value="$(eval 3.1415/3)"/>
-                <param name="wheel1" value="$(eval 3.1415)"/>
-                <param name="wheel2" value="$(eval 5*3.1415/3)"/>
-            </node>
-            <!--
-            <group unless="$(eval robot == 'sim')">
-                <node name="s4_omni_wheel0" pkg="s4_omni" type="s4_omni_wheel_phycon" >
-                    <remap from="CANLink_out" to="comport/CANLink_out"/>
-                    <remap from="CANLink_in"  to="comport/CANLink_in"/>
-                    <param name="CAN_CH" value="A"/>
-                    <param name="CAN_ID" value="1"/>
-                    <param name="PPR" value="-397"/>
-                </node>
-                <node name="s4_omni_wheel1" pkg="s4_omni" type="s4_omni_wheel_phycon" >
-                    <remap from="CANLink_out" to="comport/CANLink_out"/>
-                    <remap from="CANLink_in"  to="comport/CANLink_in"/>
-                    <param name="CAN_CH" value="A"/>
-                    <param name="CAN_ID" value="2"/>
-                    <param name="PPR" value="-397"/>
-                </node>
-                <node name="s4_omni_wheel2" pkg="s4_omni" type="s4_omni_wheel_phycon" >
-                    <remap from="CANLink_out" to="comport/CANLink_out"/>
-                    <remap from="CANLink_in"  to="comport/CANLink_in"/>
-                    <param name="CAN_CH" value="A"/>
-                    <param name="CAN_ID" value="3"/>
-                    <param name="PPR" value="-397"/>
-                </node>
-                <include file="$(find s4_comport)/launch/demo.launch" />
-            </group>
-            -->
-            <group if="$(eval robot == 'sim')">
-                <node name="wheel0" pkg="s4_omni" type="s4_omni_wheel_sim" />
-                <node name="wheel1" pkg="s4_omni" type="s4_omni_wheel_sim" />
-                <node name="wheel2" pkg="s4_omni" type="s4_omni_wheel_sim" />
-            </group>
-                <node name="s4_omni_odometry" pkg="s4_omni" type="s4_omni_odometry" output="screen">
-                    <remap from="odometry0" to="wheel0/odometry"/>
-                    <remap from="odometry1" to="wheel1/odometry"/>
-                    <remap from="odometry2" to="wheel2/odometry"/>
-                    <remap from="joint_states" to="/share/joint_states"/>
-                    <param name="wheel_base" value="0.0972"/>
-                    <param name="wheel_radius" value="0.019"/>
-                    <param name="joint0_name" value="robot0/omni0/wheel0/housing_joint"/>
-                    <param name="joint1_name" value="robot0/omni0/wheel1/housing_joint"/>
-                    <param name="joint2_name" value="robot0/omni0/wheel2/housing_joint"/>        
-                </node>
+            <include file="$(find s4_omni)/launch/main.launch" >
+                <arg name="robot" value="$(arg robot)"/>
+            </include>
+        </group>
+        <group ns="omni0">
+            <include file="$(find s4_comport)/launch/demo.launch" >
+                <arg name="robot" value="$(arg robot)"/>
+            </include>
         </group>
     </group>
-    <!--
-    <group unless="$(eval robot == 'sim')">
-        <include file="$(find s4_comport)/launch/demo.launch" />
-    </group>
-    -->
 </launch>
 
