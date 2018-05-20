@@ -2,9 +2,6 @@
 <launch>
     <arg name="robot" default="sim"/>
     <arg name="robot_name" default="robot"/>
-    <node name="s4_gun_demo" pkg="s4_gun" type="s4_gun_demo" >
-        <remap from="joy"  to="/share/joy"/>
-    </node>
     <node name="s4_gun_commander" pkg="s4_gun" type="s4_gun_commander">
         <remap from="joint_states"  to="/share/joint_states"/>
         <param name="yaw_lower_limit" value="-0.18"/>
@@ -19,10 +16,7 @@
     </node>
     <group unless="$(eval robot == 'sim')">
         <node name="s4_gun_phycon" pkg="s4_gun" type="s4_gun_phycon" >
-            <remap from="twist" to="gun/twist"/>
-            <remap from="shot"  to="gun/shot"/>
-            <remap from="laser" to="gun/laser"/>
-            <remap from="CANLink_out" to="/comport/CANLink_out"/>
+            <remap from="CANLink_out" to="/robot0/comport0/CANLink_out"/>
             <param name="CAN_CH" value="A"/>
             <param name="CAN_ID" value="0"/>
             <param name="y_ajust" value="0.055"/>

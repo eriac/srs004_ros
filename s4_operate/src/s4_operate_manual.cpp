@@ -130,11 +130,11 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 }
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "robot_commander");
+	ros::init(argc, argv, "s4_operate_manual");
 	ros::NodeHandle n;
 	
-	move_twist_pub  = n.advertise<geometry_msgs::Twist>("move_twist", 1000); 
-	gun_twist_pub   = n.advertise<geometry_msgs::Twist>("gun_twist", 1000); 
+	move_twist_pub  = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000); 
+	gun_twist_pub   = n.advertise<geometry_msgs::Twist>("aim_vel", 1000); 
 	gun_command_pub = n.advertise<std_msgs::String>("gun_command", 1000); 
 	zoom_pub        = n.advertise<std_msgs::Int32>("camera_zoom", 1000);
 	light_pub       = n.advertise<std_msgs::Float32>("light", 1000);

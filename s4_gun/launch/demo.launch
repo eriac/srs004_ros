@@ -3,7 +3,7 @@
     <arg name="model" default="$(find s4_gun)/urdf/world.urdf.xacro"/>
     <arg name="gui" default="true" />
     <arg name="robot" default="sim"/>
-    <arg name="robot_name" default="robot"/>
+    <arg name="robot_name" default="robot0"/>
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
     <param name="use_gui" value="$(arg gui)"/>
 
@@ -15,6 +15,9 @@
 
     <group ns="$(arg robot_name)">
         <group ns="gun0">
+            <node name="s4_gun_demo" pkg="s4_gun" type="s4_gun_demo" >
+                <remap from="joy"  to="/share/joy"/>
+            </node>
             <include file="$(find s4_gun)/launch/main.launch" >
                 <arg name="robot" value="$(arg robot)"/>
             </include>

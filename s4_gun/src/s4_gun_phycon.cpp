@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	canlink_pub = n.advertise<s4_comport::CANCode>("CANLink_out", 1000);
 
 	//subscriibe
-	ros::Subscriber twist_sub  = n.subscribe("twist", 10, twist_callback);
+	ros::Subscriber twist_sub  = n.subscribe("aim_pos", 10, twist_callback);
 	ros::Subscriber shot_sub   = n.subscribe("shot", 10, shot_callback);
 	ros::Subscriber laser_sub  = n.subscribe("laser", 10, laser_callback);
 

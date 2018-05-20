@@ -23,7 +23,7 @@
         <geometry>
           <mesh filename="package://s4_hitsensor/stl/target_plate.stl" />
         </geometry>
-        <material name="gray"/>
+        <material name="dark_green"/>
       </visual>
     </link>
     <joint name="${prefix}/plate_joint" type="fixed"><!--floating-->

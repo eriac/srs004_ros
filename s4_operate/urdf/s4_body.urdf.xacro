@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="s4_body" params="prefix parent pos_z">
+    <joint name="${prefix}/body_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child  link="${prefix}/body_link"/>
+      <origin rpy="0 0 0" xyz="0 0 ${pos_z}"/>
+    </joint>
+ 
+    <link name="${prefix}/body_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://s4_operate/stl/body.stl" />
+        </geometry>
+        <material name="gray"/>
+      </visual>
+      <inertial>
+        <mass value="0.130"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>  
+    </link>
+
+    <joint name="${prefix}/bridge_joint" type="fixed">
+      <parent link="${prefix}/body_link"/>
+      <child  link="${prefix}/bridge_link"/>
+      <origin rpy="0 0 0" xyz="0 0 0.182"/>
+    </joint>
+
+    <link name="${prefix}/bridge_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://s4_operate/stl/bridge.stl" />
+        </geometry>
+        <material name="gray"/>
+      </visual>
+      <inertial>
+        <mass value="0.190"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.0001"/>
+      </inertial>  
+    </link>
+  </xacro:macro>
+</robot>

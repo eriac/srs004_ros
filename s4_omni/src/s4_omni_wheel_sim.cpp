@@ -27,11 +27,11 @@ int main(int argc, char **argv)
 	ros::NodeHandle pn("~");
 
 	//publish
-	ros::Publisher current_pub = n.advertise<std_msgs::Float32>(ros::this_node::getName()+"/current", 1000);
-	ros::Publisher odometry_pub = n.advertise<std_msgs::Float32>(ros::this_node::getName()+"/odometry", 1000);
+	ros::Publisher current_pub = n.advertise<std_msgs::Float32>("current", 1000);
+	ros::Publisher odometry_pub = n.advertise<std_msgs::Float32>("odometry", 1000);
 
 	//Subscribe
-	ros::Subscriber target_sub     = n.subscribe(ros::this_node::getName()+"/target", 10, target_callback); 
+	ros::Subscriber target_sub = n.subscribe("target", 10, target_callback); 
 	
 	//Diagnostic
 	diagnostic_updater::Updater updater;

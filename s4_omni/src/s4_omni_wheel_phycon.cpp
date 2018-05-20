@@ -62,13 +62,13 @@ int main(int argc, char **argv)
 	pn.getParam("PPR", PPR);
 
 	//publish
-	odometry_pub = n.advertise<std_msgs::Float32>(ros::this_node::getName()+"/odometry", 1000);
-	current_pub  = n.advertise<std_msgs::Float32>(ros::this_node::getName()+"/current", 1000);
+	odometry_pub = n.advertise<std_msgs::Float32>("odometry", 1000);
+	current_pub  = n.advertise<std_msgs::Float32>("current", 1000);
 	canlink_pub  = n.advertise<s4_comport::CANCode>("CANLink_out", 1000);
 
 	//subscriibe
-	ros::Subscriber target_sub     = n.subscribe(ros::this_node::getName()+"/target", 10, target_callback); 
-	ros::Subscriber canin_sub     = n.subscribe("CANLink_in", 10, canin_callback); 
+	ros::Subscriber target_sub = n.subscribe("target", 10, target_callback); 
+	ros::Subscriber canin_sub  = n.subscribe("CANLink_in", 10, canin_callback); 
 
 	//Diagnostic
 	diagnostic_updater::Updater updater;
