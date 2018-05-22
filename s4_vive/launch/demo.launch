@@ -7,10 +7,12 @@
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
   <param name="use_gui" value="$(arg gui)"/>
 
-  <group ns="share" unless="$(arg vive)">
+  <group ns="share">
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_vive)/config/SETTING.rviz" required="true" />
-    <node name="joy_node"  pkg="joy" type="joy_node" />
+    <group unless="$(arg vive)">
+      <node name="joy_node"  pkg="joy" type="joy_node" />
+    </group>
   </group>
 
   <group ns="vive">

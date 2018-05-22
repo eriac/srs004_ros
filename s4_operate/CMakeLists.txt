@@ -204,3 +204,6 @@ target_link_libraries(s4_operate_manual ${catkin_LIBRARIES})
 
 add_executable(s4_operate_position src/s4_operate_position.cpp)
 target_link_libraries(s4_operate_position ${catkin_LIBRARIES})
+
+add_executable(s4_operate_pose_move src/s4_operate_pose_move.cpp)
+target_link_libraries(s4_operate_pose_move ${catkin_LIBRARIES})
