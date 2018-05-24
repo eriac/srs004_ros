@@ -36,6 +36,8 @@
     <node name="s4_vive_recieve"  pkg="s4_vive" type="s4_vive_recieve" >
       <param name="udp_address" value="0.0.0.0"/>
       <param name="udp_port" value="4001"/>
+    </node>
+    <node name="s4_vive_separator"  pkg="s4_vive" type="s4_vive_separator" >
       <param name="controller0_name" value="vive0/controller0/body_link"/>
       <param name="controller1_name" value="vive0/controller1/body_link"/>    
     </node>

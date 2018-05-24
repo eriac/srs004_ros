@@ -140,8 +140,6 @@ int main(int argc, char **argv)
 	light_pub       = n.advertise<std_msgs::Float32>("light", 1000);
 	hit_reset_pub   = n.advertise<std_msgs::Float32>("hit_reset", 1000);
 
-
- 
 	ros::Subscriber joy_sub   = n.subscribe("joy", 10, joy_callback); 
 
 	ros::Rate loop_rate(50); 

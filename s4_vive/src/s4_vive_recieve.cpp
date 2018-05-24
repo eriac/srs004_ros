@@ -1,8 +1,9 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <tf/transform_broadcaster.h>
-#include <string.h>
+#include <s4_vive/vive_general.h>
 
+#include <string.h>
 #include "simple_udp.h"
 
 simple_udp udp0;
@@ -41,6 +42,9 @@ int main(int argc, char **argv){
 	pn.getParam("controller0_name", controller0_name);
 	pn.getParam("controller1_name", controller1_name);
 
+  //publisher
+  ros::Publisher data_pub   = n.advertise<s4_vive::vive_general>("general", 1);
+
   ros::Rate loop_rate(10);
 
   udp0.udp_init(udp_address,udp_port);
@@ -65,19 +69,22 @@ int main(int argc, char **argv){
       buttons[1]=atoi(process1[10].c_str());
       buttons[2]=atoi(process1[11].c_str());
       buttons[3]=atoi(process1[12].c_str());
-      static std::string c0_name="";
-      static std::string c1_name="";
-      //chane process
-      if(buttons[2]==1){
-        if(c0_name=="")     c0_name=process1[1];
-        else if(c1_name=="" && c0_name!=process1[1])c1_name=process1[1];
-      }
-      if(process1[1]==c0_name){
-        set_frame(controller0_name,pos,dir);
-      }
-      else if(process1[1]==c1_name){
-        set_frame(controller1_name,pos,dir);
-      }
+
+      s4_vive::vive_general general0;
+      general0.type=process1[0];
+      general0.index=process1[1];
+      general0.position.x=pos[0];
+      general0.position.y=pos[1];
+      general0.position.z=pos[2];
+      general0.orientation.x=dir[0];
+      general0.orientation.y=dir[1];
+      general0.orientation.z=dir[2];
+      general0.orientation.w=dir[3];
+      general0.buttons[0]=buttons[0];
+      general0.buttons[1]=buttons[1];
+      general0.buttons[2]=buttons[2];
+      general0.buttons[3]=buttons[3];
+      data_pub.publish(general0);
     }
   }
   return 0;
