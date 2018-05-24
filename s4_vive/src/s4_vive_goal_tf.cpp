@@ -25,8 +25,8 @@ void set_goal(float x, float y, float z){
 	q.setRPY(0, 0, 0);
 	transform.setRotation(q);
 	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", goal_frame));
-
 }
+
 void GetRPY(const geometry_msgs::Quaternion &q,double &roll,double &pitch,double &yaw){
 	//bulletのクオータニオンに変換
 	tf::Quaternion btq(q.x,q.y,q.z,q.w);
@@ -38,7 +38,7 @@ void draw_line(float *source, float *target){
 
 	marker.header.frame_id = "/world";
 	marker.header.stamp = ros::Time::now();
-    	marker.ns = "basic_shapes";
+    marker.ns = "basic_shapes";
 	marker.id = 0;
 
 	marker.type = visualization_msgs::Marker::ARROW;
@@ -67,7 +67,7 @@ void draw_line(float *source, float *target){
 }
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "s4_vive_goal_publisher");
+	ros::init(argc, argv, "s4_vive_goal_tf");
 	ros::NodeHandle n;
     ros::NodeHandle pn("~");
 
@@ -78,7 +78,6 @@ int main(int argc, char **argv)
 
     //publisher
     marker_pub   = n.advertise<visualization_msgs::Marker>("marker", 1);
-
 
 	ros::Rate loop_rate(20); 
 	while (ros::ok()){

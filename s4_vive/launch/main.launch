@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="vive" default="sim"/>
+
+    <group ns="sim" if="$(eval vive == 'sim')">
+        <node name="s4_vive_joy_sim0"  pkg="s4_vive" type="s4_vive_joy_sim" >
+        <remap from="joy" to="/share/joy"/>
+        <param name="udp_address" value="127.0.0.1"/>
+        <param name="udp_port" value="4001"/>
+        <param name="device_index" value="device2"/>
+        <param name="selector" value="L1"/>
+        </node>
+        <node name="s4_vive_joy_sim1"  pkg="s4_vive" type="s4_vive_joy_sim" >
+        <remap from="joy" to="/share/joy"/>
+        <param name="udp_address" value="127.0.0.1"/>
+        <param name="udp_port" value="4001"/>
+        <param name="device_index" value="device3"/>
+        <param name="selector" value="R1"/>
+        </node>
+    </group>
+    <group ns="sim" if="$(eval vive == 'sim')">
+    <!--or vive == 'udp'-->
+        <node name="s4_vive_recieve"  pkg="s4_vive" type="s4_vive_recieve" >
+            <param name="udp_address" value="0.0.0.0"/>
+            <param name="udp_port" value="4001"/>
+        </node>
+        <node name="s4_vive_separator"  pkg="s4_vive" type="s4_vive_separator" >
+        </node>
+        <group ns="controller0">
+            <node name="s4_vive_body_tf"  pkg="s4_vive" type="s4_vive_body_tf" >
+            <param name="body_frame" value="vive0/controller0/body_link"/>
+            </node>
+            <node name="s4_vive_goal_tf"  pkg="s4_vive" type="s4_vive_goal_tf" >
+            <param name="pointer_frame" value="vive0/controller0/pointer_link"/>
+            <param name="goal_frame"    value="vive0/controller0/goal_link"/>
+            </node>
+            <node name="s4_vive_pose_publisher"  pkg="s4_vive" type="s4_vive_pose_publisher" output="screen">
+            <param name="goal_frame" value="vive0/controller0/goal_link"/>
+            </node>
+        </group>
+        <group ns="controller1">
+            <node name="s4_vive_goal_tf"  pkg="s4_vive" type="s4_vive_goal_tf" >
+                <param name="pointer_frame" value="vive0/controller1/pointer_link"/>
+                <param name="goal_frame"    value="vive0/controller1/goal_link"/>
+            </node>
+        </group>
+    </group>
+</launch>

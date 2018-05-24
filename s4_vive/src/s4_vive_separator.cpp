@@ -11,9 +11,8 @@ void set_frame(std::string name, float *pos, float *dir){
 	transform.setRotation(tf::Quaternion(dir[0], dir[1], dir[2], dir[3]));
 	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", name));	
 }
-
-std::string controller0_name="";
-std::string controller1_name="";
+ros::Publisher controller0_pub;
+ros::Publisher controller1_pub;
 void vive_callback(const s4_vive::vive_general& vive_msg){
     static std::string c0_name="";
     static std::string c1_name="";
@@ -33,10 +32,12 @@ void vive_callback(const s4_vive::vive_general& vive_msg){
     dir[2]=vive_msg.orientation.z;
     dir[3]=vive_msg.orientation.w;
     if(vive_msg.index==c0_name){
-        set_frame(controller0_name, pos, dir);
+        //set_frame(controller0_name, pos, dir);
+        controller0_pub.publish(vive_msg);
     }
     else if(vive_msg.index==c1_name){
-        set_frame(controller1_name, pos, dir);
+        //set_frame(controller1_name, pos, dir);
+        controller1_pub.publish(vive_msg);
     }
 }
 
@@ -45,12 +46,12 @@ int main(int argc, char **argv){
     ros::NodeHandle n;
     ros::NodeHandle pn("~");
 
+	//publisher
+	controller0_pub   = n.advertise<s4_vive::vive_general>("controller0/data", 1);
+	controller1_pub   = n.advertise<s4_vive::vive_general>("controller1/data", 1);
+
     //subscriber
 	ros::Subscriber joy_sub   = n.subscribe("general", 10, vive_callback); 
-
-    //rosparam
-	pn.getParam("controller0_name", controller0_name);
-	pn.getParam("controller1_name", controller1_name);
 
     ros::Rate loop_rate(10);
 
