@@ -7,6 +7,10 @@
 
 
   <xacro:s4_robot prefix="robot0" parent="world" />
+  
+  <xacro:include filename="$(find s4_vive)/urdf/s4_vive.urdf.xacro"/>
+  <xacro:s4_vive_controller prefix="vive0/controller0" parent="world" />
+  <xacro:s4_vive_controller prefix="vive0/controller1" parent="world" />
 
   <!-- ===============  Gazebo =============== -->
   <gazebo>

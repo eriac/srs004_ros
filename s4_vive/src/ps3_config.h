@@ -1,0 +1,23 @@
+#define PS3_Button_Max 17
+#define PS3_Select 0
+#define PS3_L3     1
+#define PS3_R3     2
+#define PS3_Start  3
+#define PS3_Up     4
+#define PS3_Right  5
+#define PS3_Down   6
+#define PS3_Left   7
+#define PS3_L2     8
+#define PS3_R2     9
+#define PS3_L1    10
+#define PS3_R1    11
+#define PS3_triangle 12
+#define PS3_circle   13
+#define PS3_cross    14
+#define PS3_square   15
+#define PS3_PS    16
+
+#define PS3_LY	0 
+#define PS3_LX	1
+#define PS3_RY	2
+#define PS3_RX	3

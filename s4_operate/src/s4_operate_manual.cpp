@@ -30,6 +30,12 @@
 #define PS3_square   15
 #define PS3_PS    16
 
+#define PS3_LY	0 
+#define PS3_LX	1
+#define PS3_RY	2
+#define PS3_RX	3
+
+
 float input[6]={0};
 ros::Publisher move_twist_pub;
 ros::Publisher gun_twist_pub;

@@ -278,6 +278,32 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        vive0/controller0/body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vive0/controller0/goal_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vive0/controller0/pointer_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vive0/controller1/body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vive0/controller1/goal_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vive0/controller1/pointer_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         world:
           Alpha: 1
           Show Axes: false
@@ -383,6 +409,16 @@ Visualization Manager:
           Value: false
         robot0/omni0/wheel2/motor_link:
           Value: false
+        vive0/controller0/body_link:
+          Value: true
+        vive0/controller0/goal_link:
+          Value: true
+        vive0/controller0/pointer_link:
+          Value: true
+        vive0/controller1/body_link:
+          Value: true
+        vive0/controller1/pointer_link:
+          Value: true
         world:
           Value: true
       Marker Scale: 0.5
@@ -469,7 +505,20 @@ Visualization Manager:
                   {}
             robot0/omni0/wheel2/motor_link:
               {}
+          vive0/controller0/body_link:
+            vive0/controller0/pointer_link:
+              {}
+          vive0/controller0/goal_link:
+            {}
       Update Interval: 0
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /vive/sim/controller0/marker
+      Name: Marker
+      Namespaces:
+        basic_shapes: true
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:

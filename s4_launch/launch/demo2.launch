@@ -3,6 +3,8 @@
     <arg name="model" default="$(find s4_launch)/urdf/world.urdf.xacro"/>
     <arg name="gui" default="true" />
     <arg name="robot" default="sim"/>
+    <arg name="vive" default="sim"/>
+    
 
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
     <param name="use_gui" value="$(arg gui)"/>
@@ -17,6 +19,7 @@
         <group ns="operate">
             <node name="s4_operate_pose_move" pkg="s4_operate" type="s4_operate_pose_move" output="screen"> 
                 <remap from="cmd_vel" to="/robot0/omni0/cmd_vel"/>
+                <remap from="/robot0/operate/pose" to="/vive0/controller0/pose"/>
             </node>
             <node name="s4_operate_position" pkg="s4_operate" type="s4_operate_position">
                 <remap from="odm_vel" to="/robot0/omni0/odm_vel"/>
@@ -43,5 +46,10 @@
             </include>
         </group>
     </group> 
+    <group ns="vive0">
+        <include file="$(find s4_vive)/launch/main.launch" >
+            <arg name="vive" value="$(arg vive)"/>
+        </include>
+    </group>
 </launch>
 
