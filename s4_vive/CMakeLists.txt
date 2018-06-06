@@ -218,5 +218,8 @@ target_link_libraries(s4_vive_body_tf ${catkin_LIBRARIES})
 add_executable(s4_vive_goal_tf src/s4_vive_goal_tf.cpp)
 target_link_libraries(s4_vive_goal_tf ${catkin_LIBRARIES})
 
+add_executable(s4_vive_tracking_tf src/s4_vive_tracking_tf.cpp)
+target_link_libraries(s4_vive_tracking_tf ${catkin_LIBRARIES})
+
 add_executable(s4_vive_pose_publisher src/s4_vive_pose_publisher.cpp)
 target_link_libraries(s4_vive_pose_publisher ${catkin_LIBRARIES})

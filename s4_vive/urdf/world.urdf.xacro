@@ -4,6 +4,14 @@
   <xacro:include filename="$(find s4_vive)/urdf/s4_vive.urdf.xacro"/>
 
   <link name="world" /> 
+
+  <link name="robot0/base_link" /> 
+  <joint name="robot0/base_joint" type="floating">
+    <parent link="world"/>
+    <child  link="robot0/base_link"/>
+  </joint>
+
   <xacro:s4_vive_controller prefix="vive0/controller0" parent="world" />
   <xacro:s4_vive_controller prefix="vive0/controller1" parent="world" />
+  <xacro:s4_vive_tracker prefix="vive0/tracker0" parent="world" />
 </robot>

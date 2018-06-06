@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <machine name="local"  address="localhost" />
+  <machine name="robot1" address="robot1" env-loader="/home/pi/catkin_ws/devel/env.sh" user="pi" password="raspberry"/>
+</launch>

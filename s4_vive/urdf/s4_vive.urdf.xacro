@@ -36,4 +36,32 @@
       <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
     </joint>
   </xacro:macro>
+
+  <xacro:macro name="s4_vive_tracker" params="prefix parent">
+    <link name="${prefix}/body_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://s4_vive/stl/vive_tracker.stl"/>
+        </geometry>
+        <material name="green">
+          <color rgba="0 1 0 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="${prefix}/body_joint" type="floating">
+      <parent link="${parent}"/>
+      <child  link="${prefix}/body_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+    </joint>
+
+    <link name="${prefix}/tracking_link"/>
+    <joint name="${prefix}/tracking_joint" type="fixed">
+      <parent link="${prefix}/body_link"/>
+      <child  link="${prefix}/tracking_link"/>
+      <origin xyz="-0.265 -0.025 0.050" rpy="-1.5707 0 -1.5707"/>
+    </joint>
+  </xacro:macro>
 </robot>

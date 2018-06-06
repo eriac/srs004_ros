@@ -11,6 +11,7 @@
   <xacro:include filename="$(find s4_vive)/urdf/s4_vive.urdf.xacro"/>
   <xacro:s4_vive_controller prefix="vive0/controller0" parent="world" />
   <xacro:s4_vive_controller prefix="vive0/controller1" parent="world" />
+  <xacro:s4_vive_tracker prefix="vive0/tracker0" parent="world" />
 
   <!-- ===============  Gazebo =============== -->
   <gazebo>

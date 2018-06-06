@@ -28,7 +28,7 @@
             <param name="udp_address" value="0.0.0.0"/>
             <param name="udp_port" value="4001"/>
         </node>
-        <node name="s4_vive_separator"  pkg="s4_vive" type="s4_vive_separator" >
+        <node name="s4_vive_separator"  pkg="s4_vive" type="s4_vive_separator" output="screen">
         </node>
     </group>
     <group unless="$(eval vive == 'none')">
@@ -52,9 +52,21 @@
                 <param name="pointer_frame" value="vive0/controller1/pointer_link"/>
                 <param name="goal_frame"    value="vive0/controller1/goal_link"/>
             </node>
-            <node name="s4_vive_pose_publisher"  pkg="s4_vive" type="s4_vive_pose_publisher" output="screen">
+            <node name="s4_vive_pose_publisher"  pkg="s4_vive" type="s4_vive_pose_publisher">
                 <param name="goal_frame" value="vive0/controller1/goal_link"/>
             </node>
+        </group>
+
+        <group ns="tracker0">
+            <node name="s4_vive_body_tf"  pkg="s4_vive" type="s4_vive_body_tf" >
+                <param name="body_frame" value="vive0/tracker0/body_link"/>
+            </node>
+
+            <node name="s4_vive_tracking_tf"  pkg="s4_vive" type="s4_vive_tracking_tf" output="screen">
+                <param name="tracker_frame" value="vive0/tracker0/tracking_link"/>
+                <param name="base_frame"    value="robot0/base_link"/>
+            </node>
+        
         </group>
     </group>
 </launch>

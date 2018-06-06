@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot" default="sim"/>
+  <include file="$(find s4_comport)/launch/remote_list.launch" />
+
+<!--
+  <machine name="robot1" address="192.168.2.53" env-loader="/home/pi/catkin_ws/devel/env.sh" user="pi" password="raspberry"/>
+-->
+  <group unless="$(eval robot == 'sim')">
+    <node machine="$(arg robot)" name="s4_comport_serialport" pkg="s4_comport" type="s4_comport_serialport" />
+  </group>
+<!--
+  <group ns="$(arg robot_name)">
+    <group ns="head_camera">
+      <node machine="robot1" pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera_node" output="screen">
+        <param name="width" value="800"/>
+        <param name="height" value="600"/>
+        <param name="fps" value="10"/>
+        <param name="camera_info_url" value="file:///home/pi/camera.yaml"/>
+      </node>
+    </group>
+-->
+<!--
+    <group ns="comport">
+      <node machine="robot1" pkg="srs_common" type="serialport" name="serialport"/>
+    </group>
+-->
+<!--
+  </group>
+-->
+</launch>

@@ -13,6 +13,13 @@
 
 #include "tf/transform_listener.h"
 
+float linear_speed  = 0.5;
+float linear_th1    = 0.02;
+float linear_th2    = 0.30;
+float angular_speed = 1.5;
+float angular_th1   = 0.02;
+float angular_th2   = 0.40;
+
 float GetRPY(geometry_msgs::Quaternion q){
 	double roll, pitch, yaw=0;
 	tf::Quaternion quat(q.x,q.y,q.z,q.w);
@@ -60,19 +67,20 @@ int main(int argc, char **argv){
 	
 			geometry_msgs::Twist command;
 			float pos_length=sqrt(pow(relative_pose.position.x,2)+pow(relative_pose.position.y,2));
-			if(pos_length<0.05 && fabs(pos_yaw)<0.02){
+			if(pos_length<linear_th1 && fabs(pos_yaw)<0.02){
 				move_enable=false;
 				printf("set false\n");
 			}
 			else{
-				if(pos_length<0.5){
-					command.linear.x=0.5*relative_pose.position.x;
-					command.linear.y=0.5*relative_pose.position.y;
+				if(pos_length<linear_th2){
+					float linear_k=(linear_speed/linear_th2);
+					command.linear.x=linear_k * relative_pose.position.x;
+					command.linear.y=linear_k * relative_pose.position.y;
 					printf("set mid x:%f, y:%f\n",	command.linear.x,	command.linear.y);
 				}
 				else{
-					command.linear.x=0.25*relative_pose.position.x/pos_length;
-					command.linear.y=0.25*relative_pose.position.y/pos_length;
+					command.linear.x=linear_speed*relative_pose.position.x/pos_length;
+					command.linear.y=linear_speed*relative_pose.position.y/pos_length;
 					printf("set far x:%f, y:%f\n",	command.linear.x,	command.linear.y);
 				}
 
