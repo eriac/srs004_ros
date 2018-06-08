@@ -40,7 +40,7 @@
   <xacro:macro name="s4_vive_tracker" params="prefix parent">
     <link name="${prefix}/body_link">
       <visual>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="-0.005 0 0"/>
         <geometry>
           <mesh filename="package://s4_vive/stl/vive_tracker.stl"/>
         </geometry>
@@ -61,7 +61,7 @@
     <joint name="${prefix}/tracking_joint" type="fixed">
       <parent link="${prefix}/body_link"/>
       <child  link="${prefix}/tracking_link"/>
-      <origin xyz="-0.265 -0.025 0.050" rpy="-1.5707 0 -1.5707"/>
+      <origin xyz="-0.271 -0.025 0.050" rpy="-1.5707 0 -1.5707"/>
     </joint>
   </xacro:macro>
 </robot>

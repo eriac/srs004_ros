@@ -119,6 +119,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        robot0/omni0/wheel0/motor_mount_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         robot0/omni0/wheel1/barrel_1_link:
           Alpha: 1
           Show Axes: false
@@ -173,6 +178,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        robot0/omni0/wheel1/motor_mount_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         robot0/omni0/wheel2/barrel_1_link:
           Alpha: 1
           Show Axes: false
@@ -223,6 +233,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
         robot0/omni0/wheel2/motor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        robot0/omni0/wheel2/motor_mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -266,6 +281,8 @@ Visualization Manager:
           Value: false
         robot0/omni0/wheel0/motor_link:
           Value: false
+        robot0/omni0/wheel0/motor_mount_link:
+          Value: false
         robot0/omni0/wheel1/barrel_1_link:
           Value: false
         robot0/omni0/wheel1/barrel_2_link:
@@ -288,6 +305,8 @@ Visualization Manager:
           Value: false
         robot0/omni0/wheel1/motor_link:
           Value: false
+        robot0/omni0/wheel1/motor_mount_link:
+          Value: false
         robot0/omni0/wheel2/barrel_1_link:
           Value: false
         robot0/omni0/wheel2/barrel_2_link:
@@ -309,6 +328,8 @@ Visualization Manager:
         robot0/omni0/wheel2/housing_s_link:
           Value: false
         robot0/omni0/wheel2/motor_link:
+          Value: false
+        robot0/omni0/wheel2/motor_mount_link:
           Value: false
         world:
           Value: true
@@ -340,6 +361,8 @@ Visualization Manager:
                   {}
             robot0/omni0/wheel0/motor_link:
               {}
+            robot0/omni0/wheel0/motor_mount_link:
+              {}
             robot0/omni0/wheel1/housing_link:
               robot0/omni0/wheel1/barrel_1_link:
                 {}
@@ -360,6 +383,8 @@ Visualization Manager:
                   {}
             robot0/omni0/wheel1/motor_link:
               {}
+            robot0/omni0/wheel1/motor_mount_link:
+              {}
             robot0/omni0/wheel2/housing_link:
               robot0/omni0/wheel2/barrel_1_link:
                 {}
@@ -379,6 +404,8 @@ Visualization Manager:
                 robot0/omni0/wheel2/barrel_8_link:
                   {}
             robot0/omni0/wheel2/motor_link:
+              {}
+            robot0/omni0/wheel2/motor_mount_link:
               {}
       Update Interval: 0
       Value: true
@@ -415,25 +442,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.20731521
+      Distance: 1.05956328
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.124392614
-        Y: -0.0415604003
-        Z: -0.128568485
+        X: 0.0869702622
+        Y: 0.0222490206
+        Z: -0.0912278444
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.194796413
+      Pitch: 0.514796257
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.77176356
+      Yaw: 3.83676434
     Saved: ~
 Window Geometry:
   Displays:

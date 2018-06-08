@@ -12,10 +12,10 @@
       <child link="${prefix}/base_link"/>
     </joint>
 
-    <xacro:s4_body      prefix="${prefix}/body0"      parent="${prefix}/base_link" pos_z="0.041"/>
+    <xacro:s4_body      prefix="${prefix}/body0"      parent="${prefix}/base_link" pos_z="0.044"/>
     <xacro:s4_omni      prefix="${prefix}/omni0"      parent="${prefix}/base_link" />
-    <xacro:s4_gun       prefix="${prefix}/gun0"       parent="${prefix}/base_link" pos_x="0.0" pos_z="0.079" />
-    <xacro:s4_hitsensor prefix="${prefix}/hitsensor0" parent="${prefix}/base_link" radius="0.106" height="0.079" />
+    <xacro:s4_gun       prefix="${prefix}/gun0"       parent="${prefix}/base_link" pos_x="0.020" pos_z="0.082" />
+    <xacro:s4_hitsensor prefix="${prefix}/hitsensor0" parent="${prefix}/base_link" radius="0.106" height="0.082" />
   </xacro:macro>
 
   <!-- ===============  Gazebo =============== -->

@@ -28,25 +28,6 @@
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
       </inertial>  
     </link>
-<!--
-    <joint name="${prefix}_mark_joint" type="fixed">
-      <parent link="${prefix}_link"/>
-      <child link="${prefix}_mark_link"/>
-      <origin rpy="0 0 0" xyz="0.005 0 0"/>
-    </joint>
-    <link name="${prefix}_mark_link">
-      <visual>
-        <geometry>
-          <box size="0.005 0.005 0.005"/>
-        </geometry>
-        <material name="white"/>
-      </visual>
-      <inertial>
-        <mass value="0.001"/>
-        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-      </inertial>  
-    </link>
--->
 
     <!-- ===============  Gazebo =============== -->
     <gazebo reference="${prefix}_link">
@@ -63,13 +44,31 @@
     <joint name="${prefix}/motor_joint" type="fixed">
       <parent link="${parent}"/>
       <child link="${prefix}/motor_link"/>
-      <origin rpy="0 ${pi/2} ${dir}" xyz="${radius*cos(dir)} ${radius*sin(dir)} ${height}"/>
+      <origin rpy="0 0 ${dir}" xyz="${radius*cos(dir)} ${radius*sin(dir)} ${height}"/>
     </joint>
- 
     <link name="${prefix}/motor_link">
       <visual>
         <geometry>
           <mesh filename="package://s4_omni/stl/motor.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="gray"/>
+      </visual>
+      <inertial>
+        <mass value="0.180"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}/motor_mount_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}/motor_mount_link"/>
+      <origin rpy="0 0 ${dir}" xyz="${radius*cos(dir)} ${radius*sin(dir)} ${height}"/>
+    </joint>
+    <link name="${prefix}/motor_mount_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://s4_omni/stl/motor_mounter.stl" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="gray"/>

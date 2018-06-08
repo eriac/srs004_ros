@@ -14,7 +14,7 @@
 #include "tf/transform_listener.h"
 
 float linear_speed  = 0.5;
-float linear_th1    = 0.02;
+float linear_th1    = 0.01;
 float linear_th2    = 0.30;
 float angular_speed = 1.5;
 float angular_th1   = 0.02;
@@ -69,7 +69,7 @@ int main(int argc, char **argv){
 			float pos_length=sqrt(pow(relative_pose.position.x,2)+pow(relative_pose.position.y,2));
 			if(pos_length<linear_th1 && fabs(pos_yaw)<0.02){
 				move_enable=false;
-				printf("set false\n");
+				printf("set false %f\n",pos_length);
 			}
 			else{
 				if(pos_length<linear_th2){
