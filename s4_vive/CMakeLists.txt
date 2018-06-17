@@ -214,6 +214,7 @@ add_dependencies(s4_vive_separator s4_vive_generate_messages_cpp)
 
 add_executable(s4_vive_body_tf src/s4_vive_body_tf.cpp)
 target_link_libraries(s4_vive_body_tf ${catkin_LIBRARIES})
+add_dependencies(s4_vive_body_tf s4_vive_generate_messages_cpp)
 
 add_executable(s4_vive_goal_tf src/s4_vive_goal_tf.cpp)
 target_link_libraries(s4_vive_goal_tf ${catkin_LIBRARIES})
