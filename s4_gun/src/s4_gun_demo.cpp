@@ -59,6 +59,11 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 		bool_data.data=false;
 		laser_pub.publish(bool_data);
 	}
+
+	if(joy_msg.buttons[PS3_Start]){
+		geometry_msgs::Pose aim_pose;
+		pos_pub.publish(aim_pose);
+	}
 }
 
 int main(int argc, char **argv){

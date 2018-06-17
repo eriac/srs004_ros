@@ -46,6 +46,8 @@ int main(int argc, char **argv){
 	ros::init(argc, argv, "s4_gun_shot_phycon");
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
+	pn.getParam("CAN_CH", CAN_CH);
+	pn.getParam("CAN_ID", CAN_ID);
 
 	//publish
 	canlink_pub = n.advertise<s4_comport::CANCode>("CANLink_out", 10);

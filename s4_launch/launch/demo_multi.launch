@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="gui" default="true" />
+    <arg name="robot" default="sim"/>
+    <arg name="vive" default="sim"/>
+
+    <param name="use_gui" value="$(arg gui)"/>
+
+    <group ns="share">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/config/SETTING.rviz" required="true" />
+        <node name="joy_node"  pkg="joy" type="joy_node" />
+    </group>
+
+    <group ns="robot0">
+        <arg name="model" default="$(find s4_launch)/urdf/single_world1.urdf.xacro"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+            <param name="robot_description" value="robot0/robot_description"/>
+            <remap from="/robot0/joint_states" to="/share/joint_states" />
+        </node>  
+
+
+
+
+
+        <group ns="operate">
+            <node name="s4_operate_pose_move" pkg="s4_operate" type="s4_operate_pose_move" output="screen"> 
+                <remap from="cmd_vel" to="/robot0/omni0/cmd_vel"/>
+                <remap from="/robot0/operate/pose" to="/vive0/controller0/pose"/>
+            </node>
+            <!--
+            <node name="s4_operate_position" pkg="s4_operate" type="s4_operate_position">
+                <remap from="odm_vel" to="/robot0/omni0/odm_vel"/>
+            </node>
+            -->
+        </group>
+        <group ns="omni0">
+            <include file="$(find s4_omni)/launch/main.launch" >
+                <arg name="robot" value="$(arg robot)"/>
+            </include>
+        </group>
+        <group ns="gun0">
+            <include file="$(find s4_gun)/launch/main.launch" >
+                <arg name="robot" value="$(arg robot)"/>
+            </include>
+        </group>
+        <group ns="hitsensor0">
+            <include file="$(find s4_hitsensor)/launch/main.launch" >
+                <arg name="robot" value="$(arg robot)"/>
+            </include>
+        </group>
+        <group ns="comport0">
+            <include file="$(find s4_comport)/launch/main.launch" >
+                <arg name="robot" value="$(arg robot)"/>
+            </include>
+        </group>
+    </group> 
+    <group ns="vive0">
+        <include file="$(find s4_vive)/launch/main.launch" >
+            <arg name="vive" value="$(arg vive)"/>
+        </include>
+    </group>
+</launch>
+
