@@ -203,6 +203,7 @@ include_directories(
 
 add_executable(s4_vive_joy_sim src/s4_vive_joy_sim.cpp)
 target_link_libraries(s4_vive_joy_sim ${catkin_LIBRARIES})
+add_dependencies(s4_vive_joy_sim s4_vive_generate_messages_cpp)
 
 add_executable(s4_vive_recieve src/s4_vive_recieve.cpp)
 target_link_libraries(s4_vive_recieve ${catkin_LIBRARIES})
