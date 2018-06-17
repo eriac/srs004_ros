@@ -1,7 +1,10 @@
 #include "ros/ros.h"
+#include "std_msgs/Bool.h"
+#include "std_msgs/Int32.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/Twist.h"
+#include "geometry_msgs/Pose.h"
 #include "sensor_msgs/Joy.h"
 
 #include <string>
@@ -26,26 +29,35 @@
 #define PS3_square   15
 #define PS3_PS    16
 
-ros::Publisher aim_pub;
-ros::Publisher cmd_pub;
+ros::Publisher vel_pub;
+ros::Publisher pos_pub;
+ros::Publisher laser_pub;
+ros::Publisher shot_pub;
 void joy_callback(const sensor_msgs::Joy& joy_msg){
 	geometry_msgs::Twist gun_vel;
 	gun_vel.angular.y=joy_msg.axes[1];
 	gun_vel.angular.z=joy_msg.axes[0];
-	aim_pub.publish(gun_vel);
+	vel_pub.publish(gun_vel);
 
-	std_msgs::String command;
 	if(joy_msg.buttons[PS3_cross]){
-		command.data="shot";
-		cmd_pub.publish(command);
+		std_msgs::Int32 int_data;
+		int_data.data=1;
+		shot_pub.publish(int_data);
+	}
+	else if(joy_msg.buttons[PS3_square]){
+		std_msgs::Int32 int_data;
+		int_data.data=5;
+		shot_pub.publish(int_data);
 	}
 	else if(joy_msg.buttons[PS3_circle]){
-		command.data="laser_on";
-		cmd_pub.publish(command);
+		std_msgs::Bool bool_data;
+		bool_data.data=true;
+		laser_pub.publish(bool_data);
 	}
 	else if(joy_msg.buttons[PS3_triangle]){
-		command.data="laser_off";
-		cmd_pub.publish(command);
+		std_msgs::Bool bool_data;
+		bool_data.data=false;
+		laser_pub.publish(bool_data);
 	}
 }
 
@@ -59,8 +71,10 @@ int main(int argc, char **argv){
 	//pn.getParam("angular_velocity", angular_velocity);
 
     //publish
-    aim_pub = n.advertise<geometry_msgs::Twist>("aim_vel", 1000);
-    cmd_pub = n.advertise<std_msgs::String>("command", 1000);
+    vel_pub   = n.advertise<geometry_msgs::Twist>("aim_vel", 10);
+    pos_pub   = n.advertise<geometry_msgs::Pose>("aim_pos", 10);
+    laser_pub = n.advertise<std_msgs::Bool>("laser", 10);
+    shot_pub  = n.advertise<std_msgs::Int32>("shot", 10);
 	
     //subscriibe
 	ros::Subscriber joy_sub   = n.subscribe("joy", 10, joy_callback);

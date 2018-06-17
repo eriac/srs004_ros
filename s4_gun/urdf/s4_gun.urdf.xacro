@@ -67,6 +67,13 @@
       </inertial>  
     </link>
 
+    <joint name="${prefix}/laser_joint" type="fixed">
+      <parent link="${prefix}/gun_link"/>
+      <child link="${prefix}/laser_link"/>
+      <origin rpy="0 0 0" xyz="0.030 0 -0.034"/>
+    </joint>
+    <link name="${prefix}/laser_link"/>
+
     <!-- ===============  Transmission =============== -->
 
     <transmission name="${prefix}_base2_trans">

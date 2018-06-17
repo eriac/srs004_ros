@@ -199,15 +199,30 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(s4_gun_commander src/s4_gun_commander.cpp)
-target_link_libraries(s4_gun_commander ${catkin_LIBRARIES})
-
-add_executable(s4_gun_phycon src/s4_gun_phycon.cpp)
-target_link_libraries(s4_gun_phycon ${catkin_LIBRARIES})
-add_dependencies(s4_gun_phycon ${catkin_EXPORTED_TARGETS})
-
-add_executable(s4_gun_sim src/s4_gun_sim.cpp)
-target_link_libraries(s4_gun_sim ${catkin_LIBRARIES})
-
 add_executable(s4_gun_demo src/s4_gun_demo.cpp)
 target_link_libraries(s4_gun_demo ${catkin_LIBRARIES})
+
+add_executable(s4_gun_aim_publisher src/s4_gun_aim_publisher.cpp)
+target_link_libraries(s4_gun_aim_publisher ${catkin_LIBRARIES})
+
+add_executable(s4_gun_shot_marker_publisher src/s4_gun_shot_marker_publisher.cpp)
+target_link_libraries(s4_gun_shot_marker_publisher ${catkin_LIBRARIES})
+
+add_executable(s4_gun_laser_marker_publisher src/s4_gun_laser_marker_publisher.cpp)
+target_link_libraries(s4_gun_laser_marker_publisher ${catkin_LIBRARIES})
+
+add_executable(s4_gun_aim_phycon src/s4_gun_aim_phycon.cpp)
+target_link_libraries(s4_gun_aim_phycon ${catkin_LIBRARIES})
+add_dependencies(s4_gun_aim_phycon ${catkin_EXPORTED_TARGETS})
+
+add_executable(s4_gun_laser_phycon src/s4_gun_laser_phycon.cpp)
+target_link_libraries(s4_gun_laser_phycon ${catkin_LIBRARIES})
+add_dependencies(s4_gun_laser_phycon ${catkin_EXPORTED_TARGETS})
+
+add_executable(s4_gun_shot_phycon src/s4_gun_shot_phycon.cpp)
+target_link_libraries(s4_gun_shot_phycon ${catkin_LIBRARIES})
+add_dependencies(s4_gun_shot_phycon ${catkin_EXPORTED_TARGETS})
+
+add_executable(s4_gun_shot_sim src/s4_gun_shot_sim.cpp)
+target_link_libraries(s4_gun_shot_sim ${catkin_LIBRARIES})
+

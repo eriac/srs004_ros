@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /RobotModel1
         - /TF1
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 595
   - Class: rviz/Selection
@@ -120,10 +121,10 @@ Visualization Manager:
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /visualization_marker
+      Marker Topic: /robot0/gun0/marker
       Name: Marker
       Namespaces:
-        {}
+        basic_shapes: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -151,25 +152,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.649959326
+      Distance: 1.11269891
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.00205328083
-        Y: 0.0376112126
-        Z: 0.0587157458
+        X: 0.0657308325
+        Y: 0.0703581572
+        Z: 0.00946585182
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.429796815
+      Pitch: 0.459796786
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.76993752
+      Yaw: 5.53493404
     Saved: ~
 Window Geometry:
   Displays:

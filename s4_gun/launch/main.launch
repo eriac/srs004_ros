@@ -2,7 +2,7 @@
 <launch>
     <arg name="robot" default="sim"/>
     <arg name="robot_name" default="robot"/>
-    <node name="s4_gun_commander" pkg="s4_gun" type="s4_gun_commander">
+    <node name="s4_gun_aim_publisher" pkg="s4_gun" type="s4_gun_aim_publisher">
         <remap from="joint_states"  to="/share/joint_states"/>
         <param name="yaw_lower_limit" value="-0.18"/>
         <param name="yaw_upper_limit" value="0.16"/>
@@ -14,17 +14,35 @@
         <param name="joint2_name" value="robot0/gun0/gun_joint"/>
         <!--will change-->
     </node>
+    <node name="s4_gun_shot_marker_publisher" pkg="s4_gun" type="s4_gun_shot_marker_publisher">
+        <param name="gun_link_name" value="/robot0/gun0/gun_link"/>
+    </node>
+    <node name="s4_gun_laser_marker_publisher" pkg="s4_gun" type="s4_gun_laser_marker_publisher">
+        <param name="laser_link_name" value="/robot0/gun0/laser_link"/>
+    </node>
+
     <group unless="$(eval robot == 'sim')">
-        <node name="s4_gun_phycon" pkg="s4_gun" type="s4_gun_phycon" >
+        <node name="s4_gun_aim_phycon" pkg="s4_gun" type="s4_gun_aim_phycon" >
             <remap from="CANLink_out" to="/robot0/comport0/CANLink_out"/>
             <param name="CAN_CH" value="A"/>
             <param name="CAN_ID" value="0"/>
             <param name="y_ajust" value="0.055"/>
             <param name="z_ajust" value="-0.045"/>
         </node>
+        <node name="s4_gun_laser_phycon" pkg="s4_gun" type="s4_gun_laser_phycon" >
+            <remap from="CANLink_out" to="/robot0/comport0/CANLink_out"/>
+            <param name="CAN_CH" value="A"/>
+            <param name="CAN_ID" value="0"/>
+        </node>
+        <node name="s4_gun_shot_phycon" pkg="s4_gun" type="s4_gun_shot_phycon" >
+            <remap from="CANLink_out" to="/robot0/comport0/CANLink_out"/>
+            <remap from="CANLink_in"  to="/robot0/comport0/CANLink_in"/>
+            <param name="CAN_CH" value="A"/>
+            <param name="CAN_ID" value="0"/>
+        </node>
     </group>
     <group if="$(eval robot == 'sim')">
-        <node name="s4_gun_sim" pkg="s4_gun" type="s4_gun_sim" />
+        <node name="s4_gun_shot_sim" pkg="s4_gun" type="s4_gun_shot_sim" />
     </group>            
 </launch>
 
