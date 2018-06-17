@@ -66,6 +66,14 @@ int main(int argc, char **argv){
 	
 	ros::Rate loop_rate(10);
 	while (ros::ok()){
+		//require remain
+		s4_comport::CANCode cancode;
+		cancode.channel=CAN_CH;
+		cancode.id=CAN_ID;
+		cancode.com=2;
+		cancode.remote=true;
+		canlink_pub.publish(cancode);	
+
 		updater.update();
 		diagnostic_counter++;
 		ros::spinOnce();

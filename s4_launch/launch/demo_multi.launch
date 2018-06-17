@@ -12,11 +12,13 @@
     </group>
 
     <group ns="robot0">
-        <arg name="model" default="$(find s4_launch)/urdf/single_world1.urdf.xacro"/>
-        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+        <arg name="model" default="$(find s4_launch)/urdf/single_robot.urdf.xacro"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_name:=robot1" />
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
             <param name="robot_description" value="robot0/robot_description"/>
+            <param name="tf_prefix" value="robot0"/>
             <remap from="/robot0/joint_states" to="/share/joint_states" />
+
         </node>  
 
 
@@ -55,6 +57,16 @@
             </include>
         </group>
     </group> 
+    
+    <group ns="robot2">
+        <arg name="model" default="$(find s4_launch)/urdf/single_robot.urdf.xacro"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_name:=robot2" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+            <param name="robot_description" value="robot2/robot_description"/>
+            <remap from="/robot2/joint_states" to="/share/joint_states" />
+        </node>  
+    </group>
+
     <group ns="vive0">
         <include file="$(find s4_vive)/launch/main.launch" >
             <arg name="vive" value="$(arg vive)"/>
