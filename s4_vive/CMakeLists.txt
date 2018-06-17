@@ -224,6 +224,7 @@ target_link_libraries(s4_vive_tracking_tf ${catkin_LIBRARIES})
 
 add_executable(s4_vive_pose_publisher src/s4_vive_pose_publisher.cpp)
 target_link_libraries(s4_vive_pose_publisher ${catkin_LIBRARIES})
+add_dependencies(s4_vive_pose_publisher s4_vive_generate_messages_cpp)
 
 add_executable(s4_vive_tf_overlapper src/s4_vive_tf_overlapper.cpp)
 target_link_libraries(s4_vive_tf_overlapper ${catkin_LIBRARIES})
