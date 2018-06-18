@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_name" default="robot0"/>
-  <arg name="robot" default="sim"/>
-  <group ns="$(arg robot_name)">
-    <group ns="comport0">
-      <include file="$(find s4_comport)/launch/main.launch" >
-        <arg name="robot" value="$(arg robot)"/>
-      </include>
-    </group>
+  <arg name="robot" default="default_robot"/>
+   <arg name="target" default="sim"/>
+
+  <group ns="$(arg robot)">
+    <include file="$(find s4_comport)/launch/main.launch" >
+      <arg name="target" value="$(arg target)"/>
+      <arg name="ns"     value="$(arg robot)"/>
+      <arg name="unit"   value="comport0"/>
+    </include>
   </group>
 </launch>

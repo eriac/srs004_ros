@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot" default="sim"/>
+  <arg name="target" default="sim"/>
+  <arg name="ns" default=""/>
+  <arg name="unit" default=""/>
+
   <include file="$(find s4_comport)/launch/remote_list.launch" />
 
-  <group unless="$(eval robot == 'sim')">
-    <node machine="$(arg robot)" name="s4_comport_canlink_to_seriallink" pkg="s4_comport" type="s4_comport_canlink_to_seriallink" />
-    <node machine="$(arg robot)" name="s4_comport_seriallink_decoder"    pkg="s4_comport" type="s4_comport_seriallink_decoder" />
-    <node machine="$(arg robot)" name="s4_comport_serialport"          pkg="s4_comport" type="s4_comport_serialport" />
-    <node machine="$(arg robot)" name="s4_comport_seriallink_encoder"    pkg="s4_comport" type="s4_comport_seriallink_encoder" />
-    <node machine="$(arg robot)" name="s4_comport_seriallink_to_canlink" pkg="s4_comport" type="s4_comport_seriallink_to_canlink" />
+  <group ns="$(arg unit)" unless="$(eval target == 'sim')">
+    <node machine="$(arg target)" name="s4_comport_canlink_to_seriallink" pkg="s4_comport" type="s4_comport_canlink_to_seriallink" />
+    <node machine="$(arg target)" name="s4_comport_seriallink_decoder"    pkg="s4_comport" type="s4_comport_seriallink_decoder" />
+    <node machine="$(arg target)" name="s4_comport_serialport"          pkg="s4_comport" type="s4_comport_serialport" />
+    <node machine="$(arg target)" name="s4_comport_seriallink_encoder"    pkg="s4_comport" type="s4_comport_seriallink_encoder" />
+    <node machine="$(arg target)" name="s4_comport_seriallink_to_canlink" pkg="s4_comport" type="s4_comport_seriallink_to_canlink" />
   </group>
 </launch>

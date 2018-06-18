@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 	if(fd1<0){
 		ROS_ERROR("Serial Fail: cound not open %s", device_name);
 		printf("Serial Fail\n");
-		ROS_BREAK();
+		ros::shutdown();
 	}
 	else diagnostic_connect=true;
 
