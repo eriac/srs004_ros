@@ -6,17 +6,16 @@
     <group ns="share">
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_omni)/config/SETTING.rviz" required="true" />
         <node name="joy_node"  pkg="joy" type="joy_node" />
+        <node name="s4_omni_demo" pkg="s4_omni" type="s4_omni_demo" output="screen">
+            <param name="robot" value="$(arg robot)"/>
+            <param name="linear_velocity"  value="1.0"/>
+            <param name="angular_velocity" value="2.0"/>
+            <remap from="odm_vel" to="/$(arg robot)/omni0/odm_vel"/>
+            <remap from="cmd_vel" to="/$(arg robot)/omni0/cmd_vel"/>
+        </node>
     </group>
 
     <group ns="$(arg robot)">
-        <group ns="omni0">
-            <node name="s4_omni_demo" pkg="s4_omni" type="s4_omni_demo" output="screen">
-                <param name="robot" value="$(arg robot)"/>
-                <param name="linear_velocity"  value="1.0"/>
-                <param name="angular_velocity" value="2.0"/>
-                <remap from="joy" to="/share/joy"/>
-            </node>
-        </group>
         <arg name="model" default="$(find s4_omni)/urdf/world.urdf.xacro"/>
         <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
