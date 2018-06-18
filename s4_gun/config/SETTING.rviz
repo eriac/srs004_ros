@@ -8,7 +8,6 @@ Panels:
         - /Status1
         - /RobotModel1
         - /TF1
-        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 595
   - Class: rviz/Selection
@@ -61,32 +60,32 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        robot0/base_link:
+        base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        robot0/gun0/base1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot0/gun0/base2_link:
+        gun0/base1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/gun0/gun_link:
+        gun0/base2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        world:
+        gun0/gun_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gun0/laser_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
       Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
+      Robot Description: default_robot/robot_description
+      TF Prefix: default_robot
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -95,15 +94,15 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        robot0/base_link:
+        default_robot/base_link:
           Value: true
-        robot0/gun0/base1_link:
+        default_robot/gun0/base1_link:
           Value: true
-        robot0/gun0/base2_link:
+        default_robot/gun0/base2_link:
           Value: true
-        robot0/gun0/gun_link:
+        default_robot/gun0/gun_link:
           Value: true
-        world:
+        default_robot/gun0/laser_link:
           Value: true
       Marker Scale: 0.5
       Name: TF
@@ -111,17 +110,17 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        world:
-          robot0/base_link:
-            robot0/gun0/base1_link:
-              robot0/gun0/base2_link:
-                robot0/gun0/gun_link:
+        default_robot/base_link:
+          default_robot/gun0/base1_link:
+            default_robot/gun0/base2_link:
+              default_robot/gun0/gun_link:
+                default_robot/gun0/laser_link:
                   {}
       Update Interval: 0
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /robot0/gun0/marker
+      Marker Topic: /default_robot/gun0/marker
       Name: Marker
       Namespaces:
         basic_shapes: true
@@ -131,7 +130,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: world
+    Fixed Frame: default_robot/base_link
     Frame Rate: 30
   Name: root
   Tools:

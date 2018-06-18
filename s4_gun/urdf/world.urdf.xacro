@@ -3,14 +3,9 @@
   <xacro:include filename="$(find s4_gun)/urdf/common.urdf.xacro"/>
   <xacro:include filename="$(find s4_gun)/urdf/s4_gun.urdf.xacro"/>
 
-  <link name="world"/>
-  <link name="robot0/base_link"/>
-  <joint name="robot0/base_joint" type="fixed"><!--floating-->
-    <parent link="world"/>
-    <child link="robot0/base_link"/>
-  </joint>
+  <link name="base_link"/>
 
-  <xacro:s4_gun prefix="robot0/gun0" parent="robot0/base_link" pos_x="0.010" pos_z="0.038" />
+  <xacro:s4_gun prefix="gun0" parent="base_link" pos_x="0.010" pos_z="0.038" />
 
   <!-- ===============  Gazebo =============== -->
   <gazebo>

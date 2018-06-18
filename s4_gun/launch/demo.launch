@@ -1,30 +1,33 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="model" default="$(find s4_gun)/urdf/world.urdf.xacro"/>
-    <arg name="gui" default="true" />
-    <arg name="robot" default="sim"/>
-    <arg name="robot_name" default="robot0"/>
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
-    <param name="use_gui" value="$(arg gui)"/>
+    <arg name="robot" default="default_robot"/>
+    <arg name="target" default="sim"/>
 
     <group ns="share">
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />  
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_gun)/config/SETTING.rviz" required="true" />
         <node name="joy_node"  pkg="joy" type="joy_node" />
     </group>
 
-    <group ns="$(arg robot_name)">
+    <group ns="$(arg robot)">
+        <arg name="model" default="$(find s4_gun)/urdf/world.urdf.xacro"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+            <param name="robot_description" value="$(arg robot)/robot_description" />
+            <param name="tf_prefix" value="$(arg robot)"/>
+        </node>  
         <group ns="gun0">
             <node name="s4_gun_demo" pkg="s4_gun" type="s4_gun_demo" >
                 <remap from="joy"  to="/share/joy"/>
             </node>
-            <include file="$(find s4_gun)/launch/main.launch" >
-                <arg name="robot" value="$(arg robot)"/>
-            </include>
         </group>
+        <include file="$(find s4_gun)/launch/main.launch" >
+            <arg name="target" value="$(arg target)"/>
+            <arg name="ns"     value="$(arg robot)"/>
+            <arg name="unit"   value="gun0"/>
+        </include>
         <group ns="comport0">
             <include file="$(find s4_comport)/launch/main.launch" >
-                <arg name="robot" value="$(arg robot)"/>
+                <arg name="robot" value="$(arg target)"/>
             </include>
         </group>
     </group>
