@@ -2,12 +2,8 @@
 <robot name="my_robo" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find s4_launch)/urdf/common.urdf.xacro"/>
   <xacro:include filename="$(find s4_launch)/urdf/s4_robot.urdf.xacro"/>
-  <xacro:arg name="robot_name" default="robot0"/>
-  <link name="world"/>
 
-
-  <xacro:s4_robot prefix="$(arg robot_name)" parent="world" />
-  
+  <xacro:s4_robot />  
 
   <!-- ===============  Gazebo =============== -->
   <gazebo>

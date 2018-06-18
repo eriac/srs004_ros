@@ -4,7 +4,7 @@
     <arg name="target" default="sim"/>
 
     <group ns="share">
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_gun)/config/SETTING.rviz" required="true" />
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_gun)/rviz/config.rviz" required="true" />
         <node name="joy_node"  pkg="joy" type="joy_node" />
         <node name="s4_gun_demo" pkg="s4_gun" type="s4_gun_demo" >
             <remap from="joy"  to="/share/joy"/>

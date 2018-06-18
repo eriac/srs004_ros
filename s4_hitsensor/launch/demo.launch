@@ -4,7 +4,7 @@
     <arg name="target" default="sim"/>
     
     <group ns="share">
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_hitsensor)/config/SETTING.rviz" required="true" />
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_hitsensor)/rviz/config.rviz" required="true" />
         <node name="joy_node"  pkg="joy" type="joy_node" />
     </group>
 
