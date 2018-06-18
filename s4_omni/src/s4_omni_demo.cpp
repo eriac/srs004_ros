@@ -10,6 +10,7 @@
 #include "math.h"
 
 ros::Publisher cmd_pub;
+std::string robot="";
 float linear_velocity=1.0;
 float angular_velocity=1.0;
 
@@ -61,7 +62,7 @@ void set_robot(float *position, float *direction){
 	tf::Quaternion q;
 	q.setRPY(direction[0], direction[1], direction[2]);
 	transform.setRotation(q);
-	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "robot0/base_link"));	
+	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", robot+"/base_link"));	
 }
 
 int main(int argc, char **argv){
@@ -70,6 +71,7 @@ int main(int argc, char **argv){
 	ros::NodeHandle pn("~");
 	
 	//rosparam
+	pn.getParam("robot", robot);
 	pn.getParam("linear_velocity",  linear_velocity);
 	pn.getParam("angular_velocity", angular_velocity);
 
@@ -88,13 +90,12 @@ int main(int argc, char **argv){
 		static float direction[3]={0};
 		position[0]+=(cos(direction[2])*odm_now.linear.x-sin(direction[2])*odm_now.linear.y)*dt;
 		position[1]+=(sin(direction[2])*odm_now.linear.x+cos(direction[2])*odm_now.linear.y)*dt;
-		position[2]=0.0;//0.019
+		position[2]=0.0;
 		direction[0]=0.0;
 		direction[1]=0.0;
 		direction[2]+=odm_now.angular.z*dt;
-		set_robot(position,direction);	ros::spinOnce();
-		loop_rate.sleep();
-
+		set_robot(position,direction);	
+		
 		float diff[2]={0.0};
 		diff[0]=target[0]-position[0];
 		diff[1]=target[1]-position[1];

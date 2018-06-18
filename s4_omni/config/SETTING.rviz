@@ -61,194 +61,190 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        robot0/base_link:
+        base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        robot0/omni0/wheel0/barrel_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot0/omni0/wheel0/barrel_2_link:
+        omni0/wheel0/barrel_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/barrel_3_link:
+        omni0/wheel0/barrel_2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/barrel_4_link:
+        omni0/wheel0/barrel_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/barrel_5_link:
+        omni0/wheel0/barrel_4_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/barrel_6_link:
+        omni0/wheel0/barrel_5_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/barrel_7_link:
+        omni0/wheel0/barrel_6_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/barrel_8_link:
+        omni0/wheel0/barrel_7_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/housing_link:
+        omni0/wheel0/barrel_8_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/housing_s_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot0/omni0/wheel0/motor_link:
+        omni0/wheel0/housing_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel0/motor_mount_link:
+        omni0/wheel0/housing_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        omni0/wheel0/motor_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_1_link:
+        omni0/wheel0/motor_mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_2_link:
+        omni0/wheel1/barrel_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_3_link:
+        omni0/wheel1/barrel_2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_4_link:
+        omni0/wheel1/barrel_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_5_link:
+        omni0/wheel1/barrel_4_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_6_link:
+        omni0/wheel1/barrel_5_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_7_link:
+        omni0/wheel1/barrel_6_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/barrel_8_link:
+        omni0/wheel1/barrel_7_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/housing_link:
+        omni0/wheel1/barrel_8_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/housing_s_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot0/omni0/wheel1/motor_link:
+        omni0/wheel1/housing_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel1/motor_mount_link:
+        omni0/wheel1/housing_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        omni0/wheel1/motor_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_1_link:
+        omni0/wheel1/motor_mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_2_link:
+        omni0/wheel2/barrel_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_3_link:
+        omni0/wheel2/barrel_2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_4_link:
+        omni0/wheel2/barrel_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_5_link:
+        omni0/wheel2/barrel_4_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_6_link:
+        omni0/wheel2/barrel_5_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_7_link:
+        omni0/wheel2/barrel_6_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/barrel_8_link:
+        omni0/wheel2/barrel_7_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/housing_link:
+        omni0/wheel2/barrel_8_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/housing_s_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot0/omni0/wheel2/motor_link:
+        omni0/wheel2/housing_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        robot0/omni0/wheel2/motor_mount_link:
+        omni0/wheel2/housing_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        omni0/wheel2/motor_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        world:
+        omni0/wheel2/motor_mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
       Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
+      Robot Description: default_robot/robot_description
+      TF Prefix: default_robot
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -257,82 +253,82 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        robot0/base_link:
+        default_robot/base_link:
           Value: true
-        robot0/omni0/wheel0/barrel_1_link:
+        default_robot/omni0/wheel0/barrel_1_link:
           Value: false
-        robot0/omni0/wheel0/barrel_2_link:
+        default_robot/omni0/wheel0/barrel_2_link:
           Value: false
-        robot0/omni0/wheel0/barrel_3_link:
+        default_robot/omni0/wheel0/barrel_3_link:
           Value: false
-        robot0/omni0/wheel0/barrel_4_link:
+        default_robot/omni0/wheel0/barrel_4_link:
           Value: false
-        robot0/omni0/wheel0/barrel_5_link:
+        default_robot/omni0/wheel0/barrel_5_link:
           Value: false
-        robot0/omni0/wheel0/barrel_6_link:
+        default_robot/omni0/wheel0/barrel_6_link:
           Value: false
-        robot0/omni0/wheel0/barrel_7_link:
+        default_robot/omni0/wheel0/barrel_7_link:
           Value: false
-        robot0/omni0/wheel0/barrel_8_link:
+        default_robot/omni0/wheel0/barrel_8_link:
           Value: false
-        robot0/omni0/wheel0/housing_link:
+        default_robot/omni0/wheel0/housing_link:
           Value: true
-        robot0/omni0/wheel0/housing_s_link:
+        default_robot/omni0/wheel0/housing_s_link:
           Value: false
-        robot0/omni0/wheel0/motor_link:
+        default_robot/omni0/wheel0/motor_link:
           Value: false
-        robot0/omni0/wheel0/motor_mount_link:
+        default_robot/omni0/wheel0/motor_mount_link:
           Value: false
-        robot0/omni0/wheel1/barrel_1_link:
+        default_robot/omni0/wheel1/barrel_1_link:
           Value: false
-        robot0/omni0/wheel1/barrel_2_link:
+        default_robot/omni0/wheel1/barrel_2_link:
           Value: false
-        robot0/omni0/wheel1/barrel_3_link:
+        default_robot/omni0/wheel1/barrel_3_link:
           Value: false
-        robot0/omni0/wheel1/barrel_4_link:
+        default_robot/omni0/wheel1/barrel_4_link:
           Value: false
-        robot0/omni0/wheel1/barrel_5_link:
+        default_robot/omni0/wheel1/barrel_5_link:
           Value: false
-        robot0/omni0/wheel1/barrel_6_link:
+        default_robot/omni0/wheel1/barrel_6_link:
           Value: false
-        robot0/omni0/wheel1/barrel_7_link:
+        default_robot/omni0/wheel1/barrel_7_link:
           Value: false
-        robot0/omni0/wheel1/barrel_8_link:
+        default_robot/omni0/wheel1/barrel_8_link:
           Value: false
-        robot0/omni0/wheel1/housing_link:
+        default_robot/omni0/wheel1/housing_link:
           Value: true
-        robot0/omni0/wheel1/housing_s_link:
+        default_robot/omni0/wheel1/housing_s_link:
           Value: false
-        robot0/omni0/wheel1/motor_link:
+        default_robot/omni0/wheel1/motor_link:
           Value: false
-        robot0/omni0/wheel1/motor_mount_link:
+        default_robot/omni0/wheel1/motor_mount_link:
           Value: false
-        robot0/omni0/wheel2/barrel_1_link:
+        default_robot/omni0/wheel2/barrel_1_link:
           Value: false
-        robot0/omni0/wheel2/barrel_2_link:
+        default_robot/omni0/wheel2/barrel_2_link:
           Value: false
-        robot0/omni0/wheel2/barrel_3_link:
+        default_robot/omni0/wheel2/barrel_3_link:
           Value: false
-        robot0/omni0/wheel2/barrel_4_link:
+        default_robot/omni0/wheel2/barrel_4_link:
           Value: false
-        robot0/omni0/wheel2/barrel_5_link:
+        default_robot/omni0/wheel2/barrel_5_link:
           Value: false
-        robot0/omni0/wheel2/barrel_6_link:
+        default_robot/omni0/wheel2/barrel_6_link:
           Value: false
-        robot0/omni0/wheel2/barrel_7_link:
+        default_robot/omni0/wheel2/barrel_7_link:
           Value: false
-        robot0/omni0/wheel2/barrel_8_link:
+        default_robot/omni0/wheel2/barrel_8_link:
           Value: false
-        robot0/omni0/wheel2/housing_link:
+        default_robot/omni0/wheel2/housing_link:
           Value: true
-        robot0/omni0/wheel2/housing_s_link:
+        default_robot/omni0/wheel2/housing_s_link:
           Value: false
-        robot0/omni0/wheel2/motor_link:
+        default_robot/omni0/wheel2/motor_link:
           Value: false
-        robot0/omni0/wheel2/motor_mount_link:
+        default_robot/omni0/wheel2/motor_mount_link:
           Value: false
         world:
-          Value: true
+          Value: false
       Marker Scale: 0.5
       Name: TF
       Show Arrows: false
@@ -340,72 +336,72 @@ Visualization Manager:
       Show Names: false
       Tree:
         world:
-          robot0/base_link:
-            robot0/omni0/wheel0/housing_link:
-              robot0/omni0/wheel0/barrel_1_link:
+          default_robot/base_link:
+            default_robot/omni0/wheel0/housing_link:
+              default_robot/omni0/wheel0/barrel_1_link:
                 {}
-              robot0/omni0/wheel0/barrel_2_link:
+              default_robot/omni0/wheel0/barrel_2_link:
                 {}
-              robot0/omni0/wheel0/barrel_3_link:
+              default_robot/omni0/wheel0/barrel_3_link:
                 {}
-              robot0/omni0/wheel0/barrel_4_link:
+              default_robot/omni0/wheel0/barrel_4_link:
                 {}
-              robot0/omni0/wheel0/housing_s_link:
-                robot0/omni0/wheel0/barrel_5_link:
+              default_robot/omni0/wheel0/housing_s_link:
+                default_robot/omni0/wheel0/barrel_5_link:
                   {}
-                robot0/omni0/wheel0/barrel_6_link:
+                default_robot/omni0/wheel0/barrel_6_link:
                   {}
-                robot0/omni0/wheel0/barrel_7_link:
+                default_robot/omni0/wheel0/barrel_7_link:
                   {}
-                robot0/omni0/wheel0/barrel_8_link:
+                default_robot/omni0/wheel0/barrel_8_link:
                   {}
-            robot0/omni0/wheel0/motor_link:
+            default_robot/omni0/wheel0/motor_link:
               {}
-            robot0/omni0/wheel0/motor_mount_link:
+            default_robot/omni0/wheel0/motor_mount_link:
               {}
-            robot0/omni0/wheel1/housing_link:
-              robot0/omni0/wheel1/barrel_1_link:
+            default_robot/omni0/wheel1/housing_link:
+              default_robot/omni0/wheel1/barrel_1_link:
                 {}
-              robot0/omni0/wheel1/barrel_2_link:
+              default_robot/omni0/wheel1/barrel_2_link:
                 {}
-              robot0/omni0/wheel1/barrel_3_link:
+              default_robot/omni0/wheel1/barrel_3_link:
                 {}
-              robot0/omni0/wheel1/barrel_4_link:
+              default_robot/omni0/wheel1/barrel_4_link:
                 {}
-              robot0/omni0/wheel1/housing_s_link:
-                robot0/omni0/wheel1/barrel_5_link:
+              default_robot/omni0/wheel1/housing_s_link:
+                default_robot/omni0/wheel1/barrel_5_link:
                   {}
-                robot0/omni0/wheel1/barrel_6_link:
+                default_robot/omni0/wheel1/barrel_6_link:
                   {}
-                robot0/omni0/wheel1/barrel_7_link:
+                default_robot/omni0/wheel1/barrel_7_link:
                   {}
-                robot0/omni0/wheel1/barrel_8_link:
+                default_robot/omni0/wheel1/barrel_8_link:
                   {}
-            robot0/omni0/wheel1/motor_link:
+            default_robot/omni0/wheel1/motor_link:
               {}
-            robot0/omni0/wheel1/motor_mount_link:
+            default_robot/omni0/wheel1/motor_mount_link:
               {}
-            robot0/omni0/wheel2/housing_link:
-              robot0/omni0/wheel2/barrel_1_link:
+            default_robot/omni0/wheel2/housing_link:
+              default_robot/omni0/wheel2/barrel_1_link:
                 {}
-              robot0/omni0/wheel2/barrel_2_link:
+              default_robot/omni0/wheel2/barrel_2_link:
                 {}
-              robot0/omni0/wheel2/barrel_3_link:
+              default_robot/omni0/wheel2/barrel_3_link:
                 {}
-              robot0/omni0/wheel2/barrel_4_link:
+              default_robot/omni0/wheel2/barrel_4_link:
                 {}
-              robot0/omni0/wheel2/housing_s_link:
-                robot0/omni0/wheel2/barrel_5_link:
+              default_robot/omni0/wheel2/housing_s_link:
+                default_robot/omni0/wheel2/barrel_5_link:
                   {}
-                robot0/omni0/wheel2/barrel_6_link:
+                default_robot/omni0/wheel2/barrel_6_link:
                   {}
-                robot0/omni0/wheel2/barrel_7_link:
+                default_robot/omni0/wheel2/barrel_7_link:
                   {}
-                robot0/omni0/wheel2/barrel_8_link:
+                default_robot/omni0/wheel2/barrel_8_link:
                   {}
-            robot0/omni0/wheel2/motor_link:
+            default_robot/omni0/wheel2/motor_link:
               {}
-            robot0/omni0/wheel2/motor_mount_link:
+            default_robot/omni0/wheel2/motor_mount_link:
               {}
       Update Interval: 0
       Value: true
@@ -442,7 +438,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.05956328
+      Distance: 1.44213498
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1

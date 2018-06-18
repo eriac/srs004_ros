@@ -1,31 +1,38 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="model" default="$(find s4_omni)/urdf/world.urdf.xacro"/>
-    <arg name="gui" default="true" />
-    <arg name="robot" default="sim"/>
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
-    <param name="use_gui" value="$(arg gui)"/>
+    <arg name="robot" default="default_robot"/>
+    <arg name="target" default="sim"/>
 
     <group ns="share">
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />  
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_omni)/config/SETTING.rviz" required="true" />
         <node name="joy_node"  pkg="joy" type="joy_node" />
     </group>
 
-    <group ns="robot0">
+    <group ns="$(arg robot)">
         <group ns="omni0">
             <node name="s4_omni_demo" pkg="s4_omni" type="s4_omni_demo" output="screen">
+                <param name="robot" value="$(arg robot)"/>
                 <param name="linear_velocity"  value="1.0"/>
                 <param name="angular_velocity" value="2.0"/>
                 <remap from="joy" to="/share/joy"/>
             </node>
-            <include file="$(find s4_omni)/launch/main.launch" >
-                <arg name="robot" value="$(arg robot)"/>
-            </include>
         </group>
+        <arg name="model" default="$(find s4_omni)/urdf/world.urdf.xacro"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+            <param name="robot_description" value="$(arg robot)/robot_description" />
+            <param name="tf_prefix" value="$(arg robot)"/>
+        </node>  
+        <include file="$(find s4_omni)/launch/main.launch" >
+            <arg name="target" value="$(arg target)"/>
+            <arg name="ns"     value="$(arg robot)"/>
+            <arg name="unit"   value="omni0"/>
+        </include>
+
+
         <group ns="comport0">
             <include file="$(find s4_comport)/launch/main.launch" >
-                <arg name="robot" value="$(arg robot)"/>
+                <arg name="robot" value="$(arg target)"/>
             </include>
         </group>
     </group>

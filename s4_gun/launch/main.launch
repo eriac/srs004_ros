@@ -3,6 +3,7 @@
     <arg name="target" default="sim"/>
     <arg name="ns" default=""/>
     <arg name="unit" default=""/>
+    
     <group ns="$(arg unit)">
         <node name="s4_gun_aim_publisher" pkg="s4_gun" type="s4_gun_aim_publisher">
             <remap from="joint_states"  to="/$(arg ns)/joint_states"/>
