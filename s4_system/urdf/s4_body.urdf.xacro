@@ -13,7 +13,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://s4_operate/stl/body.stl" />
+          <mesh filename="package://s4_system/stl/body.stl" />
         </geometry>
         <material name="gray"/>
       </visual>
@@ -33,7 +33,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://s4_operate/stl/battery.stl" />
+          <mesh filename="package://s4_system/stl/battery.stl" />
         </geometry>
         <material name="blue"/>
       </visual>
@@ -53,7 +53,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://s4_operate/stl/bridge.stl" />
+          <mesh filename="package://s4_system/stl/bridge.stl" />
         </geometry>
         <material name="gray"/>
       </visual>
@@ -73,7 +73,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://s4_operate/stl/camera.stl" />
+          <mesh filename="package://s4_system/stl/camera.stl" />
         </geometry>
         <material name="light_red"/>
       </visual>

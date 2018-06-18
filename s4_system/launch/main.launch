@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="target" default="sim"/>
+    <arg name="ns" default=""/>
+    <arg name="unit" default=""/>
+    
+    <group ns="$(arg unit)">
+    </group>
+</launch>
+
