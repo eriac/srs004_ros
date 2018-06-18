@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot1" default="robot1"/>
+    <arg name="robot2" default="robot2"/>
+    <arg name="target" default="sim"/>
+
+    <group ns="share">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/dual_robot.rviz" required="true" />
+		<node name="joy_node"  pkg="joy" type="joy_node" />
+		<node name="s4_operate_manual" pkg="s4_operate" type="s4_operate_manual">
+			<remap from="cmd_vel" to="/$(arg robot1)/omni0/cmd_vel"/>
+			<remap from="aim_vel" to="/$(arg robot1)/gun0/aim_vel"/>
+		</node>
+		<node name="position1" pkg="s4_operate" type="s4_operate_position">
+			<param name="base_link"  value="$(arg robot1)/base_link" />
+			<param name="world_link" value="world" />
+			<remap from="odm_vel" to="/$(arg robot1)/omni0/odm_vel"/>
+		</node>
+		<node name="position2" pkg="s4_operate" type="s4_operate_position">
+			<param name="base_link"  value="$(arg robot2)/base_link" />
+			<param name="world_link" value="world" />
+			<param name="pos_y" value="0.5" />
+			<remap from="odm_vel" to="/$(arg robot2)/omni0/odm_vel"/>
+		</node>
+
+    </group>
+
+	<include file="$(find s4_system)/launch/srs004_spawn.launch" >
+		<arg name="robot"  value="$(arg robot1)"/>
+		<arg name="target" value="$(arg target)"/>
+	</include>
+	<include file="$(find s4_system)/launch/srs004_spawn.launch" >
+		<arg name="robot"  value="$(arg robot2)"/>
+		<arg name="target" value="$(arg target)"/>
+	</include>
+
+</launch>
+

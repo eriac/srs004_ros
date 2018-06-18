@@ -32,16 +32,22 @@ int main(int argc, char **argv){
 	std::string base_link="";
 	pn.getParam("world_link", world_link);
 	pn.getParam("base_link",  base_link);
-		
+
+	float pos_x=0.0;
+	float pos_y=0.0;
+	float rot_z=0.0;
+	pn.getParam("pos_x", pos_x);
+	pn.getParam("pos_y", pos_y);
+	pn.getParam("rot_z", rot_z);
+
     //subscriibe
 	ros::Subscriber odm_sub   = n.subscribe("odm_vel", 10, odm_callback);
 
 	float dt=1.0/20;
 	ros::Rate loop_rate(20);
-
+	float position[3]={pos_x, pos_y, 0};
+	float direction[3]={0, 0, rot_z};
 	while (ros::ok()){
-		static float position[3]={0};
-		static float direction[3]={0};
 		position[0]+=(cos(direction[2])*odm_now.linear.x-sin(direction[2])*odm_now.linear.y)*dt;
 		position[1]+=(sin(direction[2])*odm_now.linear.x+cos(direction[2])*odm_now.linear.y)*dt;
 		position[2]=0.0;//0.019
