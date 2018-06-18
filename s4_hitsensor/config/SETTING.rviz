@@ -9,9 +9,6 @@ Panels:
         - /RobotModel1
         - /TF1
         - /TF1/Frames1
-        - /TF1/Tree1/world1/robot0/base_link1
-        - /TF1/Tree1/world1/robot0/base_link1/robot0/hitsensor0/target0/frame_link1
-        - /TF1/Tree1/world1/robot0/base_link1/robot0/hitsensor0/target1/frame_link1
       Splitter Ratio: 0.605113626
     Tree Height: 595
   - Class: rviz/Selection
@@ -103,8 +100,8 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
       Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
+      Robot Description: default_robot/robot_description
+      TF Prefix: default_robot
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -113,21 +110,21 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        robot0/base_link:
+        default_robot/robot0/base_link:
           Value: true
-        robot0/hitsensor0/target0/frame_link:
-          Value: false
-        robot0/hitsensor0/target0/plate_link:
+        default_robot/robot0/hitsensor0/target0/frame_link:
           Value: true
-        robot0/hitsensor0/target1/frame_link:
-          Value: false
-        robot0/hitsensor0/target1/plate_link:
+        default_robot/robot0/hitsensor0/target0/plate_link:
           Value: true
-        robot0/hitsensor0/target2/frame_link:
-          Value: false
-        robot0/hitsensor0/target2/plate_link:
+        default_robot/robot0/hitsensor0/target1/frame_link:
           Value: true
-        world:
+        default_robot/robot0/hitsensor0/target1/plate_link:
+          Value: true
+        default_robot/robot0/hitsensor0/target2/frame_link:
+          Value: true
+        default_robot/robot0/hitsensor0/target2/plate_link:
+          Value: true
+        default_robot/world:
           Value: true
       Marker Scale: 0.5
       Name: TF
@@ -135,16 +132,16 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        world:
-          robot0/base_link:
-            robot0/hitsensor0/target0/frame_link:
-              robot0/hitsensor0/target0/plate_link:
+        default_robot/world:
+          default_robot/robot0/base_link:
+            default_robot/robot0/hitsensor0/target0/frame_link:
+              default_robot/robot0/hitsensor0/target0/plate_link:
                 {}
-            robot0/hitsensor0/target1/frame_link:
-              robot0/hitsensor0/target1/plate_link:
+            default_robot/robot0/hitsensor0/target1/frame_link:
+              default_robot/robot0/hitsensor0/target1/plate_link:
                 {}
-            robot0/hitsensor0/target2/frame_link:
-              robot0/hitsensor0/target2/plate_link:
+            default_robot/robot0/hitsensor0/target2/frame_link:
+              default_robot/robot0/hitsensor0/target2/plate_link:
                 {}
       Update Interval: 0
       Value: true
@@ -152,7 +149,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: world
+    Fixed Frame: default_robot/robot0/base_link
     Frame Rate: 30
   Name: root
   Tools:

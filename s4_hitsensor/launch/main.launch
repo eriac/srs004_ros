@@ -1,16 +1,21 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="robot" default="sim"/>
-    <group unless="$(eval robot == 'sim')">
-        <node name="hit0" pkg="srs004host" type="phycon_hitsensor_actual" >
-            <remap from="CANLink_out" to="/robot0/comport0/CANLink_out"/>
-            <remap from="CANLink_in"  to="/robot0/comport0/CANLink_in"/>
-            <param name="CAN_CH" value="A"/>
-            <param name="CAN_ID" value="5"/>
-        </node>
-    </group>
-    <group if="$(eval robot == 'sim')">
-        <node name="hitsensor" pkg="srs004host" type="phycon_hitsensor_sim" />
+    <arg name="target" default="sim"/>
+    <arg name="ns" default=""/>
+    <arg name="unit" default=""/>
+
+    <group ns="$(arg unit)">
+        <group unless="$(eval target == 'sim')">
+            <node name="s4_hitsensor_phycon" pkg="s4_hitsensor" type="s4_hitsensor_phycon" >
+                <remap from="CANLink_out" to="/$(arg ns)/comport0/CANLink_out"/>
+                <remap from="CANLink_in"  to="/$(arg ns)/comport0/CANLink_in"/>
+                <param name="CAN_CH" value="A"/>
+                <param name="CAN_ID" value="5"/>
+            </node>
+        </group>
+        <group if="$(eval target == 'sim')">
+            <node name="s4_hitsensor_sim" pkg="s4_hitsensor" type="s4_hitsensor_sim" />
+        </group>
     </group>
 </launch>
 
