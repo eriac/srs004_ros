@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  s4_comport
 )
 
 ## System dependencies are found with CMake's conventions
@@ -134,6 +135,8 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/s4_system_node.cpp)
+add_executable(s4_system_battery_phycon src/s4_system_battery_phycon.cpp)
+add_executable(s4_system_battery_sim src/s4_system_battery_sim.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -144,11 +147,19 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(s4_system_battery_phycon ${catkin_EXPORTED_TARGETS})
+add_dependencies(s4_system_battery_sim ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(s4_system_battery_phycon
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(s4_system_battery_sim
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

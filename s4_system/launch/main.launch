@@ -5,6 +5,19 @@
     <arg name="unit" default=""/>
     
     <group ns="$(arg unit)">
+        <group unless="$(eval target == 'sim')">
+            <node name="s4_system_battery_phycon" pkg="s4_system" type="s4_system_battery_phycon" >
+                <remap from="CANLink_in" to="/$(arg ns)/comport0/CANLink_in"/>
+                <remap from="CANLink_out" to="/$(arg ns)/comport0/CANLink_out"/>
+                <param name="CAN_CH" value="S"/>
+                <param name="CAN_ID" value="1"/>
+                <param name="y_ajust" value="0.055"/>
+                <param name="z_ajust" value="-0.045"/>
+            </node>
+        </group>
+        <group if="$(eval target == 'sim')">
+            <node name="s4_system_battery_sim" pkg="s4_system" type="s4_system_battery_sim" />
+        </group>
     </group>
 </launch>
 

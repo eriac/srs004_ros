@@ -4,10 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
-        - /RobotModel1
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.587896228
     Tree Height: 565
@@ -121,6 +117,74 @@ Visualization Manager:
                 {}
       Update Interval: 0
       Value: true
+    - Class: jsk_rviz_plugin/OverlayDiagnostic
+      Enabled: true
+      Name: SerialDiagnostic
+      Topic: /diagnostics
+      Value: true
+      alpha: 0.800000012
+      diagnostics namespace: "default_robot/comport0/s4_comport_serialport: Connect"
+      left: 10
+      size: 128
+      stall duration: 5
+      top: 10
+      type: SAC
+    - Class: jsk_rviz_plugin/OverlayDiagnostic
+      Enabled: true
+      Name: BatteryDiagnostic
+      Topic: /diagnostics
+      Value: true
+      alpha: 0.800000012
+      diagnostics namespace: "default_robot/system0/s4_system_battery_phycon: Active"
+      left: 10
+      size: 128
+      stall duration: 5
+      top: 148
+      type: SAC
+    - Class: jsk_rviz_plugin/PieChart
+      Enabled: true
+      Name: Voltage
+      Topic: /default_robot/system0/s4_system_battery_phycon/voltage
+      Value: true
+      auto color change: false
+      background color: 0; 0; 0
+      backround alpha: 0
+      foreground alpha: 0.699999988
+      foreground alpha 2: 0.400000006
+      foreground color: 25; 255; 240
+      left: 10
+      max color: 255; 0; 0
+      max value: 11.1000004
+      min value: 12.6000004
+      show caption: true
+      size: 128
+      text size: 14
+      top: 286
+    - Buffer length: 100
+      Class: jsk_rviz_plugin/Plotter2D
+      Enabled: true
+      Name: Current
+      Show Value: true
+      Topic: /default_robot/system0/s4_system_battery_phycon/current
+      Value: true
+      auto color change: false
+      auto scale: true
+      background color: 0; 0; 0
+      backround alpha: 0
+      border: true
+      foreground alpha: 0.699999988
+      foreground color: 25; 255; 240
+      height: 128
+      left: 148
+      linewidth: 1
+      max color: 255; 0; 0
+      max value: 1
+      min value: -1
+      show caption: true
+      text size: 12
+      top: 286
+      update interval: 0.0399999991
+      width: 128
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -146,16 +210,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.29336989
+      Distance: 1.40715551
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0434243344
-        Y: -0.0586403459
-        Z: 0.041567862
+        X: 0.124812379
+        Y: -0.129801929
+        Z: -0.00579622667
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
@@ -164,7 +228,7 @@ Visualization Manager:
       Pitch: 0.275398433
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.730398059
+      Yaw: 0.725398064
     Saved: ~
 Window Geometry:
   Displays:

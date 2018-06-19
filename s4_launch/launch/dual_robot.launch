@@ -6,11 +6,28 @@
 
     <group ns="share">
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/dual_robot.rviz" required="true" />
-		<node name="joy_node"  pkg="joy" type="joy_node" />
+
+		<node name="joy_node"  pkg="joy" type="joy_node">
+			<remap from="joy" to="joy1"/>
+		</node>
 		<node name="s4_operate_manual" pkg="s4_operate" type="s4_operate_manual">
+			<remap from="joy" to="joy1"/>
 			<remap from="cmd_vel" to="/$(arg robot1)/omni0/cmd_vel"/>
 			<remap from="aim_vel" to="/$(arg robot1)/gun0/aim_vel"/>
 		</node>
+
+<!--
+			<node name="joy_node2"  pkg="joy" type="joy_node">
+				<remap from="joy" to="joy2"/>
+				<param name="dev" value="/dev/input/js1"/>
+			</node>
+			<node name="s4_operate_manual2" pkg="s4_operate" type="s4_operate_manual">
+				<remap from="joy" to="joy2"/>
+				<remap from="cmd_vel" to="/$(arg robot2)/omni0/cmd_vel"/>
+				<remap from="aim_vel" to="/$(arg robot2)/gun0/aim_vel"/>
+			</node>
+-->
+
 		<node name="position1" pkg="s4_operate" type="s4_operate_position">
 			<param name="base_link"  value="$(arg robot1)/base_link" />
 			<param name="world_link" value="world" />

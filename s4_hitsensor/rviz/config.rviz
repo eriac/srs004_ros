@@ -4,11 +4,8 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
-        - /RobotModel1
-        - /TF1
         - /TF1/Frames1
+        - /Plotter2D1
       Splitter Ratio: 0.605113626
     Tree Height: 595
   - Class: rviz/Selection
@@ -145,6 +142,55 @@ Visualization Manager:
                 {}
       Update Interval: 0
       Value: true
+    - Class: jsk_rviz_plugin/OverlayDiagnostic
+      Enabled: true
+      Name: SerialDiagnostic
+      Topic: /diagnostics
+      Value: true
+      alpha: 0.800000012
+      diagnostics namespace: "default_robot/comport0/s4_comport_serialport: Connect"
+      left: 10
+      size: 128
+      stall duration: 5
+      top: 10
+      type: SAC
+    - Class: jsk_rviz_plugin/OverlayDiagnostic
+      Enabled: true
+      Name: HitsensorDiagnostic
+      Topic: /diagnostics
+      Value: true
+      alpha: 0.800000012
+      diagnostics namespace: "default_robot/hitsensor0/s4_hitsensor_phycon: Active"
+      left: 10
+      size: 128
+      stall duration: 5
+      top: 148
+      type: SAC
+    - Buffer length: 100
+      Class: jsk_rviz_plugin/Plotter2D
+      Enabled: true
+      Name: Plotter2D
+      Show Value: true
+      Topic: /default_robot/hitsensor0/s4_hitsensor_phycon/hit
+      Value: true
+      auto color change: false
+      auto scale: true
+      background color: 0; 0; 0
+      backround alpha: 0
+      border: true
+      foreground alpha: 0.699999988
+      foreground color: 25; 255; 240
+      height: 128
+      left: 10
+      linewidth: 1
+      max color: 255; 0; 0
+      max value: 1
+      min value: -1
+      show caption: true
+      text size: 12
+      top: 286
+      update interval: 0.0399999991
+      width: 128
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -170,16 +216,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.803568542
+      Distance: 1.09667623
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.017979743
-        Y: 0.0435139909
-        Z: 0.0553102158
+        X: -0.0222906955
+        Y: -0.0387711301
+        Z: 0.0659552813
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
