@@ -15,6 +15,10 @@
             <param name="wheel2" value="$(eval 5*3.1415/3)"/>
         </node>
         
+        <node name="s4_omni_twist_marker_publisher" pkg="s4_omni" type="s4_omni_twist_marker_publisher">
+            <param name="twist_link_name" value="$(arg ns)/base_link"/>
+        </node>
+
         <group unless="$(eval target == 'sim')">
             <group ns="wheel0">
                 <node name="s4_omni_wheel_phycon" pkg="s4_omni" type="s4_omni_wheel_phycon" >

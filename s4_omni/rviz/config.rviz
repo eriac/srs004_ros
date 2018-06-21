@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Frames1
+        - /MarkerArray1/Status1
       Splitter Ratio: 0.658333361
     Tree Height: 635
   - Class: rviz/Selection
@@ -524,6 +525,14 @@ Visualization Manager:
       top: 286
       update interval: 0.0399999991
       width: 128
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /default_robot/omni0/marker_array
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -549,7 +558,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.46886492
+      Distance: 2.43331337
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1

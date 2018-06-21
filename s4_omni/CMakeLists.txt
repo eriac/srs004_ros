@@ -216,3 +216,6 @@ target_link_libraries(s4_omni_wheel_sim ${catkin_LIBRARIES})
 
 add_executable(s4_omni_demo src/s4_omni_demo.cpp)
 target_link_libraries(s4_omni_demo ${catkin_LIBRARIES})
+
+add_executable(s4_omni_twist_marker_publisher src/s4_omni_twist_marker_publisher.cpp)
+target_link_libraries(s4_omni_twist_marker_publisher ${catkin_LIBRARIES})
