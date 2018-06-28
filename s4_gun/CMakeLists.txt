@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   visualization_msgs
   s4_comport
+  tf
 )
 
 ## System dependencies are found with CMake's conventions

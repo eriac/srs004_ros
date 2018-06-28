@@ -1,7 +1,10 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 #include "geometry_msgs/Pose.h"
+#include "geometry_msgs/PointStamped.h"
 #include "sensor_msgs/JointState.h"
+
+#include "tf/transform_listener.h"
 
 #include "math.h"
 #include <string>
@@ -30,8 +33,8 @@ void pos_callback(const geometry_msgs::Pose& pose_msg){
 	aim_mode=AIM_POS;
 }
 
-geometry_msgs::Point target_last;
-void target_callback(const geometry_msgs::Point& point_msg){
+geometry_msgs::PointStamped target_last;
+void target_callback(const geometry_msgs::PointStamped& point_msg){
 	target_last=point_msg;
 	aim_mode=AIM_TARGET;
 }
@@ -53,8 +56,10 @@ int main(int argc, char **argv){
 	//rosparam
 	std::string joint1_name="";
 	std::string joint2_name="";
+	std::string gun_link_name="";
 	pn.getParam("joint1_name", joint1_name);
 	pn.getParam("joint2_name", joint2_name);
+	pn.getParam("gun_link_name", gun_link_name);
 
 	float yaw_velocity=1.0;
 	float pitch_velocity=1.0;
@@ -68,7 +73,8 @@ int main(int argc, char **argv){
 	pn.getParam("pitch_upper_limit", pitch_upper_limit  );
 	pn.getParam("yaw_velocity",   yaw_velocity);
 	pn.getParam("pitch_velocity", pitch_velocity);
-		
+
+	tf::TransformListener tflistener;
 	float dt=1.0/20;
 	ros::Rate loop_rate(20); 
 	while (ros::ok()){
@@ -89,6 +95,28 @@ int main(int argc, char **argv){
 			current_pose.orientation.z=range_filter(pos_last.orientation.z,   yaw_lower_limit, yaw_upper_limit);
 			current_pose.orientation.y=range_filter(pos_last.orientation.y, pitch_lower_limit, pitch_upper_limit);
 			command_pub.publish(current_pose);
+		}
+		else if(aim_mode==AIM_TARGET){
+			current_pose.orientation.z=range_filter(pos_last.orientation.z,   yaw_lower_limit, yaw_upper_limit);
+			current_pose.orientation.y=range_filter(pos_last.orientation.y, pitch_lower_limit, pitch_upper_limit);
+			command_pub.publish(current_pose);
+
+			geometry_msgs::PointStamped gun_point;
+			try{
+			    tflistener.waitForTransform(gun_link_name, target_last.header.frame_id, ros::Time(0), ros::Duration(1.0));
+			    tflistener.transformPoint(gun_link_name,ros::Time(0),target_last,target_last.header.frame_id,gun_point);
+
+			    ROS_INFO("x:%03f, y:%03f,z:%03f",gun_point.point.x,gun_point.point.y,gun_point.point.z);
+				float rot_z=atan2(gun_point.point.y,gun_point.point.x);
+				float rot_y=-atan2(gun_point.point.z,gun_point.point.x);
+
+				current_pose.orientation.z=range_filter(rot_z,   yaw_lower_limit, yaw_upper_limit);
+				current_pose.orientation.y=range_filter(rot_y, pitch_lower_limit, pitch_upper_limit);
+				command_pub.publish(current_pose);
+			}
+			catch(...){
+			    ROS_WARN("tf error");
+			}
 		}
 
 		//publish jointstates

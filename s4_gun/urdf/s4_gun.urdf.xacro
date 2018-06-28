@@ -74,6 +74,13 @@
     </joint>
     <link name="${prefix}/laser_link"/>
 
+    <joint name="${prefix}/standard_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}/gun_standard"/>
+      <origin rpy="0 0 0" xyz="0.01 0 0.124"/>
+    </joint>
+    <link name="${prefix}/gun_standard" />
+
     <!-- ===============  Transmission =============== -->
 
     <transmission name="${prefix}_base2_trans">
