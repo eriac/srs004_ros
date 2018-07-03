@@ -1,72 +1,31 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="vive" default="sim"/>
-    <group if="$(eval vive == 'sim')">
-        <node name="s4_vive_joy_sim0"  pkg="s4_vive" type="s4_vive_joy_sim" >
-            <remap from="joy" to="/share/joy"/>
-            <param name="udp_address" value="127.0.0.1"/>
-            <param name="udp_port" value="4001"/>
-            <param name="device_index" value="device2"/>
-            <param name="selector" value="L1"/>
-        </node>
-            <node name="s4_vive_joy_sim1"  pkg="s4_vive" type="s4_vive_joy_sim" >
-            <remap from="joy" to="/share/joy"/>
-            <param name="udp_address" value="127.0.0.1"/>
-            <param name="udp_port" value="4001"/>
-            <param name="device_index" value="device3"/>
-            <param name="selector" value="R1"/>
-        </node>
-        <node name="s4_vive_recieve"  pkg="s4_vive" type="s4_vive_recieve" >
-            <param name="udp_address" value="0.0.0.0"/>
-            <param name="udp_port" value="4001"/>
-        </node>
-        <node name="s4_vive_separator"  pkg="s4_vive" type="s4_vive_separator" >
-        </node>
-    </group>
-    <group  if="$(eval vive == 'udp')">
-        <node name="s4_vive_recieve"  pkg="s4_vive" type="s4_vive_recieve" >
-            <param name="udp_address" value="0.0.0.0"/>
-            <param name="udp_port" value="4001"/>
-        </node>
-        <node name="s4_vive_separator"  pkg="s4_vive" type="s4_vive_separator" output="screen">
-        </node>
-    </group>
-    <group unless="$(eval vive == 'none')">
-       <group ns="controller0">
-            <node name="s4_vive_body_tf"  pkg="s4_vive" type="s4_vive_body_tf" >
-                <param name="body_frame" value="vive0/controller0/body_link"/>
-            </node>
-            <node name="s4_vive_goal_tf"  pkg="s4_vive" type="s4_vive_goal_tf" >
-                <param name="pointer_frame" value="vive0/controller0/pointer_link"/>
-                <param name="goal_frame"    value="vive0/controller0/goal_link"/>
-            </node>
-            <node name="s4_vive_pose_publisher"  pkg="s4_vive" type="s4_vive_pose_publisher" output="screen">
-                <param name="goal_frame" value="vive0/controller0/goal_link"/>
-            </node>
-        </group>
-        <group ns="controller1">
-            <node name="s4_vive_body_tf"  pkg="s4_vive" type="s4_vive_body_tf" >
-                <param name="body_frame" value="vive0/controller1/body_link"/>
-            </node>
-            <node name="s4_vive_goal_tf"  pkg="s4_vive" type="s4_vive_goal_tf" >
-                <param name="pointer_frame" value="vive0/controller1/pointer_link"/>
-                <param name="goal_frame"    value="vive0/controller1/goal_link"/>
-            </node>
-            <node name="s4_vive_pose_publisher"  pkg="s4_vive" type="s4_vive_pose_publisher">
-                <param name="goal_frame" value="vive0/controller1/goal_link"/>
-            </node>
-        </group>
+  <arg name="target" default="sim"/>
+  <arg name="ns" default=""/>
+  <arg name="unit" default=""/>
+  <arg name="c0_name" default=""/>
+  <arg name="c1_name" default=""/>
+  <arg name="t0_name" default=""/>
+  <arg name="t1_name" default=""/>
+  <include file="$(find s4_vive)/launch/remote_list.launch" />
 
-        <group ns="tracker0">
-            <node name="s4_vive_body_tf"  pkg="s4_vive" type="s4_vive_body_tf" >
-                <param name="body_frame" value="vive0/tracker0/body_link"/>
-            </node>
-
-            <node name="s4_vive_tracking_tf"  pkg="s4_vive" type="s4_vive_tracking_tf" output="screen">
-                <param name="tracker_frame" value="vive0/tracker0/tracking_link"/>
-                <param name="base_frame"    value="robot0/base_link"/>
-            </node>
-        
-        </group>
+  <group ns="$(arg unit)">
+    <group unless="$(eval target == 'sim')">
+      <node pkg="tf" type="static_transform_publisher" name="vive_world" args="0.0 0.0 -0.4 0.0 0.0 1.57079 world vive_world 100" />
+      <node machine="$(arg target)" pkg="vive_tracker" name="vive_tracker" type="vive_tracker.py" output="screen"/>
     </group>
+    <group ns="controller0" unless="$(eval c0_name == '')">
+        <node pkg="tf" type="static_transform_publisher" name="tf_overlap" args="0.0 0.0 0 0.0 0.0 0 $(arg c0_name) share/vive0/controller0/body_link 100" />
+        <node name="s4_vive_goal_tf"  pkg="s4_vive" type="s4_vive_goal_tf" >
+          <param name="pointer_frame" value="$(arg ns)/$(arg unit)/controller0/pointer_link"/>
+          <param name="goal_frame"    value="$(arg ns)/$(arg unit)/controller0/goal_link"/>
+        </node>
+        <node name="relay" type="relay" pkg="topic_tools" args="/$(arg ns)/$(arg unit)/$(arg c0_name)/joy joy">
+          <param name="lazy" value="true" />
+        </node>
+    </group>
+    <group ns="tracker0" unless="$(eval t0_name == '')">
+      <node pkg="tf" type="static_transform_publisher" name="tf_overlap" args="0.0 0.0 0 0.0 0.0 0 $(arg t0_name) share/vive0/tracker0/body_link 100" />
+    </group>
+  </group>
 </launch>

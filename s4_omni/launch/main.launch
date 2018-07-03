@@ -19,6 +19,10 @@
             <param name="twist_link_name" value="$(arg ns)/base_link"/>
         </node>
 
+        <node name="s4_omni_pose_move" pkg="s4_operate" type="s4_operate_pose_move"> 
+		    <param name="target_frame" value="$(arg ns)/base_link" />
+        </node>
+
         <group unless="$(eval target == 'sim')">
             <group ns="wheel0">
                 <node name="s4_omni_wheel_phycon" pkg="s4_omni" type="s4_omni_wheel_phycon" >

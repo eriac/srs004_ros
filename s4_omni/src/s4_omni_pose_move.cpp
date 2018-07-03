@@ -27,14 +27,15 @@ float GetRPY(geometry_msgs::Quaternion q){
 	return (float)yaw;
 }
 
+std::string target_frame="";
 geometry_msgs::Pose get_relative(geometry_msgs::Pose target){
 	static tf::TransformListener tflistener;
 	geometry_msgs::PoseStamped source_pose;
 	source_pose.header.frame_id="world";
 	source_pose.pose=target;
 	geometry_msgs::PoseStamped target_pose;
-	tflistener.waitForTransform("robot0/base_link", "world", ros::Time(0), ros::Duration(1.0));
-	tflistener.transformPose("robot0/base_link",ros::Time(0),source_pose,"world",target_pose);
+	tflistener.waitForTransform(target_frame, "world", ros::Time(0), ros::Duration(1.0));
+	tflistener.transformPose(target_frame,ros::Time(0),source_pose,"world",target_pose);
 	return target_pose.pose;
 }
 
@@ -51,6 +52,8 @@ void pose_callback(const geometry_msgs::Pose& pose_msg){
 int main(int argc, char **argv){
 	ros::init(argc, argv, "s4_operate_pose_move");
 	ros::NodeHandle n;
+	ros::NodeHandle pn("~");
+	pn.getParam("target_frame", target_frame);
 	
 	//publisher
 	ros::Publisher move_twist_pub  = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);

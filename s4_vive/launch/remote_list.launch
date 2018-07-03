@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <machine name="local"  address="localhost" />
+  <machine name="OptiPlex-9010" address="OptiPlex-9010" env-loader="/home/erio/catkin_ws/devel/env.sh" user="erio" password="419000"/>
+</launch>

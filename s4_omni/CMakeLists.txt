@@ -219,3 +219,6 @@ target_link_libraries(s4_omni_demo ${catkin_LIBRARIES})
 
 add_executable(s4_omni_twist_marker_publisher src/s4_omni_twist_marker_publisher.cpp)
 target_link_libraries(s4_omni_twist_marker_publisher ${catkin_LIBRARIES})
+
+add_executable(s4_omni_pose_move src/s4_omni_pose_move.cpp)
+target_link_libraries(s4_omni_pose_move ${catkin_LIBRARIES})
