@@ -18,8 +18,9 @@
       <arg name="ns"     value="share"/>
       <arg name="unit"   value="vive0"/>
       <arg name="c0_name" value="LHR_FFF91D43"/>
-      <arg name="t0_name" value="LHR_FD5964F8"/>
-      <arg name="t0_base" value="robot0/base_link"/>
+      <arg name="c1_name" value="LHR_FFD71F43"/>
+      <arg name="t0_name" value="LHR_8ED3A411"/>
+      <arg name="t1_name" value="LHR_FD5964F8"/>
     </include>
   </group>
 </launch>

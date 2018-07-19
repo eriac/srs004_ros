@@ -16,9 +16,9 @@
 float linear_speed  = 0.5;
 float linear_th1    = 0.01;
 float linear_th2    = 0.30;
-float angular_speed = 1.5;
+float angular_speed = 2.0;
 float angular_th1   = 0.02;
-float angular_th2   = 0.40;
+float angular_th2   = 1.00;
 
 float GetRPY(geometry_msgs::Quaternion q){
 	double roll, pitch, yaw=0;
@@ -70,7 +70,7 @@ int main(int argc, char **argv){
 	
 			geometry_msgs::Twist command;
 			float pos_length=sqrt(pow(relative_pose.position.x,2)+pow(relative_pose.position.y,2));
-			if(pos_length<linear_th1 && fabs(pos_yaw)<0.02){
+			if(pos_length<linear_th1 && fabs(pos_yaw)<angular_th1){
 				move_enable=false;
 				printf("set false %f\n",pos_length);
 			}
@@ -87,11 +87,12 @@ int main(int argc, char **argv){
 					printf("set far x:%f, y:%f\n",	command.linear.x,	command.linear.y);
 				}
 
-				if(fabs(pos_yaw)<0.5){
-					command.angular.z=2.0*pos_yaw;
+				if(fabs(pos_yaw)<angular_th2){
+					command.angular.z=(angular_speed/angular_th2)*pos_yaw;
 				}
 				else{
-					command.angular.z=1.0*(pos_yaw/fabs(pos_yaw));
+					command.angular.z=angular_speed*(pos_yaw/fabs(pos_yaw));
+					ROS_INFO("roll");
 				}
 			}
 			move_twist_pub.publish(command);

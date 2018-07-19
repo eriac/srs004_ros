@@ -3,8 +3,11 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
-      Splitter Ratio: 0.812680125
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /TF1/Frames1
+      Splitter Ratio: 0.5
     Tree Height: 565
   - Class: rviz/Selection
     Name: Selection
@@ -50,37 +53,39 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: false
+        All Enabled: true
         LHB_0EBE06C5:
           Value: true
         LHR_8ED3A411:
-          Value: false
+          Value: true
         LHR_FD5964F8:
-          Value: false
+          Value: true
         LHR_FFD71F43:
-          Value: false
+          Value: true
         LHR_FFF91D43:
-          Value: false
-        share/vive0/controller0/body_link:
-          Value: false
-        share/vive0/controller0/goal_link:
-          Value: false
-        share/vive0/controller0/pointer_link:
           Value: true
-        share/vive0/controller1/body_link:
-          Value: false
-        share/vive0/controller1/pointer_link:
+        default_vive/controller0/body_link:
           Value: true
-        share/vive0/tracker0/body_link:
+        default_vive/controller0/goal_link:
           Value: true
-        share/vive0/tracker0/tracking_link:
-          Value: false
-        share/vive0/tracker1/body_link:
+        default_vive/controller0/pointer_link:
           Value: true
-        share/vive0/tracker1/tracking_link:
-          Value: false
+        default_vive/controller1/body_link:
+          Value: true
+        default_vive/controller1/goal_link:
+          Value: true
+        default_vive/controller1/pointer_link:
+          Value: true
+        default_vive/tracker0/body_link:
+          Value: true
+        default_vive/tracker0/tracking_link:
+          Value: true
+        default_vive/tracker1/body_link:
+          Value: true
+        default_vive/tracker1/tracking_link:
+          Value: true
         vive_world:
-          Value: false
+          Value: true
         world:
           Value: true
       Marker Scale: 1
@@ -90,26 +95,28 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          share/vive0/controller0/goal_link:
+          default_vive/controller0/goal_link:
+            {}
+          default_vive/controller1/goal_link:
             {}
           vive_world:
             LHB_0EBE06C5:
               {}
             LHR_8ED3A411:
-              share/vive0/tracker0/body_link:
-                share/vive0/tracker0/tracking_link:
+              default_vive/tracker0/body_link:
+                default_vive/tracker0/tracking_link:
                   {}
             LHR_FD5964F8:
-              share/vive0/tracker1/body_link:
-                share/vive0/tracker1/tracking_link:
+              default_vive/tracker1/body_link:
+                default_vive/tracker1/tracking_link:
                   {}
             LHR_FFD71F43:
-              share/vive0/controller1/body_link:
-                share/vive0/controller1/pointer_link:
+              default_vive/controller1/body_link:
+                default_vive/controller1/pointer_link:
                   {}
             LHR_FFF91D43:
-              share/vive0/controller0/body_link:
-                share/vive0/controller0/pointer_link:
+              default_vive/controller0/body_link:
+                default_vive/controller0/pointer_link:
                   {}
       Update Interval: 0
       Value: true
@@ -122,48 +129,48 @@ Visualization Manager:
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        vive0/controller0/body_link:
+        Link Tree Style: ""
+        controller0/body_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        vive0/controller0/goal_link:
+        controller0/goal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        vive0/controller0/pointer_link:
+        controller0/pointer_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        vive0/controller1/body_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        vive0/controller1/goal_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        vive0/controller1/pointer_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        vive0/tracker0/body_link:
+        controller1/body_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        vive0/tracker0/tracking_link:
+        controller1/goal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        vive0/tracker1/body_link:
+        controller1/pointer_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        tracker0/body_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        vive0/tracker1/tracking_link:
+        tracker0/tracking_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        tracker1/body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tracker1/tracking_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -172,19 +179,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
       Name: RobotModel
-      Robot Description: share/robot_description
-      TF Prefix: share
+      Robot Description: default_vive/robot_description
+      TF Prefix: default_vive
       Update Interval: 0
       Value: true
       Visual Enabled: true
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: /share/vive0/controller0/marker
-      Name: Marker
-      Namespaces:
-        basic_shapes: true
-      Queue Size: 100
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -210,25 +209,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.98410797
+      Distance: 5.14527225
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.891956568
-        Y: -0.650720239
-        Z: 1.21628904
+        X: 0.243234515
+        Y: -0.966450572
+        Z: -0.286966592
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.0103978124
+      Pitch: 0.325398326
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.140398353
+      Yaw: 0.345398068
     Saved: ~
 Window Geometry:
   Displays:
@@ -246,5 +245,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 463
-  Y: 109
+  X: 65
+  Y: 60

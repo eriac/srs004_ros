@@ -90,11 +90,13 @@ int main(int argc, char **argv){
 				current_pose.orientation.y=temp2;
 			}
 			command_pub.publish(current_pose);
+			aim_mode=AIM_NONE;
 		}
 		else if(aim_mode==AIM_POS){
 			current_pose.orientation.z=range_filter(pos_last.orientation.z,   yaw_lower_limit, yaw_upper_limit);
 			current_pose.orientation.y=range_filter(pos_last.orientation.y, pitch_lower_limit, pitch_upper_limit);
 			command_pub.publish(current_pose);
+			aim_mode=AIM_NONE;
 		}
 		else if(aim_mode==AIM_TARGET){
 			current_pose.orientation.z=range_filter(pos_last.orientation.z,   yaw_lower_limit, yaw_upper_limit);
@@ -106,7 +108,7 @@ int main(int argc, char **argv){
 			    tflistener.waitForTransform(gun_link_name, target_last.header.frame_id, ros::Time(0), ros::Duration(1.0));
 			    tflistener.transformPoint(gun_link_name,ros::Time(0),target_last,target_last.header.frame_id,gun_point);
 
-			    ROS_INFO("x:%03f, y:%03f,z:%03f",gun_point.point.x,gun_point.point.y,gun_point.point.z);
+			    //ROS_INFO("x:%03f, y:%03f,z:%03f",gun_point.point.x,gun_point.point.y,gun_point.point.z);
 				float rot_z=atan2(gun_point.point.y,gun_point.point.x);
 				float rot_y=-atan2(gun_point.point.z,gun_point.point.x);
 
@@ -117,6 +119,7 @@ int main(int argc, char **argv){
 			catch(...){
 			    ROS_WARN("tf error");
 			}
+			aim_mode=AIM_NONE;
 		}
 
 		//publish jointstates

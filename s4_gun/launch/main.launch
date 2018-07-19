@@ -29,8 +29,10 @@
                 <remap from="CANLink_out" to="/$(arg ns)/comport0/CANLink_out"/>
                 <param name="CAN_CH" value="A"/>
                 <param name="CAN_ID" value="0"/>
+<!--
                 <param name="y_ajust" value="0.055"/>
                 <param name="z_ajust" value="-0.045"/>
+-->
             </node>
             <node name="s4_gun_laser_phycon" pkg="s4_gun" type="s4_gun_laser_phycon" >
                 <remap from="CANLink_out" to="/$(arg ns)/comport0/CANLink_out"/>

@@ -18,8 +18,7 @@
         <node name="s4_omni_twist_marker_publisher" pkg="s4_omni" type="s4_omni_twist_marker_publisher">
             <param name="twist_link_name" value="$(arg ns)/base_link"/>
         </node>
-
-        <node name="s4_omni_pose_move" pkg="s4_operate" type="s4_operate_pose_move"> 
+        <node name="s4_omni_pose_move" pkg="s4_omni" type="s4_omni_pose_move" > 
 		    <param name="target_frame" value="$(arg ns)/base_link" />
         </node>
 

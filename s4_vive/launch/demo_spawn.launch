@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="vive" default="default_vive"/>
+    <arg name="target" default="sim"/>
+	  
+
+    <group ns="share">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_vive)/rviz/demo_spawn.rviz" required="true" />
+    </group>
+
+	  <include file="$(find s4_vive)/launch/vive_spawn.launch" >
+      <arg name="target" value="$(arg target)"/>
+      <arg name="unit"   value="$(arg vive)"/>
+      <arg name="c0_name" value="LHR_FFF91D43"/>
+      <arg name="c1_name" value="LHR_FFD71F43"/>
+      <arg name="t0_name" value="LHR_8ED3A411"/>
+      <arg name="t1_name" value="LHR_FD5964F8"/>
+	  </include>
+</launch>
