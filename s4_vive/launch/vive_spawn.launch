@@ -31,7 +31,7 @@
         <node pkg="tf" type="static_transform_publisher" name="static_tf_world" args="$(arg vive_tf_static) world vive_tmp 100" />
       </group>
       <node pkg="tf" type="static_transform_publisher" name="vive_world" args="0.0 0.0 0.0 0.0 0.0 1.57079 vive_tmp vive_world 100" />
-      <node machine="$(arg target)" pkg="vive_tracker" name="vive_tracker" type="vive_tracker.py" output="screen"/>
+      <node machine="$(arg target)" pkg="s4_vive" name="vive_bridge" type="vive_bridge.py" output="screen"/>
     </group>
     <group ns="controller0" unless="$(eval c0_name == '')">
         <node pkg="tf" type="static_transform_publisher" name="tf_overlap" args="0.0 0.0 0 0.0 0.0 0 $(arg c0_name) $(arg unit)/controller0/body_link 100" />
