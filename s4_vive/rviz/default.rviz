@@ -3,7 +3,9 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /TF1
+        - /TF1/Frames1
       Splitter Ratio: 0.812680125
     Tree Height: 565
   - Class: rviz/Selection
@@ -50,37 +52,15 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: false
+        All Enabled: true
         LHB_0EBE06C5:
           Value: true
-        LHR_8ED3A411:
-          Value: false
-        LHR_FD5964F8:
-          Value: false
-        LHR_FFD71F43:
-          Value: false
         LHR_FFF91D43:
-          Value: false
-        share/vive0/controller0/body_link:
-          Value: false
-        share/vive0/controller0/goal_link:
-          Value: false
-        share/vive0/controller0/pointer_link:
           Value: true
-        share/vive0/controller1/body_link:
-          Value: false
-        share/vive0/controller1/pointer_link:
+        vive_tmp:
           Value: true
-        share/vive0/tracker0/body_link:
-          Value: true
-        share/vive0/tracker0/tracking_link:
-          Value: false
-        share/vive0/tracker1/body_link:
-          Value: true
-        share/vive0/tracker1/tracking_link:
-          Value: false
         vive_world:
-          Value: false
+          Value: true
         world:
           Value: true
       Marker Scale: 1
@@ -90,27 +70,12 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          share/vive0/controller0/goal_link:
-            {}
-          vive_world:
-            LHB_0EBE06C5:
-              {}
-            LHR_8ED3A411:
-              share/vive0/tracker0/body_link:
-                share/vive0/tracker0/tracking_link:
-                  {}
-            LHR_FD5964F8:
-              share/vive0/tracker1/body_link:
-                share/vive0/tracker1/tracking_link:
-                  {}
-            LHR_FFD71F43:
-              share/vive0/controller1/body_link:
-                share/vive0/controller1/pointer_link:
-                  {}
-            LHR_FFF91D43:
-              share/vive0/controller0/body_link:
-                share/vive0/controller0/pointer_link:
-                  {}
+          vive_tmp:
+            vive_world:
+              LHB_0EBE06C5:
+                {}
+              LHR_FFF91D43:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -123,54 +88,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        vive0/controller0/body_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        vive0/controller0/goal_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        vive0/controller0/pointer_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        vive0/controller1/body_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        vive0/controller1/goal_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        vive0/controller1/pointer_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        vive0/tracker0/body_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        vive0/tracker0/tracking_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        vive0/tracker1/body_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        vive0/tracker1/tracking_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        world:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
       Name: RobotModel
       Robot Description: share/robot_description
       TF Prefix: share
@@ -182,7 +99,7 @@ Visualization Manager:
       Marker Topic: /share/vive0/controller0/marker
       Name: Marker
       Namespaces:
-        basic_shapes: true
+        {}
       Queue Size: 100
       Value: true
   Enabled: true

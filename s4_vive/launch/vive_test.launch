@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <machine name="OptiPlex-9010" address="OptiPlex-9010" env-loader="/home/erio/catkin_ws/devel/env.sh" user="erio" password="419000"/>
+  <arg name="target" default="OptiPlex-9010"/>
+  <arg name="vive_tf_dynamic" default="false"/>
+  <arg name="vive_tf_static" default="0 0 0 0 0 0"/>
+
+  <group if="$(arg vive_tf_dynamic)">
+    <node name="dinamic_tf_world" pkg="s4_vive" type="s4_vive_dynamic_transform">
+      <param name="source_frame" value="world"/>
+      <param name="target_frame" value="vive_tmp"/>
+    </node>
+    <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure"/>
+  </group>
+  <group unless="$(arg vive_tf_dynamic)">
+    <node pkg="tf" type="static_transform_publisher" name="vive_world" args="$(arg vive_tf_static) world vive_tmp 100" />
+  </group>
+
+  <node pkg="tf" type="static_transform_publisher" name="vive_tmp" args="0.0 0.0 0.0 0.0 0.0 1.57079 vive_tmp vive_world 100" />
+  <node machine="$(arg target)" pkg="vive_tracker" name="vive_tracker" type="vive_tracker.py" output="screen"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_vive)/rviz/default.rviz" required="true" />
+</launch>

@@ -2,7 +2,7 @@
 <launch>
     <arg name="robot" default="default_robot"/>
     <arg name="target" default="sim"/>
-	<arg name="vive" default="sim"/>
+	<arg name="vive" default="OptiPlex-9010"/><!-- sim -->
 
     <group ns="share">
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/single_robot.rviz" required="true" />
@@ -39,6 +39,8 @@
 	<include file="$(find s4_vive)/launch/vive_spawn.launch" >
 		<arg name="target" value="$(arg vive)"/>
 		<arg name="unit"   value="vive0"/>
+		<arg name="vive_tf_dynamic" value="false"/>
+		<arg name="vive_tf_static"  value="0.8 0 -2.47 -2.7 0 0"/>
 		<arg name="c0_name" value="LHR_FFF91D43"/>
 		<arg name="c1_name" value="LHR_FFD71F43"/>
 		<arg name="t0_name" value="LHR_8ED3A411"/>
