@@ -41,12 +41,14 @@ geometry_msgs::Pose get_relative(geometry_msgs::Pose target){
 
 bool move_enable;
 geometry_msgs::Pose move_pose;
+int published_timer=0;
 void pose_callback(const geometry_msgs::Pose& pose_msg){
 	move_pose=pose_msg;
 	move_enable=true;
 	//geometry_msgs::Pose tmp=get_relative(pose_msg);
 	geometry_msgs::Pose tmp=pose_msg;
 	printf("x:%f, y:%f\n",tmp.position.x,tmp.position.y);
+	published_timer=0;
 }
 
 int main(int argc, char **argv){
@@ -54,14 +56,18 @@ int main(int argc, char **argv){
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
 	pn.getParam("target_frame", target_frame);
-	
+
+	bool slow_start=false;
+	pn.getParam("slow_start", slow_start);
+	geometry_msgs::Twist cmd_vel_last;
+
 	//publisher
 	ros::Publisher move_twist_pub  = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
  
 	//subscriber
 	ros::Subscriber pose_sub   = n.subscribe("pose", 10, pose_callback); 
 
-	ros::Rate loop_rate(10); 
+	ros::Rate loop_rate(20); 
 	while (ros::ok()){
 		if(move_enable){
 			geometry_msgs::Pose relative_pose=get_relative(move_pose);
@@ -95,7 +101,36 @@ int main(int argc, char **argv){
 					ROS_INFO("roll");
 				}
 			}
-			move_twist_pub.publish(command);
+			if(slow_start){//slow
+				float diff_last=sqrt(cmd_vel_last.linear.x*cmd_vel_last.linear.x+cmd_vel_last.linear.y*cmd_vel_last.linear.y);
+				float diff_command=sqrt(cmd_vel_last.linear.x*cmd_vel_last.linear.x+cmd_vel_last.linear.y*cmd_vel_last.linear.y);
+
+				float diff_x=command.linear.x-cmd_vel_last.linear.x;
+				float diff_y=command.linear.y-cmd_vel_last.linear.y;
+				float diff_s=sqrt(diff_x*diff_x+diff_y*diff_y);
+				
+				float alpha=1.0;
+				if(published_timer<7)alpha=0.2;
+				else if(published_timer<12)alpha=0.9;
+				else alpha=1.0;
+				published_timer++;
+
+				command.linear.x=alpha*command.linear.x+(1-alpha)*cmd_vel_last.linear.x;
+				command.linear.y=alpha*command.linear.y+(1-alpha)*cmd_vel_last.linear.y;
+				move_twist_pub.publish(command);
+				cmd_vel_last=command;
+			}
+			else{
+				move_twist_pub.publish(command);
+			}
+		}
+		else{//!move_enable
+			cmd_vel_last.linear.x=0.0;
+			cmd_vel_last.linear.y=0.0;
+			cmd_vel_last.linear.z=0.0;
+			cmd_vel_last.angular.x=0.0;
+			cmd_vel_last.angular.y=0.0;
+			cmd_vel_last.angular.z=0.0;
 		}
 
 	

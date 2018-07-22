@@ -8,7 +8,7 @@
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/single_robot.rviz" required="true" />
 		<node name="joy_node"  pkg="joy" type="joy_node" />
 
-		<node name="s4_operate_vive_control"  pkg="s4_operate" type="s4_operate_vive_control" >
+		<node name="s4_operate_vive_control0"  pkg="s4_operate" type="s4_operate_vive_control" >
             <param name="goal_frame" value="vive0/controller0/goal_link"/>
 			<param name="pointer_frame" value="vive0/controller0/pointer_link"/>
 			<remap from="joy" to="/vive0/controller0/joy" />
@@ -17,6 +17,23 @@
 			<remap from="laser" to="/$(arg robot)/gun0/laser" />
 			<remap from="shot" to="/$(arg robot)/gun0/shot" />
         </node>
+
+		<node name="s4_operate_vive_control1"  pkg="s4_operate" type="s4_operate_vive_control" >
+            <param name="goal_frame" value="vive0/controller1/goal_link"/>
+			<param name="pointer_frame" value="vive0/controller1/pointer_link"/>
+			<remap from="joy" to="/vive0/controller1/joy" />
+			<remap from="pose" to="/$(arg robot)/omni0/pose" />
+			<remap from="target" to="/$(arg robot)/gun0/aim_target" />
+			<remap from="laser" to="/$(arg robot)/gun0/laser" />
+			<remap from="shot" to="/$(arg robot)/gun0/shot" />
+        </node>
+
+		<node name="s4_operate_manual"  pkg="s4_operate" type="s4_operate_manual" >
+			<remap from="cmd_vel" to="/$(arg robot)/omni0/cmd_vel" />
+			<remap from="aim_vel" to="/$(arg robot)/gun0/aim_vel" />
+			<remap from="laser"   to="/$(arg robot)/gun0/laser" />
+			<remap from="shot"    to="/$(arg robot)/gun0/shot" />
+		</node>
 
 		<group if="$(eval target=='remote1')">
 			<node pkg="tf" type="static_transform_publisher" name="tf_overlap" args="0.0 0.0 0 0.0 0.0 0 vive0/tracker0/tracking_link $(arg robot)/base_link 100" />

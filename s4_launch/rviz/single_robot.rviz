@@ -449,6 +449,8 @@ Visualization Manager:
           Value: true
         vive0/controller1/body_link:
           Value: true
+        vive0/controller1/goal_link:
+          Value: true
         vive0/controller1/pointer_link:
           Value: true
         vive0/tracker0/body_link:
@@ -474,13 +476,107 @@ Visualization Manager:
         world:
           vive0/controller0/goal_link:
             {}
+          vive0/controller1/goal_link:
+            {}
           vive_tmp:
             vive_world:
               LHB_0EBE06C5:
                 {}
-              LHR_FD5964F8:
-                vive0/tracker1/body_link:
-                  vive0/tracker1/tracking_link:
+              LHR_8ED3A411:
+                vive0/tracker0/body_link:
+                  vive0/tracker0/tracking_link:
+                    default_robot/base_link:
+                      default_robot/body0/body_link:
+                        default_robot/body0/battery_link:
+                          {}
+                        default_robot/body0/bridge_link:
+                          default_robot/body0/camera_link:
+                            {}
+                      default_robot/gun0/base1_link:
+                        default_robot/gun0/base2_link:
+                          default_robot/gun0/gun_link:
+                            default_robot/gun0/laser_link:
+                              {}
+                      default_robot/gun0/gun_standard:
+                        {}
+                      default_robot/hitsensor0/target0/frame_link:
+                        default_robot/hitsensor0/target0/plate_link:
+                          {}
+                      default_robot/hitsensor0/target1/frame_link:
+                        default_robot/hitsensor0/target1/plate_link:
+                          {}
+                      default_robot/hitsensor0/target2/frame_link:
+                        default_robot/hitsensor0/target2/plate_link:
+                          {}
+                      default_robot/omni0/wheel0/housing_link:
+                        default_robot/omni0/wheel0/barrel_1_link:
+                          {}
+                        default_robot/omni0/wheel0/barrel_2_link:
+                          {}
+                        default_robot/omni0/wheel0/barrel_3_link:
+                          {}
+                        default_robot/omni0/wheel0/barrel_4_link:
+                          {}
+                        default_robot/omni0/wheel0/housing_s_link:
+                          default_robot/omni0/wheel0/barrel_5_link:
+                            {}
+                          default_robot/omni0/wheel0/barrel_6_link:
+                            {}
+                          default_robot/omni0/wheel0/barrel_7_link:
+                            {}
+                          default_robot/omni0/wheel0/barrel_8_link:
+                            {}
+                      default_robot/omni0/wheel0/motor_link:
+                        {}
+                      default_robot/omni0/wheel0/motor_mount_link:
+                        {}
+                      default_robot/omni0/wheel1/housing_link:
+                        default_robot/omni0/wheel1/barrel_1_link:
+                          {}
+                        default_robot/omni0/wheel1/barrel_2_link:
+                          {}
+                        default_robot/omni0/wheel1/barrel_3_link:
+                          {}
+                        default_robot/omni0/wheel1/barrel_4_link:
+                          {}
+                        default_robot/omni0/wheel1/housing_s_link:
+                          default_robot/omni0/wheel1/barrel_5_link:
+                            {}
+                          default_robot/omni0/wheel1/barrel_6_link:
+                            {}
+                          default_robot/omni0/wheel1/barrel_7_link:
+                            {}
+                          default_robot/omni0/wheel1/barrel_8_link:
+                            {}
+                      default_robot/omni0/wheel1/motor_link:
+                        {}
+                      default_robot/omni0/wheel1/motor_mount_link:
+                        {}
+                      default_robot/omni0/wheel2/housing_link:
+                        default_robot/omni0/wheel2/barrel_1_link:
+                          {}
+                        default_robot/omni0/wheel2/barrel_2_link:
+                          {}
+                        default_robot/omni0/wheel2/barrel_3_link:
+                          {}
+                        default_robot/omni0/wheel2/barrel_4_link:
+                          {}
+                        default_robot/omni0/wheel2/housing_s_link:
+                          default_robot/omni0/wheel2/barrel_5_link:
+                            {}
+                          default_robot/omni0/wheel2/barrel_6_link:
+                            {}
+                          default_robot/omni0/wheel2/barrel_7_link:
+                            {}
+                          default_robot/omni0/wheel2/barrel_8_link:
+                            {}
+                      default_robot/omni0/wheel2/motor_link:
+                        {}
+                      default_robot/omni0/wheel2/motor_mount_link:
+                        {}
+              LHR_FFD71F43:
+                vive0/controller1/body_link:
+                  vive0/controller1/pointer_link:
                     {}
               LHR_FFF91D43:
                 vive0/controller0/body_link:
@@ -608,6 +704,22 @@ Visualization Manager:
       Name: OverlayMenu
       Topic: /share/arm_info
       Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /vive0/controller0/marker
+      Name: Marker
+      Namespaces:
+        basic_shapes: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /vive0/controller1/marker
+      Name: Marker
+      Namespaces:
+        basic_shapes: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -633,7 +745,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.09627295
+      Distance: 3.65590668
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -648,10 +760,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.32039851
+      Pitch: -0.0346014276
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.435405433
+      Yaw: 1.10040486
     Saved: ~
 Window Geometry:
   Displays:

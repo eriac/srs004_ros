@@ -1,6 +1,8 @@
 #include "ros/ros.h"
   
 #include "math.h"
+#include "std_msgs/Empty.h"
+#include "std_msgs/Bool.h"
 #include "std_msgs/Int32.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/String.h"
@@ -39,10 +41,18 @@
 float input[6]={0};
 ros::Publisher move_twist_pub;
 ros::Publisher gun_twist_pub;
-ros::Publisher gun_command_pub;
+ros::Publisher gun_shot_pub;
+ros::Publisher gun_laser_pub;
 ros::Publisher zoom_pub;
 ros::Publisher light_pub;
 ros::Publisher hit_reset_pub;
+
+bool use_arm=false;
+
+ros::Time arm_time=ros::Time(0);
+void arm_callback(const std_msgs::Empty& empty_msg){
+	arm_time=ros::Time::now();
+}
 
 void joy_callback(const sensor_msgs::Joy& joy_msg){
 	bool b_push[PS3_Button_Max]={0};
@@ -58,11 +68,11 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 
 	//move
 	geometry_msgs::Twist twist_data;
-	float linear_gain=0.2;
-	float angular_gain=0.6;
+	float linear_gain=0.4;
+	float angular_gain=1.5;
 	if(joy_msg.buttons[PS3_L3]){
-		linear_gain=1.0;
-		angular_gain=1.0;
+		linear_gain=0.7;
+		angular_gain=2.0;
 	}
 	if(!joy_msg.buttons[PS3_L1]){
 		twist_data.linear.x =linear_gain* joy_msg.axes[1];
@@ -84,20 +94,20 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 	gun_twist_pub.publish(twist_gdata);
 
 	if(joy_msg.buttons[PS3_R1] && b_push[PS3_cross]){
-		std_msgs::String command_data;
-		command_data.data="shot";
-		gun_command_pub.publish(command_data);
+		std_msgs::Int32 shot_data;
+		shot_data.data=3;
+		gun_shot_pub.publish(shot_data);
 	}
 
 	if(b_push[PS3_R1]){
-		std_msgs::String command_data;
-		command_data.data="laser_on";
-		gun_command_pub.publish(command_data);
+		std_msgs::Bool laser_data;
+		laser_data.data=true;
+		gun_laser_pub.publish(laser_data);
 	}	
 	if(b_push[PS3_Right]){
-		std_msgs::String command_data;
-		command_data.data="laser_off";
-		gun_command_pub.publish(command_data);
+		std_msgs::Bool laser_data;
+		laser_data.data=false;
+		gun_laser_pub.publish(laser_data);
 	}	
 
 	//camera
@@ -138,15 +148,19 @@ int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "s4_operate_manual");
 	ros::NodeHandle n;
+	ros::NodeHandle pn("~");
+	pn.getParam("use_arm", use_arm);
 	
-	move_twist_pub  = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000); 
-	gun_twist_pub   = n.advertise<geometry_msgs::Twist>("aim_vel", 1000); 
-	gun_command_pub = n.advertise<std_msgs::String>("gun_command", 1000); 
-	zoom_pub        = n.advertise<std_msgs::Int32>("camera_zoom", 1000);
-	light_pub       = n.advertise<std_msgs::Float32>("light", 1000);
-	hit_reset_pub   = n.advertise<std_msgs::Float32>("hit_reset", 1000);
+	move_twist_pub  = n.advertise<geometry_msgs::Twist>("cmd_vel", 10);
+	gun_twist_pub   = n.advertise<geometry_msgs::Twist>("aim_vel", 10);
+	gun_laser_pub = n.advertise<std_msgs::Bool>("laser", 10);
+	gun_shot_pub = n.advertise<std_msgs::Int32>("shot", 10);
+	zoom_pub        = n.advertise<std_msgs::Int32>("camera_zoom", 10);
+	light_pub       = n.advertise<std_msgs::Float32>("light", 10);
+	hit_reset_pub   = n.advertise<std_msgs::Float32>("hit_reset", 10);
 
 	ros::Subscriber joy_sub   = n.subscribe("joy", 10, joy_callback); 
+	ros::Subscriber arm_sub   = n.subscribe("arm", 10, arm_callback); 
 
 	ros::Rate loop_rate(50); 
 	while (ros::ok()){		

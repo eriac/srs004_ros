@@ -20,6 +20,7 @@
         </node>
         <node name="s4_omni_pose_move" pkg="s4_omni" type="s4_omni_pose_move" > 
 		    <param name="target_frame" value="$(arg ns)/base_link" />
+            <param name="slow_start" value="true" />
         </node>
 
         <group unless="$(eval target == 'sim')">
