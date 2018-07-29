@@ -94,9 +94,11 @@ void joy_callback(const sensor_msgs::Joy& joy_msg){
 	gun_twist_pub.publish(twist_gdata);
 
 	if(joy_msg.buttons[PS3_R1] && b_push[PS3_cross]){
-		std_msgs::Int32 shot_data;
-		shot_data.data=3;
-		gun_shot_pub.publish(shot_data);
+		if(ros::Time::now() < arm_time+ros::Duration(20.0)){
+			std_msgs::Int32 shot_data;
+			shot_data.data=3;
+			gun_shot_pub.publish(shot_data);
+		}
 	}
 
 	if(b_push[PS3_R1]){

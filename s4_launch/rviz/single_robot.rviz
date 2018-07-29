@@ -3,8 +3,9 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
-      Splitter Ratio: 0.611111104
+      Expanded:
+        - /TF1/Frames1
+      Splitter Ratio: 0.648414969
     Tree Height: 459
   - Class: rviz/Selection
     Name: Selection
@@ -441,7 +442,113 @@ Visualization Manager:
           Value: false
         default_robot/omni0/wheel2/motor_mount_link:
           Value: false
+        sub_robot/base_link:
+          Value: true
+        sub_robot/body0/battery_link:
+          Value: false
+        sub_robot/body0/body_link:
+          Value: false
+        sub_robot/body0/bridge_link:
+          Value: false
+        sub_robot/body0/camera_link:
+          Value: false
+        sub_robot/gun0/base1_link:
+          Value: false
+        sub_robot/gun0/base2_link:
+          Value: false
+        sub_robot/gun0/gun_link:
+          Value: false
+        sub_robot/gun0/gun_standard:
+          Value: false
+        sub_robot/gun0/laser_link:
+          Value: false
+        sub_robot/hitsensor0/target0/frame_link:
+          Value: false
+        sub_robot/hitsensor0/target0/plate_link:
+          Value: false
+        sub_robot/hitsensor0/target1/frame_link:
+          Value: false
+        sub_robot/hitsensor0/target1/plate_link:
+          Value: false
+        sub_robot/hitsensor0/target2/frame_link:
+          Value: false
+        sub_robot/hitsensor0/target2/plate_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_1_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_2_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_3_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_4_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_5_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_6_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_7_link:
+          Value: false
+        sub_robot/omni0/wheel0/barrel_8_link:
+          Value: false
+        sub_robot/omni0/wheel0/housing_link:
+          Value: false
+        sub_robot/omni0/wheel0/housing_s_link:
+          Value: false
+        sub_robot/omni0/wheel0/motor_link:
+          Value: false
+        sub_robot/omni0/wheel0/motor_mount_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_1_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_2_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_3_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_4_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_5_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_6_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_7_link:
+          Value: false
+        sub_robot/omni0/wheel1/barrel_8_link:
+          Value: false
+        sub_robot/omni0/wheel1/housing_link:
+          Value: false
+        sub_robot/omni0/wheel1/housing_s_link:
+          Value: false
+        sub_robot/omni0/wheel1/motor_link:
+          Value: false
+        sub_robot/omni0/wheel1/motor_mount_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_1_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_2_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_3_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_4_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_5_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_6_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_7_link:
+          Value: false
+        sub_robot/omni0/wheel2/barrel_8_link:
+          Value: false
+        sub_robot/omni0/wheel2/housing_link:
+          Value: false
+        sub_robot/omni0/wheel2/housing_s_link:
+          Value: false
+        sub_robot/omni0/wheel2/motor_link:
+          Value: false
+        sub_robot/omni0/wheel2/motor_mount_link:
+          Value: false
         vive0/controller0/body_link:
+          Value: true
+        vive0/controller0/camera_link:
           Value: true
         vive0/controller0/goal_link:
           Value: true
@@ -574,6 +681,98 @@ Visualization Manager:
                         {}
                       default_robot/omni0/wheel2/motor_mount_link:
                         {}
+              LHR_FD5964F8:
+                vive0/tracker1/body_link:
+                  vive0/tracker1/tracking_link:
+                    sub_robot/base_link:
+                      sub_robot/body0/body_link:
+                        sub_robot/body0/battery_link:
+                          {}
+                        sub_robot/body0/bridge_link:
+                          sub_robot/body0/camera_link:
+                            {}
+                      sub_robot/gun0/base1_link:
+                        sub_robot/gun0/base2_link:
+                          sub_robot/gun0/gun_link:
+                            sub_robot/gun0/laser_link:
+                              {}
+                      sub_robot/gun0/gun_standard:
+                        {}
+                      sub_robot/hitsensor0/target0/frame_link:
+                        sub_robot/hitsensor0/target0/plate_link:
+                          {}
+                      sub_robot/hitsensor0/target1/frame_link:
+                        sub_robot/hitsensor0/target1/plate_link:
+                          {}
+                      sub_robot/hitsensor0/target2/frame_link:
+                        sub_robot/hitsensor0/target2/plate_link:
+                          {}
+                      sub_robot/omni0/wheel0/housing_link:
+                        sub_robot/omni0/wheel0/barrel_1_link:
+                          {}
+                        sub_robot/omni0/wheel0/barrel_2_link:
+                          {}
+                        sub_robot/omni0/wheel0/barrel_3_link:
+                          {}
+                        sub_robot/omni0/wheel0/barrel_4_link:
+                          {}
+                        sub_robot/omni0/wheel0/housing_s_link:
+                          sub_robot/omni0/wheel0/barrel_5_link:
+                            {}
+                          sub_robot/omni0/wheel0/barrel_6_link:
+                            {}
+                          sub_robot/omni0/wheel0/barrel_7_link:
+                            {}
+                          sub_robot/omni0/wheel0/barrel_8_link:
+                            {}
+                      sub_robot/omni0/wheel0/motor_link:
+                        {}
+                      sub_robot/omni0/wheel0/motor_mount_link:
+                        {}
+                      sub_robot/omni0/wheel1/housing_link:
+                        sub_robot/omni0/wheel1/barrel_1_link:
+                          {}
+                        sub_robot/omni0/wheel1/barrel_2_link:
+                          {}
+                        sub_robot/omni0/wheel1/barrel_3_link:
+                          {}
+                        sub_robot/omni0/wheel1/barrel_4_link:
+                          {}
+                        sub_robot/omni0/wheel1/housing_s_link:
+                          sub_robot/omni0/wheel1/barrel_5_link:
+                            {}
+                          sub_robot/omni0/wheel1/barrel_6_link:
+                            {}
+                          sub_robot/omni0/wheel1/barrel_7_link:
+                            {}
+                          sub_robot/omni0/wheel1/barrel_8_link:
+                            {}
+                      sub_robot/omni0/wheel1/motor_link:
+                        {}
+                      sub_robot/omni0/wheel1/motor_mount_link:
+                        {}
+                      sub_robot/omni0/wheel2/housing_link:
+                        sub_robot/omni0/wheel2/barrel_1_link:
+                          {}
+                        sub_robot/omni0/wheel2/barrel_2_link:
+                          {}
+                        sub_robot/omni0/wheel2/barrel_3_link:
+                          {}
+                        sub_robot/omni0/wheel2/barrel_4_link:
+                          {}
+                        sub_robot/omni0/wheel2/housing_s_link:
+                          sub_robot/omni0/wheel2/barrel_5_link:
+                            {}
+                          sub_robot/omni0/wheel2/barrel_6_link:
+                            {}
+                          sub_robot/omni0/wheel2/barrel_7_link:
+                            {}
+                          sub_robot/omni0/wheel2/barrel_8_link:
+                            {}
+                      sub_robot/omni0/wheel2/motor_link:
+                        {}
+                      sub_robot/omni0/wheel2/motor_mount_link:
+                        {}
               LHR_FFD71F43:
                 vive0/controller1/body_link:
                   vive0/controller1/pointer_link:
@@ -581,7 +780,8 @@ Visualization Manager:
               LHR_FFF91D43:
                 vive0/controller0/body_link:
                   vive0/controller0/pointer_link:
-                    {}
+                    vive0/controller0/camera_link:
+                      {}
       Update Interval: 0
       Value: true
     - Class: rviz/MarkerArray
@@ -589,7 +789,7 @@ Visualization Manager:
       Marker Topic: /default_robot/omni0/marker_array
       Name: MarkerArray
       Namespaces:
-        {}
+        basic_shapes: true
       Queue Size: 100
       Value: true
     - Class: jsk_rviz_plugin/PieChart
@@ -611,22 +811,6 @@ Visualization Manager:
       size: 128
       text size: 14
       top: 10
-    - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-      Name: RobotModel
-      Robot Description: share/robot_description
-      TF Prefix: share
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /share/vive0/controller0/marker
@@ -720,6 +904,295 @@ Visualization Manager:
         basic_shapes: true
       Queue Size: 100
       Value: true
+    - Background Color: 0; 0; 0
+      Camera Info Topic: /camera1/camera_info
+      Class: rviz_camera_stream/CameraPub
+      Display namespace: ""
+      Enabled: true
+      Frame Rate: -1
+      Image Topic: /camera1/image_raw
+      Name: CameraPub
+      Queue Size: 2
+      Value: true
+      Visibility:
+        Grid: true
+        Marker: true
+        MarkerArray: true
+        OverlayMenu: true
+        RobotModel: true
+        TF: true
+        Value: true
+        Voltage: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        body0/battery_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        body0/body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        body0/bridge_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        body0/camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gun0/base1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gun0/base2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gun0/gun_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gun0/gun_standard:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        gun0/laser_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        hitsensor0/target0/frame_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitsensor0/target0/plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitsensor0/target1/frame_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitsensor0/target1/plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitsensor0/target2/frame_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hitsensor0/target2/plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_4_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_6_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_7_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/barrel_8_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/housing_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/housing_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        omni0/wheel0/motor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel0/motor_mount_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_4_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_6_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_7_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/barrel_8_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/housing_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/housing_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        omni0/wheel1/motor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel1/motor_mount_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_4_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_6_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_7_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/barrel_8_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/housing_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/housing_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        omni0/wheel2/motor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        omni0/wheel2/motor_mount_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: sub_robot/robot_description
+      TF Prefix: sub_robot
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -745,25 +1218,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.65590668
+      Distance: 2.35096359
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.00715580024
-        Y: -1.30188811
-        Z: 0.492383778
+        X: 0.133094475
+        Y: -0.533823252
+        Z: 0.233023882
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: -0.0346014276
+      Pitch: 0.395398587
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.10040486
+      Yaw: 4.96359062
     Saved: ~
 Window Geometry:
   Displays:

@@ -2,6 +2,7 @@
 <launch>
     <arg name="robot" default="default_robot"/>
     <arg name="target" default="sim"/>
+    <arg name="sub_target" default="sim"/>
 	<arg name="vive" default="OptiPlex-9010"/><!-- sim -->
 
     <group ns="share">
@@ -37,9 +38,11 @@
 
 		<group if="$(eval target=='remote1')">
 			<node pkg="tf" type="static_transform_publisher" name="tf_overlap" args="0.0 0.0 0 0.0 0.0 0 vive0/tracker0/tracking_link $(arg robot)/base_link 100" />
+			<node pkg="tf" type="static_transform_publisher" name="tf_overlap_sub" args="0.0 0.0 0 0.0 0.0 0 vive0/tracker1/tracking_link sub_robot/base_link 100" />
 		</group>
 		<group if="$(eval target=='remote2')">
 			<node pkg="tf" type="static_transform_publisher" name="tf_overlap" args="0.0 0.0 0 0.0 0.0 0 vive0/tracker1/tracking_link $(arg robot)/base_link 100" />
+			<node pkg="tf" type="static_transform_publisher" name="tf_overlap_sub" args="0.0 0.0 0 0.0 0.0 0 vive0/tracker0/tracking_link sub_robot/base_link 100" />
 		</group>
     </group>
 
@@ -51,6 +54,11 @@
 	<include file="$(find s4_system)/launch/srs004_spawn.launch" >
 		<arg name="robot"  value="$(arg robot)"/>
 		<arg name="target" value="$(arg target)"/>
+	</include>
+
+	<include file="$(find s4_system)/launch/srs004_spawn.launch" >
+		<arg name="robot"  value="sub_robot"/>
+		<arg name="target" value="$(arg sub_target)"/>
 	</include>
 
 	<include file="$(find s4_vive)/launch/vive_spawn.launch" >
