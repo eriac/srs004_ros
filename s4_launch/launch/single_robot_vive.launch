@@ -44,7 +44,7 @@
     </group>
 
     <rosparam>
-        default_robot/gun0/s4_gun_aim_phycon/y_ajust: 0.16
+        default_robot/gun0/s4_gun_aim_phycon/y_ajust:  0.07
         default_robot/gun0/s4_gun_aim_phycon/z_ajust: -0.13
     </rosparam>
 
@@ -57,12 +57,21 @@
 		<arg name="target" value="$(arg vive)"/>
 		<arg name="unit"   value="vive0"/>
 		<arg name="vive_tf_dynamic" value="false"/>
-		<arg name="vive_tf_static"  value="0.4 0.6 -1.59 -0.6 0 0"/>
+		<arg name="vive_tf_static"  value="0 0 0 0 0 0"/>
 		<arg name="c0_name" value="LHR_FFF91D43"/>
 		<arg name="c1_name" value="LHR_FFD71F43"/>
 		<arg name="t0_name" value="LHR_8ED3A411"/>
 		<arg name="t1_name" value="LHR_FD5964F8"/>
 	</include>
+
+	<!-- add -->
+	<group if="$(eval vive=='sim')">
+		<node name="s4_operate_position" pkg="s4_operate" type="s4_operate_position">
+			<param name="base_link"  value="$(arg robot)/base_link" />
+			<param name="world_link" value="world" />
+			<remap from="odm_vel" to="/$(arg robot)/omni0/odm_vel"/>
+		</node>
+	</group>
 
 	<include file="$(find s4_camera)/launch/main.launch" >
 		<arg name="target" value="$(arg target)"/>

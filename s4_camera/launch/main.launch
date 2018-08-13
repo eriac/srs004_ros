@@ -20,7 +20,7 @@
   </group>
 
   <group ns="head_camera" if="$(eval target!='sim')">
-    <node machine="$(arg target)" pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera_node" output="screen">
+    <node machine="$(arg target)" pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera_node" output="screen" >
       <param name="width" value="800"/>
       <param name="height" value="600"/>
       <param name="fps" value="10"/>
