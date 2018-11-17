@@ -1,0 +1,27 @@
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50  
+
+omni0:
+  wheel0:
+    type: effort_controllers/JointVelocityController
+    joint: omni0/wheel0/wheel_joint
+    pid: {p: 4, i: 0.01, d: 0, i_clamp: 1}
+  wheel1:
+    type: effort_controllers/JointVelocityController
+    joint: omni0/wheel1/wheel_joint
+    pid: {p: 4, i: 0.01, d: 0, i_clamp: 1}
+  wheel2:
+    type: effort_controllers/JointVelocityController
+    joint: omni0/wheel2/wheel_joint
+    pid: {p: 4, i: 0.01, d: 0, i_clamp: 1}
+
+gun0:
+  gun_yaw:
+    type: effort_controllers/JointPositionController
+    joint: gun0/base2_joint
+    pid: {p: 10, i: 0.1, d: 0, i_clamp: 0}
+  gun_pitch:
+    type: effort_controllers/JointPositionController
+    joint: gun0/gun_joint
+    pid: {p: 10, i: 0.1, d: 0, i_clamp: 0}

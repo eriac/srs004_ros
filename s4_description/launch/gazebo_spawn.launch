@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot" default="default_robot"/>
+  <arg name="rvizconfig" default="$(find s4_description)/rviz/default.rviz" />
+
+  <arg name="model" default="$(find s4_description)/xacro/s4_robot.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot) robot:=$(arg robot)" />
+    
+  <group ns="$(arg robot)">
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+      <param name="tf_prefix" value="$(arg robot)"/>
+    </node>
+    <rosparam command="load" file="$(find s4_description)/config/ros_control.yaml" />  
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        args="joint_state_controller omni0/wheel0 omni0/wheel1 omni0/wheel2 gun0/gun_yaw gun0/gun_pitch"/>
+  </group>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+</launch>

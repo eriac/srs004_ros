@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="s4_target" params="prefix parent xyz rpy">
+    <link name="${prefix}/frame_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://s4_description/stl/target_frame.stl" />
+        </geometry>
+        <material name="gray"/>
+      </visual>
+    </link>
+    <joint name="${prefix}/frame_joint" type="fixed"><!--floating-->
+      <parent link="${parent}"/>
+      <child  link="${prefix}/frame_link"/>
+      <origin rpy="${rpy}" xyz="${xyz}"/>
+    </joint>
+
+    <link name="${prefix}/plate_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://s4_description/stl/target_plate.stl" />
+        </geometry>
+        <material name="dark_green"/>
+      </visual>
+    </link>
+    <gazebo reference="${prefix}/plate_link">
+      <material>Gazebo/Green</material>
+    </gazebo>
+    <joint name="${prefix}/plate_joint" type="fixed"><!--floating-->
+      <parent link="${prefix}/frame_link"/>
+      <child  link="${prefix}/plate_link"/>
+      <origin rpy="0 0 0" xyz="0 0 0.06"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="s4_targets" params="prefix parent radius height">
+    <xacro:s4_target  prefix="${prefix}/target0" parent="${parent}" xyz="${radius*cos(pi/3)}   ${radius*sin(pi/3)} ${height}"   rpy="0 0 ${pi/3}" />
+    <xacro:s4_target  prefix="${prefix}/target1" parent="${parent}" xyz="${radius*cos(pi)}     ${radius*sin(pi)} ${height}"     rpy="0 0 ${pi}" />
+    <xacro:s4_target  prefix="${prefix}/target2" parent="${parent}" xyz="${radius*cos(5*pi/3)} ${radius*sin(5*pi/3)} ${height}" rpy="0 0 ${5*pi/3}" />
+  </xacro:macro>
+</robot>

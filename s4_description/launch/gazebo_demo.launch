@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot" default="default_robot"/>
+  <arg name="rvizconfig" default="$(find s4_description)/rviz/default.rviz" />
+
+  <include file="$(find s4_description)/launch/launch_gazebo.launch" />
+  <include file="$(find s4_description)/launch/gazebo_spawn.launch" />
+</launch>
+
