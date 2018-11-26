@@ -2,6 +2,11 @@
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="s4_target" params="prefix parent xyz rpy">
+    <joint name="${prefix}/frame_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child  link="${prefix}/frame_link"/>
+      <origin rpy="${rpy}" xyz="${xyz}"/>
+    </joint>
     <link name="${prefix}/frame_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -11,12 +16,12 @@
         <material name="gray"/>
       </visual>
     </link>
-    <joint name="${prefix}/frame_joint" type="fixed"><!--floating-->
-      <parent link="${parent}"/>
-      <child  link="${prefix}/frame_link"/>
-      <origin rpy="${rpy}" xyz="${xyz}"/>
-    </joint>
 
+    <joint name="${prefix}/plate_joint" type="fixed">
+      <parent link="${prefix}/frame_link"/>
+      <child  link="${prefix}/plate_link"/>
+      <origin rpy="0 0 0" xyz="0 0 0.06"/>
+    </joint>
     <link name="${prefix}/plate_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -29,11 +34,6 @@
     <gazebo reference="${prefix}/plate_link">
       <material>Gazebo/Green</material>
     </gazebo>
-    <joint name="${prefix}/plate_joint" type="fixed"><!--floating-->
-      <parent link="${prefix}/frame_link"/>
-      <child  link="${prefix}/plate_link"/>
-      <origin rpy="0 0 0" xyz="0 0 0.06"/>
-    </joint>
   </xacro:macro>
 
   <xacro:macro name="s4_targets" params="prefix parent radius height">

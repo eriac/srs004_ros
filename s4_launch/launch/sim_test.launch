@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot" default="default_robot"/>
+  <arg name="rvizconfig" default="$(find s4_description)/rviz/default.rviz" />
+
+  <include file="$(find s4_world)/launch/main.launch">
+    <arg name="world_name" value="$(find s4_world)/world/room1.world"/>
+  </include>
+
+  <!-- driver -->
+<!--
+  <include file="$(find s4_description)/launch/launch_gazebo.launch" />
+-->
+  <include file="$(find s4_description)/launch/gazebo_spawn.launch" />
+  <include file="$(find s4_omni)/launch/main.launch" />
+  <include file="$(find s4_tracker)/launch/main.launch" />
+
+  <!-- function -->
+  <include file="$(find s4_operate)/launch/position.launch" />
+
+</launch>

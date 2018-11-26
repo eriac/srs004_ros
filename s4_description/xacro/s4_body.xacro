@@ -18,7 +18,7 @@
         <material name="gray"/>
       </visual>
       <inertial>
-        <mass value="0.130"/>
+        <mass value="0.500"/>
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
       </inertial>  
     </link>
@@ -107,7 +107,7 @@
         <material name="gray"/>
       </visual>
       <inertial>
-        <mass value="0.190"/>
+        <mass value="0.500"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.0001"/>
       </inertial>
     </link>
@@ -200,6 +200,25 @@
       <origin rpy="${radians(180)} 0 ${radians(90)}" xyz="-0.078 0 0.138"/>
     </joint>
     <link name="${prefix}/imu_link" />
+    <gazebo reference="${prefix}/imu_link">
+      <gravity>true</gravity>
+      <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>__default_topic__</topic>
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+          <topicName>${robot}/${prefix}/imu/data</topicName>
+          <bodyName>imu_link</bodyName>
+          <updateRateHZ>10.0</updateRateHZ>
+          <gaussianNoise>0.0</gaussianNoise>
+          <xyzOffset>0 0 0</xyzOffset>
+          <rpyOffset>0 ${radians(180)} ${radians(-90)}</rpyOffset>
+          <frameName>${robot}/${prefix}/imu_link</frameName>
+        </plugin>
+        <pose>0 0 0 0 0 0</pose>
+      </sensor>
+    </gazebo>
 
   </xacro:macro>
 </robot>

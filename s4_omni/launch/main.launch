@@ -2,9 +2,9 @@
 <launch>
     <arg name="target" default="sim"/>
     <arg name="ns" default=""/>
-    <arg name="unit" default=""/>
+    <arg name="unit" default="omni0"/>
 
-    <group ns="$(arg unit)">
+    <group ns="/default_robot/$(arg unit)">
         <node name="s4_omni_commander" pkg="s4_omni" type="s4_omni_commander" output="screen">
             <param name="wheel_base" value="0.0972"/>
             <param name="wheel_radius" value="0.019"/>
@@ -14,7 +14,18 @@
             <param name="wheel1" value="$(eval 3.1415)"/>
             <param name="wheel2" value="$(eval 5*3.1415/3)"/>
         </node>
-        
+
+        <node name="s4_omni_odom" pkg="s4_omni" type="s4_omni_odom" output="screen">
+            <remap from="joint_states" to="/$(arg ns)/joint_states"/>
+            <param name="wheel_base" value="0.0972"/>
+            <param name="wheel_radius" value="0.019"/>
+            <param name="frame_id" value="/default_robot/odom"/>
+            <param name="joint0_name" value="$(arg unit)/wheel0/housing_joint"/>
+            <param name="joint1_name" value="$(arg unit)/wheel1/housing_joint"/>
+            <param name="joint2_name" value="$(arg unit)/wheel2/housing_joint"/>        
+        </node>
+
+<!--        
         <node name="s4_omni_twist_marker_publisher" pkg="s4_omni" type="s4_omni_twist_marker_publisher">
             <param name="twist_link_name" value="$(arg ns)/base_link"/>
         </node>
@@ -75,6 +86,7 @@
             <param name="joint1_name" value="$(arg unit)/wheel1/housing_joint"/>
             <param name="joint2_name" value="$(arg unit)/wheel2/housing_joint"/>        
         </node>
+-->
     </group>
  </launch>
 

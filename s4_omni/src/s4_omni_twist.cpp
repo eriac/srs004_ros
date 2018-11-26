@@ -1,7 +1,7 @@
 #include "ros/ros.h"
   
 #include "std_msgs/String.h"
-#include "std_msgs/Float32.h"
+#include "std_msgs/Float64.h"
 #include "geometry_msgs/Twist.h"
 
 #include "math.h"
@@ -18,6 +18,7 @@ void twist_callback(const geometry_msgs::Twist& twist_msg){
 
 float wheel_base=0.100;
 float wheel_radius=0.20;
+float publish_rate=20;
 float wheel[3]={M_PI/3, M_PI, 5*M_PI/3};
 float wheel_normal[3];
 
@@ -30,26 +31,27 @@ void calculation(float *out, float *in){
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "omni_driver");
+	ros::init(argc, argv, "s4_omni_twist");
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
 	//rosparam
 	pn.getParam("wheel_base",    wheel_base);
 	pn.getParam("wheel_radius",  wheel_radius);
+	pn.getParam("publish_rate", publish_rate);
 	pn.getParam("wheel0", wheel[0]);
 	pn.getParam("wheel1", wheel[1]);
 	pn.getParam("wheel2", wheel[2]);
 
 	//publish
-	ros::Publisher wheel0_pub = n.advertise<std_msgs::Float32>("wheel0/target", 1000);
-	ros::Publisher wheel1_pub = n.advertise<std_msgs::Float32>("wheel1/target", 1000);
-	ros::Publisher wheel2_pub = n.advertise<std_msgs::Float32>("wheel2/target", 1000);
+	ros::Publisher wheel0_pub = n.advertise<std_msgs::Float64>("wheel0/command", 10);
+	ros::Publisher wheel1_pub = n.advertise<std_msgs::Float64>("wheel1/command", 10);
+	ros::Publisher wheel2_pub = n.advertise<std_msgs::Float64>("wheel2/command", 10);
 	//Subscribe
 	ros::Subscriber joy_sub     = n.subscribe("cmd_vel", 10, twist_callback); 
 
 	for(int i=0;i<3;i++)wheel_normal[i]=wheel[i]-M_PI/2;
 	
-	ros::Rate loop_rate(20); 
+	ros::Rate loop_rate(publish_rate); 
 	while (ros::ok()){
 		if(twist_enable){
 			float in[3]={0};
@@ -58,7 +60,7 @@ int main(int argc, char **argv)
 			in[1]=twist_last.linear.y;
 			in[2]=twist_last.angular.z;
 			calculation(out,in);
-			std_msgs::Float32 data[3];
+			std_msgs::Float64 data[3];
 			data[0].data=out[0];
 			data[1].data=out[1];
 			data[2].data=out[2];

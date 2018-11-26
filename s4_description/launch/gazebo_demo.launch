@@ -1,9 +1,21 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="target" default="localhost"/>
+
+  <machine name="localhost"  address="localhost" />
+  <machine name="remote3" address="remote3" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="OptiPlex-9010" address="OptiPlex-9010" env-loader="/home/erio/catkin_ws/devel/env.sh" user="erio" password="419000"/>
+
   <arg name="robot" default="default_robot"/>
   <arg name="rvizconfig" default="$(find s4_description)/rviz/default.rviz" />
 
-  <include file="$(find s4_description)/launch/launch_gazebo.launch" />
-  <include file="$(find s4_description)/launch/gazebo_spawn.launch" />
+  <include file="$(find s4_description)/launch/launch_gazebo.launch" >
+    <arg name="target" value="$(arg target)"/>
+  </include>
+
+  <include file="$(find s4_description)/launch/gazebo_spawn.launch" >
+    <arg name="target" value="$(arg target)"/>
+  </include>
+
 </launch>
 
