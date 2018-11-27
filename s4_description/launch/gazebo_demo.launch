@@ -13,9 +13,7 @@
     <arg name="target" value="$(arg target)"/>
   </include>
 
-  <include file="$(find s4_description)/launch/gazebo_spawn.launch" >
-    <arg name="target" value="$(arg target)"/>
-  </include>
+  <include file="$(find s4_description)/launch/gazebo_spawn.launch" />
 
 </launch>
 
