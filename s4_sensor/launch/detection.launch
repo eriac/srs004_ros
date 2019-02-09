@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="target" default="sim"/>
+  <arg name="ns" default=""/>
+  <arg name="unit" default="sensor0"/>
+
+  <group ns="/default_robot/$(arg unit)">
+    <!-- color detector -->
+    <group ns="head_camera">
+      <node name="image_republish" pkg="image_transport" type="republish" args="compressed raw">
+        <remap from="in" to="image_raw" />
+        <remap from="out" to="image_exp" />
+      </node>
+      <node name="detector" pkg="s4_sensor" type="coke_detect.py" >
+        <remap from="input_image" to="image_exp" />
+      </node>
+    </group>
+  
+    <!-- obstacle detector -->
+    <group ns="front_laser">
+      <rosparam command="load" file="$(find s4_sensor)/config/obstacle_detector.yaml" />
+      <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node">
+        <remap from="scan" to="/default_robot/sensor0/front_lidar/scan" />
+      </node>
+      <node name="obstacle_tracker" pkg="obstacle_detector" type="obstacle_tracker_node" />
+    </group>
+  </group>
+
+  <!-- merge detector -->
+</launch>
+

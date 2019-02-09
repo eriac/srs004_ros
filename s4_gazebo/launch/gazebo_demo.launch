@@ -9,11 +9,11 @@
   <arg name="robot" default="default_robot"/>
   <arg name="rvizconfig" default="$(find s4_description)/rviz/default.rviz" />
 
-  <include file="$(find s4_description)/launch/launch_gazebo.launch" >
+  <include file="$(find s4_gazebo)/launch/launch_gazebo.launch" >
     <arg name="target" value="$(arg target)"/>
   </include>
 
-  <include file="$(find s4_description)/launch/gazebo_spawn.launch" />
+  <include file="$(find s4_gazebo)/launch/spawn_gazebo.launch" />
 
 </launch>
 

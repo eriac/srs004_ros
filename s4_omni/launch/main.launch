@@ -19,7 +19,7 @@
             <remap from="joint_states" to="/$(arg ns)/joint_states"/>
             <param name="wheel_base" value="0.0972"/>
             <param name="wheel_radius" value="0.019"/>
-            <param name="frame_id" value="/default_robot/odom"/>
+            <param name="frame_id" value="default_robot/odom"/>
             <param name="joint0_name" value="$(arg unit)/wheel0/housing_joint"/>
             <param name="joint1_name" value="$(arg unit)/wheel1/housing_joint"/>
             <param name="joint2_name" value="$(arg unit)/wheel2/housing_joint"/>        

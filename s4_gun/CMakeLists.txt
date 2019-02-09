@@ -229,3 +229,7 @@ add_dependencies(s4_gun_shot_phycon ${catkin_EXPORTED_TARGETS})
 add_executable(s4_gun_shot_sim src/s4_gun_shot_sim.cpp)
 target_link_libraries(s4_gun_shot_sim ${catkin_LIBRARIES})
 
+add_executable(s4_gun_joint_phycon src/s4_gun_joint_phycon.cpp)
+target_link_libraries(s4_gun_joint_phycon ${catkin_LIBRARIES})
+add_dependencies(s4_gun_joint_phycon ${catkin_EXPORTED_TARGETS})
+

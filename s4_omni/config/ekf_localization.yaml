@@ -1,6 +1,6 @@
 frequency: 30
 sensor_timeout: 0.1
-two_d_mode: false
+two_d_mode: true
 transform_time_offset: 0.0
 transform_timeout: 0.0
 print_diagnostics: true
@@ -24,8 +24,8 @@ odom0_nodelay: false
 
 odom0_differential: false
 odom0_relative: false
-odom0_pose_rejection_threshold: 5
-odom0_twist_rejection_threshold: 1
+odom0_pose_rejection_threshold: 10
+odom0_twist_rejection_threshold: 10
 
 #odom1: gazebo tracking
 #odom1: /wheel_robot/tracking/odom
@@ -42,17 +42,17 @@ odom0_twist_rejection_threshold: 1
 #odom1_nodelay: false
 
 #imu0
-imu0: /default_robot/body0/imu/data
-imu0_config: [false, false, false,
-              true,  true,  true,
-              false, false, false,
-              false, false, false,
-              false, false, false]
-imu0_nodelay: false
-imu0_differential: false
-imu0_relative: false
-imu0_queue_size: 5
-imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
-imu0_twist_rejection_threshold: 0.8                #
-imu0_linear_acceleration_rejection_threshold: 0.8  #
-imu0_remove_gravitational_acceleration: true
+#imu0: /default_robot/sensor0/imu/data
+#imu0_config: [false, false, false,
+#              true,  true,  true,
+#              false, false, false,
+#              false, false, false,
+#              false, false, false]
+#imu0_nodelay: false
+#imu0_differential: false
+#imu0_relative: false
+#imu0_queue_size: 5
+#imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
+#imu0_twist_rejection_threshold: 0.8                #
+#imu0_linear_acceleration_rejection_threshold: 0.8  #
+#imu0_remove_gravitational_acceleration: true

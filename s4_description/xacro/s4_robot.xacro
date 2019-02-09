@@ -6,6 +6,7 @@
   <xacro:include filename="$(find s4_description)/xacro/s4_body.xacro"/>
   <xacro:include filename="$(find s4_description)/xacro/s4_omni.xacro"/>
   <xacro:include filename="$(find s4_description)/xacro/s4_gun.xacro"/>
+  <xacro:include filename="$(find s4_description)/xacro/s4_sensor.xacro"/>
   <xacro:include filename="$(find s4_description)/xacro/s4_targets.xacro"/>
 
   <xacro:macro name="s4_robot">
@@ -13,6 +14,7 @@
     <xacro:s4_body      prefix="body0"    parent="base_link" robot="$(arg robot)" pos_z="0.044"/>
     <xacro:s4_omni      prefix="omni0"    parent="base_link" />
     <xacro:s4_gun       prefix="gun0"     parent="base_link" pos_x="0.020" pos_z="0.094" />
+    <xacro:s4_sensor    prefix="sensor0"  parent="base_link" ns="$(arg robot)"/>
     <xacro:s4_targets   prefix="targets0" parent="base_link" radius="0.106" height="0.094"/>
   </xacro:macro>
 

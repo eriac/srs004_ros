@@ -6,15 +6,27 @@ omni0:
   wheel0:
     type: effort_controllers/JointVelocityController
     joint: omni0/wheel0/wheel_joint
-    pid: {p: 1.0, i: 0.2, d: 0, i_clamp: 0.1}
+    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 1.0, antiwindup: true}
   wheel1:
     type: effort_controllers/JointVelocityController
     joint: omni0/wheel1/wheel_joint
-    pid: {p: 1.0, i: 0.2, d: 0, i_clamp: 0.1}
+    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 1.0, antiwindup: true}
   wheel2:
     type: effort_controllers/JointVelocityController
     joint: omni0/wheel2/wheel_joint
-    pid: {p: 1.0, i: 0.2, d: 0, i_clamp: 0.1}
+    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 1.0, antiwindup: true}
+  wheel0_sus:
+    type: effort_controllers/JointPositionController
+    joint: omni0/wheel0/sus_joint
+    pid: {p: 5000, i: 100.0, d: 100, i_clamp: 10.0}
+  wheel1_sus:
+    type: effort_controllers/JointPositionController
+    joint: omni0/wheel1/sus_joint
+    pid: {p: 5000, i: 100.0, d: 100, i_clamp: 10.0}
+  wheel2_sus:
+    type: effort_controllers/JointPositionController
+    joint: omni0/wheel2/sus_joint
+    pid: {p: 5000, i: 100.0, d: 100, i_clamp: 10.0}
 
 gun0:
   gun_yaw:

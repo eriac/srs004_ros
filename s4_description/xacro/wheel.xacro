@@ -40,7 +40,7 @@
     <gazebo reference="${prefix}_link">
       <mu1 value="2.5" />
       <mu2 value="2.5" />
-      <kp value="1000" />
+      <kp value="5000" />
       <kd value="10" />
       <material>Gazebo/Black</material>
     </gazebo>
@@ -64,8 +64,38 @@
   </xacro:macro>
 
   <xacro:macro name="omni_wheel" params="prefix parent radius dir height">
-    <joint name="${prefix}/motor_joint" type="fixed">
+    <joint name="${prefix}/sus_joint" type="prismatic">
       <parent link="${parent}"/>
+      <child  link="${prefix}/sus_link"/>
+      <limit lower="-0.02" upper="0.02" effort="100" velocity="1.0" />
+      <axis xyz="0 0 1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <dynamics damping="0.7"/>
+    </joint>
+    <transmission name="${prefix}/sus_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}/sus_joint">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}/sus_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanismReduction>1</mechanismReduction>
+      </actuator>
+    </transmission>
+    <gazebo reference="${prefix}/sus_joint">
+      <kp>50000</kp>
+      <kd>500</kd>
+    </gazebo>
+    <link name="${prefix}/sus_link">
+      <inertial>
+        <mass value="1.0"/>
+        <origin xyz="0 0 0.25" rpy="0 0 0"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}/motor_joint" type="fixed">
+      <parent link="${prefix}/sus_link"/> 
       <child link="${prefix}/motor_link"/>
       <origin rpy="0 0 ${dir}" xyz="${radius*cos(dir)} ${radius*sin(dir)} ${height}"/>
     </joint>
@@ -82,8 +112,9 @@
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
       </inertial>
       <collision>
+        <origin rpy="0 ${radians(90)} 0" xyz="-0.025 0 0"/>
         <geometry>
-          <mesh filename="package://s4_description/stl/motor.stl" />
+          <cylinder radius="0.012" length="0.05" />
         </geometry>
       </collision>
     </link>
@@ -93,7 +124,7 @@
       <child link="${prefix}/wheel_link"/>
       <origin rpy="0 ${radians(90)} 0" xyz="0.0227 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit velocity="12.0" effort="1.0" />
+      <limit velocity="40.0" effort="3.0" />
       <dynamics damping="0.1"/>
     </joint> 
     <link name="${prefix}/wheel_link">
@@ -121,15 +152,15 @@
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
       </inertial>  
     </link>
-    <xacro:barrel prefix="${prefix}/barrel_1" parent="${prefix}/wheel_link" dir="0"/>
-    <xacro:barrel prefix="${prefix}/barrel_2" parent="${prefix}/wheel_link" dir="${pi/2}"/>
-    <xacro:barrel prefix="${prefix}/barrel_3" parent="${prefix}/wheel_link" dir="${pi}"/>
-    <xacro:barrel prefix="${prefix}/barrel_4" parent="${prefix}/wheel_link" dir="${-pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_0" parent="${prefix}/wheel_link" dir="0"/>
+    <xacro:barrel prefix="${prefix}/barrel_1" parent="${prefix}/wheel_link" dir="${pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_2" parent="${prefix}/wheel_link" dir="${pi}"/>
+    <xacro:barrel prefix="${prefix}/barrel_3" parent="${prefix}/wheel_link" dir="${-pi/2}"/>
 
-    <xacro:barrel prefix="${prefix}/barrel_5" parent="${prefix}/wheel_s_link" dir="0"/>
-    <xacro:barrel prefix="${prefix}/barrel_6" parent="${prefix}/wheel_s_link" dir="${pi/2}"/>
-    <xacro:barrel prefix="${prefix}/barrel_7" parent="${prefix}/wheel_s_link" dir="${pi}"/>
-    <xacro:barrel prefix="${prefix}/barrel_8" parent="${prefix}/wheel_s_link" dir="${-pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_4" parent="${prefix}/wheel_s_link" dir="0"/>
+    <xacro:barrel prefix="${prefix}/barrel_5" parent="${prefix}/wheel_s_link" dir="${pi/2}"/>
+    <xacro:barrel prefix="${prefix}/barrel_6" parent="${prefix}/wheel_s_link" dir="${pi}"/>
+    <xacro:barrel prefix="${prefix}/barrel_7" parent="${prefix}/wheel_s_link" dir="${-pi/2}"/>
 
     <!-- ===============  Transmission =============== -->
     <transmission name="${prefix}/wheel_trans">
@@ -147,12 +178,10 @@
     <gazebo reference="${prefix}/wheel_link">
       <mu1 value="0.8" />
       <mu2 value="0.8" />
-      <material>Gazebo/Gray</material>
     </gazebo>
     <gazebo reference="${prefix}/motor_link">
       <mu1 value="0.8" />
       <mu2 value="0.8" />
-      <material>Gazebo/Gray</material>
     </gazebo>
   </xacro:macro>
 </robot>

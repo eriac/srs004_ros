@@ -1,9 +1,11 @@
 #include "ros/ros.h"
-#include "std_msgs/Float32.h"
+#include "std_msgs/Float64.h"
 #include "s4_comport/CANCode.h"
+#include "control_msgs/JointControllerState.h"
 #include "diagnostic_updater/diagnostic_updater.h"
 
-ros::Publisher  odometry_pub;
+
+ros::Publisher  state_pub;
 ros::Publisher  current_pub;
 ros::Publisher  canlink_pub;
 std::string CAN_CH="";
@@ -11,7 +13,7 @@ int CAN_ID=0;
 float PPR=400;
 int diagnostic_counter=0;
 
-void target_callback(const std_msgs::Float32& float_msg){
+void target_callback(const std_msgs::Float64& float_msg){
 	float target=float_msg.data*PPR/(2*3.14*20);
 	int data=0x1000+(target/2/3.1415*102.1)*0x1000/4000;
 	s4_comport::CANCode cancode;
@@ -29,13 +31,28 @@ void canin_callback(const s4_comport::CANCode& can_msg){
 		if(can_msg.com==1 /*&&can_msg.length==6*/){
 			int temp1=can_msg.data[0]<<24|can_msg.data[1]<<16|can_msg.data[2]<<8|can_msg.data[3]<<0;
 			int temp2=can_msg.data[4]<<8|can_msg.data[5]<<0;
-			float o_data=(temp1-0x10000000)/PPR*2*3.1415;
+			float current_position=(temp1-0x10000000)/PPR*2*3.1415;
 			float c_data=(temp2-0x1000)/256.0;
 
-			std_msgs::Float32 o_msg;
-			o_msg.data=o_data;
-			odometry_pub.publish(o_msg);
-			std_msgs::Float32 c_msg;
+			static ros::Time last_time = ros::Time(0);
+			ros::Time current_time = ros::Time::now();
+			static float last_position = 0;
+
+			control_msgs::JointControllerState state_msg;
+			state_msg.header.stamp=current_time;
+			if(last_time != ros::Time(0)){
+				float position_diff = current_position - last_position;
+				ros::Duration time_diff= current_time - last_time;
+				state_msg.process_value = position_diff / time_diff.toSec();
+				//printf("cp:%f, lp:%f, ct:%f, lt:%f\n", current_position, last_position, current_time.toSec(), last_time.toSec());
+				//printf("dp:%f, dy:%f\n", current_position-last_position, (current_time-last_time).toSec());
+			}
+
+			last_time = current_time;
+			last_position = current_position;
+			state_pub.publish(state_msg);
+
+			std_msgs::Float64 c_msg;
 			c_msg.data=c_data;
 			current_pub.publish(c_msg);
 		}
@@ -62,12 +79,12 @@ int main(int argc, char **argv)
 	pn.getParam("PPR", PPR);
 
 	//publish
-	odometry_pub = n.advertise<std_msgs::Float32>("odometry", 1000);
-	current_pub  = n.advertise<std_msgs::Float32>("current", 1000);
-	canlink_pub  = n.advertise<s4_comport::CANCode>("CANLink_out", 1000);
+	state_pub = n.advertise<control_msgs::JointControllerState>("state", 10);
+	current_pub  = n.advertise<std_msgs::Float64>("current", 10);
+	canlink_pub  = n.advertise<s4_comport::CANCode>("CANLink_out", 10);
 
 	//subscriibe
-	ros::Subscriber target_sub = n.subscribe("target", 10, target_callback); 
+	ros::Subscriber target_sub = n.subscribe("command", 10, target_callback); 
 	ros::Subscriber canin_sub  = n.subscribe("CANLink_in", 10, canin_callback); 
 
 	//Diagnostic
@@ -78,7 +95,7 @@ int main(int argc, char **argv)
 
 	ros::Duration(1.0).sleep();
 	
-	ros::Rate loop_rate(20); 
+	ros::Rate loop_rate(10); 
 	while (ros::ok()){
 
 		s4_comport::CANCode cancode;

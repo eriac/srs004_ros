@@ -8,8 +8,11 @@
       <child  link="${prefix}/body_link"/>
       <origin rpy="0 0 0" xyz="0 0 ${pos_z}"/>
     </joint>
- 
     <link name="${prefix}/body_link">
+      <inertial>
+        <mass value="0.500"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -17,67 +20,31 @@
         </geometry>
         <material name="gray"/>
       </visual>
-      <inertial>
-        <mass value="0.500"/>
-        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-      </inertial> 
       <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.002"/>
         <geometry>
-          <cylinder length="0.01" radius="0.1" />
+          <cylinder radius="0.119" length="0.004" />
         </geometry>
-      </collision> 
+      </collision>
     </link>
 
-    <joint name="${prefix}/lidar_joint" type="fixed">
+    <joint name="${prefix}/body2_joint" type="fixed">
       <parent link="${prefix}/body_link"/>
-      <child  link="${prefix}/lidar_link"/>
-      <origin rpy="0 0 ${radians(-90)}" xyz="0.075 0.010 0.030"/>
+      <child  link="${prefix}/body2_link"/>
+      <origin rpy="0 0 0" xyz="0 0 0.046"/>
     </joint>
-     <link name="${prefix}/lidar_link">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="package://s4_description/stl/ydlidar.stl" />
-        </geometry>
-        <material name="light_blue"/>
-      </visual>
+    <link name="${prefix}/body2_link">
       <inertial>
-        <mass value="0.130"/>
-        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-      </inertial>  
+        <mass value="0.010"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.002"/>
+        <geometry>
+          <cylinder radius="0.119" length="0.004" />
+        </geometry>
+      </collision>
     </link>
-    <gazebo reference="${prefix}/lidar_link">
-      <material>Gazebo/Blue</material>
-      <sensor type="ray" name="head_lidar">
-        <pose>0 0 0 0 0 0</pose>
-        <visualize>false</visualize>
-        <update_rate>10</update_rate>
-        <ray>
-          <scan>
-            <horizontal>
-              <samples>400</samples>
-              <resolution>1</resolution>
-              <min_angle>-3.141592</min_angle>
-              <max_angle> 3.141592</max_angle>
-            </horizontal>
-          </scan>
-          <range>
-            <min>0.10</min>
-            <max>20.0</max>
-            <resolution>0.01</resolution>
-          </range>
-          <noise>
-            <type>gaussian</type>
-            <mean>0.0</mean>
-            <stddev>0.01</stddev>
-          </noise>
-        </ray>
-        <plugin name="gazebo_ros_lidar_controller" filename="libgazebo_ros_laser.so">
-          <topicName>${robot}/${prefix}/laser/scan</topicName>
-          <frameName>${robot}/${prefix}/lidar_link</frameName>
-        </plugin>
-      </sensor>
-    </gazebo>
 
     <joint name="${prefix}/battery_joint" type="fixed">
       <parent link="${prefix}/body_link"/>
@@ -117,68 +84,6 @@
       </inertial>
     </link>
 
-    <joint name="${prefix}/camera_joint" type="fixed">
-      <parent link="${prefix}/bridge_link"/>
-      <child  link="${prefix}/camera_link"/>
-      <origin rpy="${radians(-90)} 0 ${radians(-90)}" xyz="0.015 0 0.1601"/>
-    </joint>
-    <link name="${prefix}/camera_link">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="package://s4_description/stl/camera.stl" />
-        </geometry>
-        <material name="light_blue"/>
-      </visual>
-      <inertial>
-        <mass value="0.190"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.0001"/>
-      </inertial>
-    </link>
-    <gazebo reference="${prefix}/camera_sim_link">
-      <material>Gazebo/Blue</material>
-      <sensor type="camera" name="camera1">
-        <update_rate>10.0</update_rate>
-        <camera name="head">
-          <horizontal_fov>1.3962634</horizontal_fov>
-          <image>
-            <width>800</width>
-            <height>600</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>300</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0.0</mean>
-            <stddev>0.007</stddev>
-          </noise>
-        </camera>
-        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-          <alwaysOn>true</alwaysOn>
-          <updateRate>10.0</updateRate>
-          <cameraName>${robot}/${prefix}/head_camera</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <frameName>camera_link</frameName>
-          <hackBaseline>0.07</hackBaseline>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
-        </plugin>
-      </sensor>
-    </gazebo>
-
-    <joint name="${prefix}/camera_sim_joint" type="fixed">
-      <parent link="${prefix}/camera_link"/>
-      <child  link="${prefix}/camera_sim_link"/>
-      <origin rpy="0 ${radians(-90)} ${radians(90)}" xyz="0 0 0"/>
-    </joint>
-    <link name="${prefix}/camera_sim_link"/>
 
     <joint name="${prefix}/tracker_joint" type="fixed">
       <parent link="${prefix}/bridge_link"/>
@@ -198,32 +103,5 @@
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.0001"/>
       </inertial>
     </link>
-
-    <joint name="${prefix}/imu_joint" type="fixed">
-      <parent link="${prefix}/bridge_link"/>
-      <child  link="${prefix}/imu_link"/>
-      <origin rpy="${radians(180)} 0 ${radians(90)}" xyz="-0.078 0 0.138"/>
-    </joint>
-    <link name="${prefix}/imu_link" />
-    <gazebo reference="${prefix}/imu_link">
-      <gravity>true</gravity>
-      <sensor name="imu_sensor" type="imu">
-        <always_on>true</always_on>
-        <update_rate>100</update_rate>
-        <visualize>true</visualize>
-        <topic>__default_topic__</topic>
-        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-          <topicName>${robot}/${prefix}/imu/data</topicName>
-          <bodyName>imu_link</bodyName>
-          <updateRateHZ>10.0</updateRateHZ>
-          <gaussianNoise>0.0</gaussianNoise>
-          <xyzOffset>0 0 0</xyzOffset>
-          <rpyOffset>0 ${radians(180)} ${radians(-90)}</rpyOffset>
-          <frameName>${robot}/${prefix}/imu_link</frameName>
-        </plugin>
-        <pose>0 0 0 0 0 0</pose>
-      </sensor>
-    </gazebo>
-
   </xacro:macro>
 </robot>

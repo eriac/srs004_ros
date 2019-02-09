@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<launch>
-  <!-- robot_localization -->
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
-    <rosparam command="load" file="$(find s4_operate)/config/ekf_localization.yaml" />
-    <remap from="/odometry/filtered" to="/wheel_robot/ekf/odom" />
-    <remap from="set_pose" to="/wheel_robot/ekf/set_pose" />
-  </node>
-</launch>

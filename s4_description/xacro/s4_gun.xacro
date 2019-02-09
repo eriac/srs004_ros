@@ -21,9 +21,6 @@
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
       </inertial>  
     </link>
-    <gazebo reference="${prefix}/base1_link">
-      <material>Gazebo/Gray</material>
-    </gazebo>
 
     <joint name="${prefix}/base2_joint" type="continuous">
       <parent link="${prefix}/base1_link"/>
@@ -55,9 +52,6 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-    <gazebo reference="${prefix}/base2_link">
-      <material>Gazebo/Gray</material>
-    </gazebo>
 
     <joint name="${prefix}/gun_joint" type="continuous">
       <parent link="${prefix}/base2_link"/>

@@ -1,21 +1,44 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="target" default="localhost"/>
   <arg name="robot" default="default_robot"/>
   <arg name="rvizconfig" default="$(find s4_description)/rviz/default.rviz" />
 
-  <include file="$(find s4_world)/launch/main.launch">
-    <arg name="world_name" value="$(find s4_world)/world/room1.world"/>
+  <machine name="localhost"  address="localhost" />
+  <machine name="remote2" address="remote2" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="remote3" address="remote3" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="OptiPlex-9010" address="OptiPlex-9010" env-loader="/home/erio/catkin_ws/devel/env.sh" user="erio" password="419000"/>
+
+  <!-- gazebo(hardware) -->
+  <include file="$(find s4_gazebo)/launch/launch_gazebo.launch" >
+    <arg name="target" value="$(arg target)" />
+  <!--
+    <arg name="world_name" value="$(find s4_world)/world/room1.world" />
+  -->
   </include>
+  <include file="$(find s4_gazebo)/launch/spawn_gazebo.launch" />
 
   <!-- driver -->
-<!--
-  <include file="$(find s4_description)/launch/launch_gazebo.launch" />
--->
-  <include file="$(find s4_description)/launch/gazebo_spawn.launch" />
   <include file="$(find s4_omni)/launch/main.launch" />
+<!--
+  <include file="$(find s4_hardware)/launch/spawn_hardware.launch" />
+-->
+
+<!--
   <include file="$(find s4_tracker)/launch/main.launch" />
+-->
 
-  <!-- function -->
-  <include file="$(find s4_operate)/launch/position.launch" />
+  <!-- localization function -->
+  <include file="$(find s4_omni)/launch/localization.launch" />
+  <!-- detection function -->
+  <include file="$(find s4_sensor)/launch/detection.launch" />
+  <!-- body function -->
 
+  <!-- navigation system -->
+  <!-- fire control system -->
+  <!-- game system -->
+
+
+  <!-- ui -->
+  <include file="$(find s4_launch)/launch/ui.launch" />
 </launch>

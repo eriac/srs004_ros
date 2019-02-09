@@ -56,7 +56,11 @@ int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "s4_comport_serialport");
 	ros::NodeHandle n;
+	ros::NodeHandle pn("~");
 	
+	std::string device_name="/dev/dummy";
+	pn.getParam("device_name", device_name);
+
 	//Publisher
 	ros::Publisher serial_pub = n.advertise<std_msgs::String>("Serial_in", 1000);
 
@@ -67,11 +71,10 @@ int main(int argc, char **argv)
 	diagnostic_updater::Updater updater;
 	updater.setHardwareID("SerialPort");
 	updater.add("Connect", diagnostic0);
-	
-	char device_name[]="/dev/ttyUSB0";
-	fd1=open_serial(device_name);
+
+	fd1=open_serial(device_name.c_str());
 	if(fd1<0){
-		ROS_ERROR("Serial Fail: cound not open %s", device_name);
+		ROS_ERROR("Serial Fail: cound not open %s", device_name.c_str());
 		printf("Serial Fail\n");
 		ros::shutdown();
 	}
