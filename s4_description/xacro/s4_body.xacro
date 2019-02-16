@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="s4_body" params="prefix robot parent pos_z">
+  <xacro:macro name="s4_body" params="prefix parent pos_z">
     <joint name="${prefix}/body_joint" type="fixed">
       <parent link="${parent}"/>
       <child  link="${prefix}/body_link"/>
