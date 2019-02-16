@@ -14,9 +14,9 @@ obstacle_extractor:
   #max_merge_spread: 0.2
   #max_circle_radius: 0.6
   #radius_enlargement: 0.3
-  frame_id: default_robot/map
+  #frame_id: default_robot/map
 
-obstacle_tracker:
+#obstacle_tracker:
   #active: true
   #loop_rate: 100.0
   #tracking_duration: 2.0
@@ -25,4 +25,4 @@ obstacle_tracker:
   #process_variance: 0.1
   #process_rate_variance: 0.1
   #measurement_variance: 1.0
-  frame_id: default_robot/map
+  #frame_id: default_robot/map
