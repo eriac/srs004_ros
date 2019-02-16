@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   s4_comport
   control_msgs
+  s4_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -223,3 +224,7 @@ target_link_libraries(s4_omni_twist_marker_publisher ${catkin_LIBRARIES})
 
 add_executable(s4_omni_pose_move src/s4_omni_pose_move.cpp)
 target_link_libraries(s4_omni_pose_move ${catkin_LIBRARIES})
+
+add_executable(s4_omni_move_server src/s4_omni_move_server.cpp)
+target_link_libraries(s4_omni_move_server ${catkin_LIBRARIES})
+add_dependencies(s4_omni_move_server ${catkin_EXPORTED_TARGETS})

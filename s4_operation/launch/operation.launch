@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot" />
+  <arg name="mode" default="none" />
+
+  <arg name="rvizconfig" default="$(find s4_launch)/rviz/default.rviz" />
+  
+  <group ns="$(arg robot_name)/operation">
+    <node pkg="joy" type="joy_node" name="joy_node" >
+    </node>  
+
+    <node pkg="s4_operation" type="s4_operation_test_app" name="s4_operation_test_app" >
+      <remap from="move_action" to="/$(arg robot_name)/navigation/move_action" />    
+      <remap from="turret_action" to="/$(arg robot_name)/firecontrol/turret_action" />    
+    </node>
+
+    <node pkg="web_video_server" type="web_video_server" name="web_video_server">
+      <param name="port" value="1080" />
+      <param name="quality" value="10" />
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/dual_robot.rviz" required="true" />
+  </group>
+
+
+</launch>

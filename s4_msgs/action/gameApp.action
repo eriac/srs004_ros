@@ -1,0 +1,18 @@
+# Define the goal
+Header header
+float64 duration
+uint32 mode
+geometry_msgs/Twist twist
+geometry_msgs/Pose pose
+string target_id
+
+uint32 CMD_VEL=11
+uint32 CMD_POS=12
+uint32 AIM_POS=20
+
+---
+# Define the result
+float64 distance
+---
+# Define a feedback message
+bool result

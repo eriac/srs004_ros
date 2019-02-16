@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot" />
+  <arg name="mode" default="none" />
+
+  <group ns="$(arg robot_name)/firecontrol">
+    <node pkg="s4_gun" type="s4_gun_turret_server" name="s4_gun_turret_server" >
+      <remap from="joints" to="/$(arg robot_name)/device/gun0/joints" />
+    </node>      
+  </group>
+ </launch>
