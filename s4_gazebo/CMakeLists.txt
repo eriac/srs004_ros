@@ -135,6 +135,9 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/s4_gazebo_node.cpp)
+add_executable(s4_gazebo_aim src/s4_gazebo_aim.cpp)
+add_executable(s4_gazebo_twist src/s4_gazebo_twist.cpp)
+add_executable(s4_gazebo_odom src/s4_gazebo_odom.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -150,6 +153,15 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(s4_gazebo_aim
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(s4_gazebo_twist
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(s4_gazebo_odom
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

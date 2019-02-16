@@ -5,9 +5,9 @@ from std_msgs.msg import Float64
 
 if __name__ == '__main__':
     rospy.init_node('liftup_sus')
-    pub0 = rospy.Publisher('omni0/wheel0_sus/command', Float64, queue_size=10)
-    pub1 = rospy.Publisher('omni0/wheel1_sus/command', Float64, queue_size=10)
-    pub2 = rospy.Publisher('omni0/wheel2_sus/command', Float64, queue_size=10)
+    pub0 = rospy.Publisher('command0', Float64, queue_size=10)
+    pub1 = rospy.Publisher('command1', Float64, queue_size=10)
+    pub2 = rospy.Publisher('command2', Float64, queue_size=10)
 
     rospy.sleep(5.0)
     r = rospy.Rate(50)

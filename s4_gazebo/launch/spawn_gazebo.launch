@@ -1,22 +1,68 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot" default="default_robot"/>
+  <arg name="robot_name" default="default_robot"/>
   <arg name="target" default="localhost"/>
+  <arg name="init_pose" default=""/>
   <arg name="model" default="$(find s4_description)/xacro/s4_robot.xacro"/>
-  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
-
-  <env name="GAZEBO_MASTER_URI" value="http://$(arg target):11345" /> 
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot) robot:=$(arg robot)" />
-  <group ns="$(arg robot)">
+  <group ns="$(arg robot_name)">
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_name:=$(arg robot_name)" />
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) $(arg init_pose)" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
-      <param name="tf_prefix" value="$(arg robot)"/>
+      <param name="tf_prefix" value="$(arg robot_name)"/>
     </node>
 
-    <rosparam command="load" file="$(find s4_gazebo)/config/ros_control.yaml" />  
-    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-        args="joint_state_controller omni0/wheel0 omni0/wheel1 omni0/wheel2 gun0/gun_yaw gun0/gun_pitch omni0/wheel0_sus omni0/wheel1_sus omni0/wheel2_sus"/>
+    <rosparam command="load" file="$(find s4_gazebo)/config/joint_state_controller.yaml" />  
+    <node name="controller_spawner_state" pkg="controller_manager" type="spawner" respawn="false"
+        args="joint_state_controller"/>
 
-    <node name="liftup_sus" pkg="s4_gazebo" type="liftup_sus.py" respawn="false" output="screen"/>
-     
+    <rosparam command="load" file="$(find s4_gazebo)/config/omni_controller.yaml" ns="device"/>  
+    <node name="controller_spawner_omni" pkg="controller_manager" type="spawner" respawn="false"
+            args="device/omni0/wheel0 device/omni0/wheel1 device/omni0/wheel2 
+                  device/omni0/sus0   device/omni0/sus1   device/omni0/sus2"/>
+
+    <rosparam command="load" file="$(find s4_gazebo)/config/gun_controller.yaml" ns="device"/>  
+    <node name="controller_spawner_gun" pkg="controller_manager" type="spawner" respawn="false"
+            args="device/gun0/train device/gun0/elevation"/>
+
+
+    <!-- driver for omni -->
+    <group ns="device/omni0">
+      <node name="s4_gazebo_twist" pkg="s4_gazebo" type="s4_gazebo_twist" output="screen">
+        <param name="wheel_base" value="0.0972"/>
+        <param name="wheel_radius" value="0.019"/>
+        <param name="linear_velocity" value="1.5"/>
+        <param name="angular_velocity" value="4.0"/>
+        <param name="wheel0" value="$(eval 3.1415/3)"/>
+        <param name="wheel1" value="$(eval 3.1415)"/>
+        <param name="wheel2" value="$(eval 5*3.1415/3)"/>
+      </node>
+      <node name="s4_gazebo_odom" pkg="s4_gazebo" type="s4_gazebo_odom" output="screen">
+        <remap from="joint_states" to="/$(arg robot_name)/joint_states"/>
+        <param name="wheel_base" value="0.0972"/>
+        <param name="wheel_radius" value="0.019"/>
+        <param name="frame_id" value="$(arg robot_name)/odom"/>
+      </node>
+      <node name="liftup_sus" pkg="s4_gazebo" type="liftup_sus.py" respawn="false" output="screen">
+        <remap from="command0" to="sus0/command" />
+        <remap from="command1" to="sus1/command" />
+        <remap from="command2" to="sus2/command" />
+      </node>
+    </group>
+
+    <!-- driver for gun -->
+    <group ns="device/gun0">
+      <node name="s4_gazebo_aims" pkg="s4_gazebo" type="s4_gazebo_aim" output="screen">
+        <remap from="train" to="train/command" />
+        <remap from="elevation" to="elevation/command" />
+      </node>
+    </group>
+
+    <!-- driver for sensor -->
+    <group ns="device/sensor0/front_laser">
+      <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+        <rosparam command="load" file="$(find s4_gazebo)/config/laser_filter.yaml" />
+      </node>
+    </group>
+
   </group>
 </launch>
