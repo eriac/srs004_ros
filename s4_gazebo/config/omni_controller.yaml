@@ -2,24 +2,24 @@ omni0:
   wheel0:
     type: effort_controllers/JointVelocityController
     joint: omni0/wheel0/wheel_joint
-    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 1.0, antiwindup: true}
+    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 3.0, antiwindup: true}
   wheel1:
     type: effort_controllers/JointVelocityController
     joint: omni0/wheel1/wheel_joint
-    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 1.0, antiwindup: true}
+    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 3.0, antiwindup: true}
   wheel2:
     type: effort_controllers/JointVelocityController
     joint: omni0/wheel2/wheel_joint
-    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 1.0, antiwindup: true}
+    pid: {p: 0.1, i: 10.0, d: 0, i_clamp: 3.0, antiwindup: true}
   sus0:
     type: effort_controllers/JointPositionController
     joint: omni0/wheel0/sus_joint
-    pid: {p: 5000, i: 100.0, d: 100, i_clamp: 10.0}
+    pid: {p: 5000, i: 100.0, d: 500, i_clamp: 10.0}
   sus1:
     type: effort_controllers/JointPositionController
     joint: omni0/wheel1/sus_joint
-    pid: {p: 5000, i: 100.0, d: 100, i_clamp: 10.0}
+    pid: {p: 5000, i: 100.0, d: 500, i_clamp: 10.0}
   sus2:
     type: effort_controllers/JointPositionController
     joint: omni0/wheel2/sus_joint
-    pid: {p: 5000, i: 100.0, d: 100, i_clamp: 10.0}
+    pid: {p: 5000, i: 100.0, d: 500, i_clamp: 10.0}

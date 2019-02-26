@@ -12,7 +12,7 @@
   <node machine="$(arg target)" name="gazebo" pkg="gazebo_ros" type="gzserver" args="$(arg world_name)"/>
 
   <group if="$(arg gui)">
-    <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" />
+    <node machine="$(arg target)" name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" />
   </group>
 <!--
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
