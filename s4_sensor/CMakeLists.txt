@@ -12,6 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
+  image_geometry
+  image_transport
+  cv_bridge
+  jsk_recognition_msgs
+  s4_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -136,6 +141,9 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/s4_sensor_node.cpp)
 add_executable(s4_sensor_lidar_check src/s4_sensor_lidar_check.cpp)
+add_executable(s4_sensor_detect_visualize src/s4_sensor_detect_visualize.cpp)
+add_executable(s4_sensor_detect_geometry src/s4_sensor_detect_geometry.cpp)
+add_executable(s4_sensor_detect_merger src/s4_sensor_detect_merger.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -146,6 +154,8 @@ add_executable(s4_sensor_lidar_check src/s4_sensor_lidar_check.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(s4_sensor_detect_geometry ${catkin_EXPORTED_TARGETS})
+add_dependencies(s4_sensor_detect_merger ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
@@ -154,7 +164,15 @@ add_executable(s4_sensor_lidar_check src/s4_sensor_lidar_check.cpp)
 target_link_libraries(s4_sensor_lidar_check
   ${catkin_LIBRARIES}
 )
-
+target_link_libraries(s4_sensor_detect_visualize
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(s4_sensor_detect_geometry
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(s4_sensor_detect_merger
+  ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############

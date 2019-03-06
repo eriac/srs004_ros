@@ -5,13 +5,33 @@
   <group ns="$(arg robot_name)/detection">
     <!-- color detector -->
     <node name="image_republish" pkg="image_transport" type="republish" args="compressed raw">
-      <remap from="in" to="/$(arg robot_name)/device/sensor0/head_camera/image_raw" />
-      <remap from="out" to="image_raw" />
+      <remap from="in" to="/$(arg robot_name)/device/sensor0/head_camera/image_rect_color" />
+      <remap from="out" to="image_rect_color" />
     </node>
-    <node name="coke_detector" pkg="s4_sensor" type="coke_detect.py" >
-      <remap from="input_image" to="image_raw" />
+    <node name="detection_camera_info_relay" pkg="topic_tools" type="relay" args="/$(arg robot_name)/device/sensor0/head_camera/camera_info camera_info" />
+    
+    <node name="coke_detect" pkg="s4_sensor" type="hsv_detect.py" output="screen">
+      <remap from="input_image" to="image_rect_color" />
+      <param name="reduction" value="2" />
+      <param name="h_min" value="175" />
+      <param name="h_max" value="5" />
+      <param name="s_min" value="100" />
+      <param name="s_max" value="230" />
+      <param name="v_min" value="100" />
+      <param name="v_max" value="230" />
+      <param name="debug" value="False" />
     </node>
-  
+    <node name="rects_tracker" pkg="s4_sensor" type="rects_tracker.py" output="screen">
+      <remap from="input_image" to="image_rect_color" />
+      <param name="size_weight" value="4" />
+      <param name="max_distance" value="400" />
+      <param name="min_width" value="10" />
+      <param name="min_height" value="10" />
+      <param name="min_age" value="5" />
+      <param name="debug" value="False" />
+    </node>
+    <node name="s4_sensor_detect_geometry" pkg="s4_sensor" type="s4_sensor_detect_geometry" />
+
     <!-- obstacle detector -->
     <rosparam command="load" file="$(find s4_sensor)/config/obstacle_detector.yaml" />
     <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node">
@@ -21,8 +41,14 @@
     <node name="obstacle_tracker" pkg="obstacle_detector" type="obstacle_tracker_node">
       <param name="frame_id" value="$(arg robot_name)/map" />
     </node>
-  </group>
 
-  <!-- merge detector -->
+    <!-- merge detector -->
+    <node name="s4_sensor_detect_merger" pkg="s4_sensor" type="s4_sensor_detect_merger" output="screen">
+      <!--
+        <remap from="scan" to="/$(arg robot_name)/device/sensor0/front_laser/scan" />
+      -->
+    </node>
+
+  </group>    
 </launch>
 

@@ -16,9 +16,9 @@ obstacle_extractor:
   #radius_enlargement: 0.3
   #frame_id: default_robot/map
 
-#obstacle_tracker:
+obstacle_tracker:
   #active: true
-  #loop_rate: 100.0
+  loop_rate: 20.0
   #tracking_duration: 2.0
   #min_correspondence_cost: 0.6
   #std_correspondence_dev: 0.15

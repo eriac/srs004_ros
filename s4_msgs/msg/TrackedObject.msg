@@ -1,0 +1,4 @@
+s4_msgs/TrackedRect rect
+geometry_msgs/Point center
+geometry_msgs/Vector3 velocity
+geometry_msgs/Vector3 size
