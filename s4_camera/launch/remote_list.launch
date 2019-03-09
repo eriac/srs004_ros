@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <machine name="local"  address="localhost" />
-  <machine name="robot1" address="robot1" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
-  <machine name="robot2" address="robot2" env-loader="/home/eio/catkin_ws/devel/env.sh" user="eio" password="41900"/>
-
-  <machine name="remote1" address="remote1" env-loader="/home/pi/catkin_ws/devel/env.sh" user="pi" password="raspberry"/>
-  <machine name="remote2" address="remote2" env-loader="/home/pi/catkin_ws/devel/env.sh" user="pi" password="raspberry"/>
-</launch>
