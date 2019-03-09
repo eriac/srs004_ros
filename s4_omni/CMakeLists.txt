@@ -12,7 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
-  s4_comport
   control_msgs
   s4_msgs
 )
@@ -208,10 +207,11 @@ target_link_libraries(s4_omni_twist ${catkin_LIBRARIES})
 add_executable(s4_omni_odom src/s4_omni_odom.cpp)
 target_link_libraries(s4_omni_odom ${catkin_LIBRARIES})
 
+#[[
 add_executable(s4_omni_wheel_phycon src/s4_omni_wheel_phycon.cpp)
 target_link_libraries(s4_omni_wheel_phycon ${catkin_LIBRARIES})
 add_dependencies(s4_omni_wheel_phycon ${catkin_EXPORTED_TARGETS})
-
+]]
 
 add_executable(s4_omni_wheel_sim src/s4_omni_wheel_sim.cpp)
 target_link_libraries(s4_omni_wheel_sim ${catkin_LIBRARIES})
