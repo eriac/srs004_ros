@@ -29,6 +29,7 @@ class rectsTracker:
         self.min_width = rospy.get_param("~min_width", 10)
         self.min_height = rospy.get_param("~min_height", 10)
         self.min_age = rospy.get_param("~min_age", 5)
+        self.category = rospy.get_param("~category", "default_object")
 
         if(self.debug):
             self.image_sub = rospy.Subscriber("input_image", Image, self.image_callback, queue_size=1)
@@ -42,8 +43,8 @@ class rectsTracker:
         tr_array_msg=TrackedRectArray()
         tr_array_msg.header=rects_msg.header
         for tr in self.tracking_elements:
-            if(tr.width>self.min_width and tr.height>self.min_height):
-                if(tr.age>self.min_age):
+            if(tr.rect.width>self.min_width and tr.rect.height>self.min_height):
+                if(tr.info.age>self.min_age):
                     tr_array_msg.rects.append(tr)
 
         self.rects_pub.publish(tr_array_msg)
@@ -51,13 +52,14 @@ class rectsTracker:
     def reset_rects(self, rects):
         for rect_msg in rects:
             rect_element=TrackedRect()
-            rect_element.x=rect_msg.x
-            rect_element.y=rect_msg.y
-            rect_element.width=rect_msg.width
-            rect_element.height=rect_msg.height
-            rect_element.id=self.last_id
+            rect_element.rect.x=rect_msg.x
+            rect_element.rect.y=rect_msg.y
+            rect_element.rect.width=rect_msg.width
+            rect_element.rect.height=rect_msg.height
+            rect_element.info.category=self.category
+            rect_element.info.id=self.last_id
             self.last_id+=1
-            rect_element.age=0
+            rect_element.info.age=0
             self.tracking_elements.append(rect_element)
         
     def update_rects(self, rects):
@@ -72,7 +74,7 @@ class rectsTracker:
             relation[:,:]=float('inf')
             for i in range(len(self.tracking_elements)):
                 for j in range(len(rects)):
-                    relation[i,j]=self.getDistance(self.tracking_elements[i], rects[j], self.size_weight)
+                    relation[i,j]=self.getDistance(self.tracking_elements[i].rect, rects[j], self.size_weight)
 
             for step in range(min(len(self.tracking_elements), len(rects))):
                 minarg=np.unravel_index(np.argmin(relation), relation.shape)
@@ -86,24 +88,25 @@ class rectsTracker:
 
             for j in range(len(inheritance)):
                 rect_element=TrackedRect()
-                rect_element.x=rects[j].x
-                rect_element.y=rects[j].y
-                rect_element.width =rects[j].width
-                rect_element.height=rects[j].height
+                rect_element.rect.x=rects[j].x
+                rect_element.rect.y=rects[j].y
+                rect_element.rect.width =rects[j].width
+                rect_element.rect.height=rects[j].height
+                rect_element.info.category=self.category
                 if(inheritance[j]>=0):
-                    rect_element.id =self.tracking_elements[int(inheritance[j])].id
-                    rect_element.age=self.tracking_elements[int(inheritance[j])].age+1
+                    rect_element.info.id =self.tracking_elements[int(inheritance[j])].info.id
+                    rect_element.info.age=self.tracking_elements[int(inheritance[j])].info.age+1
                 else:
-                    rect_element.id =self.last_id
+                    rect_element.info.id =self.last_id
                     self.last_id+=1
-                    rect_element.age=0
+                    rect_element.info.age=0
                 new_tracking_elements.append(rect_element)                
 
             self.tracking_elements=new_tracking_elements
 
     def getDistance(self, elem1, elem2, size_weight):
-        dx=(elem1.x+elem1.width/2) -(elem2.x+elem2.width/2)
-        dy=(elem1.y+elem1.height/2)-(elem2.y+elem2.height/2)
+        dx=(elem1.x+(elem1.width-1)/2) -(elem2.x+(elem2.width-1)/2)
+        dy=(elem1.y+(elem1.height-1)/2)-(elem2.y+(elem2.height-1)/2)
         dw=elem1.width-elem2.width
         dh=elem1.height-elem2.height
         return np.sqrt(dx**2+dy**2)+np.sqrt(dw**2+dh**2)*size_weight
@@ -123,13 +126,13 @@ class rectsTracker:
     def process_image(self, image, debug=False):
         if(self.tracking_elements is not None):
             for rect_element in self.tracking_elements:
-                if(rect_element.width>self.min_width and rect_element.height>self.min_height):
-                    if(rect_element.age>self.min_age):
-                        cv2.rectangle(image, (rect_element.x, rect_element.y), (rect_element.x+rect_element.width, rect_element.y+rect_element.height), (255, 0, 0), thickness=2)
-                        text="id:"+str(rect_element.id)+",age:"+str(rect_element.age)
-                        cv2.putText(image,text,(rect_element.x, rect_element.y),cv2.FONT_HERSHEY_PLAIN, 2,(255,0,0), thickness=2)
+                if(rect_element.rect.width>self.min_width and rect_element.rect.height>self.min_height):
+                    if(rect_element.info.age>self.min_age):
+                        cv2.rectangle(image, (rect_element.rect.x, rect_element.rect.y), (rect_element.rect.x+rect_element.rect.width, rect_element.rect.y+rect_element.rect.height), (255, 0, 0), thickness=2)
+                        text="id:"+str(rect_element.info.id)+",age:"+str(rect_element.info.age)
+                        cv2.putText(image,text,(rect_element.rect.x, rect_element.rect.y),cv2.FONT_HERSHEY_PLAIN, 2,(255,0,0), thickness=2)
                     else:
-                        cv2.rectangle(image, (rect_element.x, rect_element.y), (rect_element.x+rect_element.width, rect_element.y+rect_element.height), (0, 255, 0), thickness=2)
+                        cv2.rectangle(image, (rect_element.rect.x, rect_element.rect.y), (rect_element.rect.x+rect_element.rect.width, rect_element.rect.y+rect_element.rect.height), (0, 255, 0), thickness=2)
         return image
 
     def cleanup(self):

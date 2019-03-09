@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   jsk_recognition_msgs
   s4_msgs
 )
+find_package(Eigen3 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -124,6 +125,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -169,9 +171,11 @@ target_link_libraries(s4_sensor_detect_visualize
 )
 target_link_libraries(s4_sensor_detect_geometry
   ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
 )
 target_link_libraries(s4_sensor_detect_merger
   ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
 )
 #############
 ## Install ##

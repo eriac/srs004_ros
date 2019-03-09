@@ -3,13 +3,24 @@
   <arg name="robot_name" default="default_robot"/>
 
   <group ns="$(arg robot_name)/detection">
-    <!-- color detector -->
+
+    <!-- image republisher -->
     <node name="image_republish" pkg="image_transport" type="republish" args="compressed raw">
       <remap from="in" to="/$(arg robot_name)/device/sensor0/head_camera/image_rect_color" />
       <remap from="out" to="image_rect_color" />
     </node>
-    <node name="detection_camera_info_relay" pkg="topic_tools" type="relay" args="/$(arg robot_name)/device/sensor0/head_camera/camera_info camera_info" />
     
+    <!-- obstacle detector -->
+    <rosparam command="load" file="$(find s4_sensor)/config/obstacle_detector.yaml" />
+    <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node">
+      <param name="frame_id" value="$(arg robot_name)/map" />
+      <remap from="scan" to="/$(arg robot_name)/device/sensor0/front_laser/scan" />
+    </node>
+    <node name="obstacle_tracker" pkg="obstacle_detector" type="obstacle_tracker_node">
+      <param name="frame_id" value="$(arg robot_name)/map" />
+    </node>
+
+    <!-- color detector -->
     <node name="coke_detect" pkg="s4_sensor" type="hsv_detect.py" output="screen">
       <remap from="input_image" to="image_rect_color" />
       <param name="reduction" value="2" />
@@ -28,27 +39,23 @@
       <param name="min_width" value="10" />
       <param name="min_height" value="10" />
       <param name="min_age" value="5" />
+      <param name="category" value="red_can" />
       <param name="debug" value="False" />
     </node>
-    <node name="s4_sensor_detect_geometry" pkg="s4_sensor" type="s4_sensor_detect_geometry" />
-
-    <!-- obstacle detector -->
-    <rosparam command="load" file="$(find s4_sensor)/config/obstacle_detector.yaml" />
-    <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node">
-      <param name="frame_id" value="$(arg robot_name)/map" />
-      <remap from="scan" to="/$(arg robot_name)/device/sensor0/front_laser/scan" />
-    </node>
-    <node name="obstacle_tracker" pkg="obstacle_detector" type="obstacle_tracker_node">
-      <param name="frame_id" value="$(arg robot_name)/map" />
+    <node name="s4_sensor_detect_geometry" pkg="s4_sensor" type="s4_sensor_detect_geometry">
+      <remap from="camera_info" to="/$(arg robot_name)/device/sensor0/head_camera/camera_info" />
+      <param name="offset_roll" value="0.06" />
+      <param name="offset_pitch" value="0.02" />
+      <param name="offset_yaw" value="-0.03" />
     </node>
 
     <!-- merge detector -->
     <node name="s4_sensor_detect_merger" pkg="s4_sensor" type="s4_sensor_detect_merger" output="screen">
-      <!--
-        <remap from="scan" to="/$(arg robot_name)/device/sensor0/front_laser/scan" />
-      -->
+      <remap from="markers" to="merge_markers" />
+      <param name="merge_frame" value="default_robot/base_link" />
+      <param name="distance_max" value="0.06" />
+      <param name="obstacle_height" value="0.06" />
     </node>
-
   </group>    
 </launch>
 
