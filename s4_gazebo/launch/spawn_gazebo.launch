@@ -62,6 +62,10 @@
         <rosparam command="load" file="$(find s4_gazebo)/config/laser_filter.yaml" />
       </node>
     </group>
+    <group ns="device/sensor0/head_camera">
+      <node machine="$(arg target)" name="image_proc" pkg="image_proc" type="image_proc" />
+    </group>
+
 
   </group>
 </launch>
