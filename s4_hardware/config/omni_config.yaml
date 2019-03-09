@@ -1,0 +1,22 @@
+wheel0/s4_hardware_canlink_to_wheel:
+  CAN_CH: A
+  CAN_ID: 1
+  PPR: -397
+wheel1/s4_hardware_canlink_to_wheel:
+  CAN_CH: A
+  CAN_ID: 2
+  PPR: -397
+wheel2/s4_hardware_canlink_to_wheel:
+  CAN_CH: A
+  CAN_ID: 3
+  PPR: -397
+
+s4_hardware_omni_twist:
+  wheel_base: 0.0972
+  wheel_radius: 0.019
+  linear_velocity: 1.5
+  angular_velocity: 4.0
+
+s4_hardware_omni_odom:
+  wheel_base: 0.0972
+  wheel_radius: 0.019

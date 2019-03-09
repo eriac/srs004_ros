@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot"/>
+  <arg name="target" default="localhost"/>
+  <arg name="init_pose" default=""/>
+  <arg name="model" default="$(find s4_description)/xacro/s4_robot.xacro"/>
+
+  <group ns="$(arg robot_name)">
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_name:=$(arg robot_name)" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+      <param name="tf_prefix" value="$(arg robot_name)"/>
+    </node>
+    <group ns="device/comport">
+      <arg name="device_name" default="/dev/ttyUSB0"/>
+      <node name="s4_hardware_canlink_to_seriallink" pkg="s4_hardware" type="s4_hardware_canlink_to_seriallink" />
+      <node name="s4_hardware_seriallink_decoder"    pkg="s4_hardware" type="s4_hardware_seriallink_decoder" />
+      <node machine="$(arg target)" name="s4_hardware_serialport" pkg="s4_hardware" type="s4_hardware_serialport">
+        <param name="device_name" value="$(arg device_name)"/>
+      </node>
+      <node name="s4_hardware_seriallink_encoder"    pkg="s4_hardware" type="s4_hardware_seriallink_encoder" />
+      <node name="s4_hardware_seriallink_to_canlink" pkg="s4_hardware" type="s4_hardware_seriallink_to_canlink" />
+    </group>
+<!--
+
+    <group ns="device/omni">
+      <rosparam command="load" file="$(find s4_hardware)/config/omni_config.yaml" />
+
+      <group ns="wheel0">
+        <node name="s4_hardware_canlink_to_wheel"    pkg="s4_hardware" type="s4_hardware_canlink_to_wheel" >
+          <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />
+          <remap from="CANLink_in"  to="/$(arg robot_name)/device/comport/CANLink_in" />
+        </node>
+      </group>
+      <group ns="wheel1">
+        <node name="s4_hardware_canlink_to_wheel"    pkg="s4_hardware" type="s4_hardware_canlink_to_wheel" >
+          <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />
+          <remap from="CANLink_in"  to="/$(arg robot_name)/device/comport/CANLink_in" />
+        </node>
+      </group>
+      <group ns="wheel2">
+        <node name="s4_hardware_canlink_to_wheel"    pkg="s4_hardware" type="s4_hardware_canlink_to_wheel" >
+          <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />
+          <remap from="CANLink_in"  to="/$(arg robot_name)/device/comport/CANLink_in" />
+        </node>
+      </group>
+
+      <node name="s4_hardware_omni_twist" pkg="s4_hardware" type="s4_hardware_omni_twist" output="screen">
+        <param name="wheel0" value="$(eval 3.1415/3)"/>
+        <param name="wheel1" value="$(eval 3.1415)"/>
+        <param name="wheel2" value="$(eval 5*3.1415/3)"/>
+      </node>
+      <node name="s4_hardware_omni_odom" pkg="s4_hardware" type="s4_hardware_omni_odom" output="screen">
+        <remap from="joint_states" to="/$(arg robot_name)/joint_states"/>
+        <param name="wheel_base" value="0.0972"/>
+        <param name="wheel_radius" value="0.019"/>
+        <param name="frame_id" value="$(arg robot_name)/odom"/>
+        <param name="joint0_name" value="omni0/wheel0/housing_joint"/>
+        <param name="joint1_name" value="omni0/wheel1/housing_joint"/>
+        <param name="joint2_name" value="omni0/wheel2/housing_joint"/>        
+      </node>
+
+    </group>
+    -->
+    <group ns="device/sensor0">
+      <group ns="front_laser">
+        <node machine="$(arg target)" name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen">
+          <param name="port"         type="string" value="/dev/ydlidar"/>
+          <param name="baudrate"     type="int"    value="115200"/>
+          <param name="frame_id"     type="string" value="$(arg robot_name)/sensor0/front_laser_link"/>
+          <param name="angle_fixed"  type="bool"   value="true"/>
+          <param name="low_exposure"  type="bool"   value="false"/>
+          <param name="heartbeat"    type="bool"   value="false"/>
+          <param name="resolution_fixed"    type="bool"   value="true"/>
+          <param name="angle_min"    type="double" value="-180" />
+          <param name="angle_max"    type="double" value="180" />
+          <param name="range_min"    type="double" value="0.08" />
+          <param name="range_max"    type="double" value="16.0" />
+          <param name="ignore_array" type="string" value="" />
+          <param name="samp_rate"    type="int"    value="9"/>
+          <param name="frequency"    type="double" value="7"/>
+
+          <param name="reversion"    type="bool"   value="false"/>
+<!--
+          <param name="auto_reconnect"    type="bool"   value="true"/>
+-->
+        </node>
+        <node machine="$(arg target)" pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+          <rosparam command="load" file="$(find s4_hardware)/config/laser_filter.yaml" />
+        </node>
+      </group>
+      <group ns="head_camera">
+        <node machine="$(arg target)" name="uvc_camera_node"  pkg="uvc_camera"  type="uvc_camera_node" output="screen">
+          <param name="width" value="800"/>
+          <param name="height" value="600"/>
+          <param name="fps" value="10"/>
+        </node>
+        <node machine="$(arg target)" name="image_proc" pkg="image_proc" type="image_proc" />
+        <node name="s4_hardware_call_camera_info" pkg="s4_hardware" type="s4_hardware_call_camera_info" output="screen">
+          <rosparam command="load" file="$(find s4_hardware)/config/camera_remote2.yaml" />
+        </node>
+      </group>
+    </group>
+  </group>
+
+</launch>

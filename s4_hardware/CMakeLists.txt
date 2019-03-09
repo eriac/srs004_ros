@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,11 +49,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  CANCode.msg
+  SerialCode.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -69,10 +70,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -198,3 +199,41 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+#comport
+add_executable(s4_hardware_serialport src/comport/s4_hardware_serialport.cpp)
+target_link_libraries(s4_hardware_serialport ${catkin_LIBRARIES})
+
+add_executable(s4_hardware_serialport_retry src/comport/s4_hardware_serialport_retry.cpp)
+target_link_libraries(s4_hardware_serialport_retry ${catkin_LIBRARIES})
+
+add_executable(s4_hardware_canlink_to_seriallink src/comport/s4_hardware_canlink_to_seriallink.cpp)
+target_link_libraries(s4_hardware_canlink_to_seriallink ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_canlink_to_seriallink s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_seriallink_to_canlink src/comport/s4_hardware_seriallink_to_canlink.cpp)
+target_link_libraries(s4_hardware_seriallink_to_canlink ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_seriallink_to_canlink s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_seriallink_decoder src/comport/s4_hardware_seriallink_decoder.cpp)
+target_link_libraries(s4_hardware_seriallink_decoder ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_seriallink_decoder s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_seriallink_encoder src/comport/s4_hardware_seriallink_encoder.cpp)
+target_link_libraries(s4_hardware_seriallink_encoder ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_seriallink_encoder s4_hardware_generate_messages_cpp)
+
+#omni
+add_executable(s4_hardware_canlink_to_wheel src/omni/s4_hardware_canlink_to_wheel.cpp)
+target_link_libraries(s4_hardware_canlink_to_wheel ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_canlink_to_wheel s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_omni_twist src/omni/s4_hardware_omni_twist.cpp)
+target_link_libraries(s4_hardware_omni_twist ${catkin_LIBRARIES})
+
+add_executable(s4_hardware_omni_odom src/omni/s4_hardware_omni_odom.cpp)
+target_link_libraries(s4_hardware_omni_odom ${catkin_LIBRARIES})
+
+#sensor
+add_executable(s4_hardware_call_camera_info src/sensor/s4_hardware_call_camera_info.cpp)
+target_link_libraries(s4_hardware_call_camera_info ${catkin_LIBRARIES})
