@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(s4_hardware)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -233,6 +233,9 @@ target_link_libraries(s4_hardware_omni_twist ${catkin_LIBRARIES})
 
 add_executable(s4_hardware_omni_odom src/omni/s4_hardware_omni_odom.cpp)
 target_link_libraries(s4_hardware_omni_odom ${catkin_LIBRARIES})
+
+add_executable(s4_hardware_omni_fix_joint src/omni/s4_hardware_omni_fix_joint.cpp)
+target_link_libraries(s4_hardware_omni_fix_joint ${catkin_LIBRARIES})
 
 #sensor
 add_executable(s4_hardware_call_camera_info src/sensor/s4_hardware_call_camera_info.cpp)
