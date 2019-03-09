@@ -15,7 +15,7 @@ class hsvFilter:
         rospy.on_shutdown(self.cleanup)
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("input_image", Image, self.image_callback, queue_size=1)
-        self.rects_pub = rospy.Publisher('rects', RectArray, queue_size=1)
+        self.rects_pub = rospy.Publisher('raw_rects', RectArray, queue_size=1)
         #params
         self.debug = rospy.get_param("~debug", False)
         self.reduction = rospy.get_param("~reduction", 2)

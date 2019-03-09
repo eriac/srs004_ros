@@ -17,8 +17,8 @@ class rectsTracker:
         rospy.init_node(self.node_name)
         rospy.on_shutdown(self.cleanup)
         self.bridge = CvBridge()
-        self.rects_pub = rospy.Publisher('tracking_rects', TrackedRectArray, queue_size=1)
-        self.rects_sub = rospy.Subscriber('rects', RectArray, self.rects_callback, queue_size=1)
+        self.rects_pub = rospy.Publisher('tracked_rects', TrackedRectArray, queue_size=1)
+        self.rects_sub = rospy.Subscriber('raw_rects', RectArray, self.rects_callback, queue_size=1)
         self.tracking_elements=[]
         self.last_id=0
 

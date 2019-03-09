@@ -42,11 +42,11 @@ class DetectMerger
 
 public:
   DetectMerger() : nh_(), pnh_("~"),
-                   rects_sub_(nh_, "objects", 10),
+                   rects_sub_(nh_, "tracked_rays", 10),
                    obstacle_sub_(nh_, "tracked_obstacles", 20),
                    sync_(MySyncPolicy(10), rects_sub_, obstacle_sub_)
   {
-    objects_pub_ = nh_.advertise<s4_msgs::TrackedObjectArray>("merge_objects", 1);
+    objects_pub_ = nh_.advertise<s4_msgs::TrackedObjectArray>("objects", 1);
     markers_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("markers", 1);
 
     sync_.registerCallback(&DetectMerger::sync_callback, this);
@@ -116,7 +116,7 @@ public:
           merge_object.size = size;
           merge_objects.objects.push_back(merge_object);
 
-          markers.markers.push_back(cylinder_vis(position, radius, s_size(2), merge_frame_, 300 + i));          
+          markers.markers.push_back(cylinder_vis(position, radius, s_size(2), merge_frame_, i));          
         }
       }
     }
@@ -218,39 +218,3 @@ int main(int argc, char **argv)
   DetectMerger detect_merger;
   ros::spin();
 }
-
-/*
-ros::Publisher markers_pub;
-
-void sync_callback(const s4_msgs::TrackedObjectArray& rects_msg, const obstacle_detector::Obstacles& obstacle_msg)
-{
-  printf("sync\n");
-  // Solve all of perception here...
-}
-
-typedef message_filters::sync_policies::ApproximateTime<s4_msgs::TrackedObjectArray, obstacle_detector::Obstacles> MySyncPolicy;
-
-int main(int argc, char** argv){
-  ros::init(argc, argv, "cam_display_objects");
-  ros::NodeHandle nh;
-  ros::NodeHandle pnh("~");
-  
-  double offset_roll;
-  double offset_pitch;
-  double offset_yaw;
-  
-  //pnh.getParam();
-  markers_pub = nh.advertise<visualization_msgs::MarkerArray>("markers", 1);
-  
-  message_filters::Subscriber<s4_msgs::TrackedObjectArray> rects_sub(nh, "objects", 10);
-  message_filters::Subscriber<obstacle_detector::Obstacles> obstacle_sub(nh, "tracked_obstacles", 20);
-
-  message_filters::Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), rects_sub, obstacle_sub);
-  //message_filters::TimeSynchronizer<> sync(rects_sub, obstacle_sub, 5);
-  //sync.registerCallback(boost::bind(&sync_callback, _1, _2));
-  sync.registerCallback(&sync_callback);
-
-  ros::spin();
-  return 0;
-}
-*/

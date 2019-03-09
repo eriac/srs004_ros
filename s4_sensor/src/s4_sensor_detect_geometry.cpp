@@ -24,48 +24,7 @@ image_geometry::PinholeCameraModel cam_model_;
 double offset_roll_ = 0;
 double offset_pitch_ = 0;
 double offset_yaw_ = 0;
-
-visualization_msgs::Marker line_delete(void)
-{
-  visualization_msgs::Marker marker;
-  marker.header.frame_id = "/default_robot/sensor0/head_camera_link";
-  marker.header.stamp = ros::Time::now();
-  marker.ns = "basic_shapes";
-  marker.action = visualization_msgs::Marker::DELETEALL;
-  marker.lifetime = ros::Duration();
-  return marker;
-}
-
-visualization_msgs::Marker line_vis(cv::Point3d pt3, int id)
-{
-  visualization_msgs::Marker marker;
-  marker.header.frame_id = "default_robot/sensor0/head_camera_link";
-  marker.header.stamp = ros::Time::now();
-  marker.ns = "basic_shapes";
-  marker.id = id;
-
-  marker.type = visualization_msgs::Marker::ARROW;
-  marker.action = visualization_msgs::Marker::ADD;
-  marker.lifetime = ros::Duration();
-
-  marker.scale.x = 0.02;
-  marker.scale.y = 0.04;
-  marker.scale.z = 0.05;
-
-  marker.points.resize(2);
-  marker.points[0].x = 0;
-  marker.points[0].y = 0;
-  marker.points[0].z = 0;
-  marker.points[1].x = pt3.x;
-  marker.points[1].y = pt3.y;
-  marker.points[1].z = pt3.z;
-
-  marker.color.r = 0.0f;
-  marker.color.g = 1.0f;
-  marker.color.b = 0.0f;
-  marker.color.a = 1.0f;
-  return marker;
-}
+std::string camera_frame_ = "camera_link";
 
 Eigen::Vector3d projection(cv::Point2d uv)
 {
@@ -89,13 +48,9 @@ Eigen::Vector3d projection(cv::Point2d uv)
 
 void rectsCallback(const s4_msgs::TrackedRectArray &rects_msg)
 {
-
   s4_msgs::TrackedObjectArray objects;
   objects.header = rects_msg.header;
-  //objects.header.frame_id=cam_model.tfFrame();
-  objects.header.frame_id = "default_robot/sensor0/head_camera_link";
-  visualization_msgs::MarkerArray markers;
-  markers.markers.push_back(line_delete());
+  objects.header.frame_id = camera_frame_;
   for (int i = 0; i < (int)rects_msg.rects.size(); i++)
   {
     cv::Point2d uv_cv;
@@ -113,7 +68,6 @@ void rectsCallback(const s4_msgs::TrackedRectArray &rects_msg)
     uv_rb.y = rects_msg.rects[i].rect.y + rects_msg.rects[i].rect.height;
     Eigen::Vector3d right_bottom = projection(uv_rb);
 
-
     s4_msgs::TrackedObject object;
     object.info = rects_msg.rects[i].info;
     object.rect = rects_msg.rects[i].rect;
@@ -125,11 +79,8 @@ void rectsCallback(const s4_msgs::TrackedRectArray &rects_msg)
     object.size.z = (right_bottom - left_top)(2);
     objects.objects.push_back(object);
   }
-  markers_pub.publish(markers);
   objects_pub.publish(objects);
 }
-
-
 
 void infoCallback(const sensor_msgs::CameraInfoConstPtr &info_msg)
 {
@@ -142,14 +93,17 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
 
-  markers_pub = nh.advertise<visualization_msgs::MarkerArray>("markers", 1);
-  objects_pub = nh.advertise<s4_msgs::TrackedObjectArray>("objects", 1);
-  ros::Subscriber sub1 = nh.subscribe("tracking_rects", 10, rectsCallback);
+  objects_pub = nh.advertise<s4_msgs::TrackedObjectArray>("tracked_rays", 1);
+  ros::Subscriber sub1 = nh.subscribe("tracked_rects", 10, rectsCallback);
   ros::Subscriber sub2 = nh.subscribe("camera_info", 10, infoCallback);
 
-  pnh.getParam("offset_roll", offset_roll_);
-  pnh.getParam("offset_pitch", offset_pitch_);
-  pnh.getParam("offset_yaw", offset_yaw_);
+  std::string offset_param_name = "";
+  pnh.getParam("rpy_offset", offset_param_name);
+
+  nh.getParam(offset_param_name + "/roll", offset_roll_);
+  nh.getParam(offset_param_name + "/pitch", offset_pitch_);
+  nh.getParam(offset_param_name + "/yaw", offset_yaw_);
+  pnh.getParam("camera_frame", camera_frame_);
 
   ros::spin();
 }
