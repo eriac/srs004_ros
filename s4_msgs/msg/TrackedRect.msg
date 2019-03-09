@@ -1,6 +1,2 @@
-int32 id
-int32 age
-int32 x
-int32 y
-int32 width
-int32 height
+s4_msgs/TrackedInfo info
+jsk_recognition_msgs/Rect rect

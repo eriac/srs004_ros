@@ -1,4 +1,5 @@
-s4_msgs/TrackedRect rect
+s4_msgs/TrackedInfo info
+jsk_recognition_msgs/Rect rect
 geometry_msgs/Point center
 geometry_msgs/Vector3 velocity
 geometry_msgs/Vector3 size

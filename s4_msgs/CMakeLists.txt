@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   genmsg
   actionlib
   actionlib_msgs
+  jsk_recognition_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -55,6 +56,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
+  TrackedInfo.msg
   TrackedRect.msg
   TrackedRectArray.msg
   TrackedObject.msg
@@ -82,6 +84,7 @@ generate_messages(
   std_msgs
   geometry_msgs
   actionlib_msgs
+  jsk_recognition_msgs
 )
 
 ################################################
