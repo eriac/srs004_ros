@@ -60,7 +60,6 @@
       <node name="fixed_joint_publisher" pkg="s4_hardware" type="s4_hardware_omni_fix_joint" >
         <remap from="joint_states" to="/$(arg robot_name)/joint_states" />
       </node>
-
     </group>
 
     <group ns="device/sensor0">
@@ -99,6 +98,12 @@
         <node machine="$(arg target)" name="image_proc" pkg="image_proc" type="image_proc" />
         <node name="s4_hardware_call_camera_info" pkg="s4_hardware" type="s4_hardware_call_camera_info" output="screen">
           <rosparam command="load" file="$(find s4_hardware)/config/camera_remote2.yaml" />
+        </node>
+      </group>
+      <group ns="imu0">
+        <node machine="$(arg target)" name="s4_hardware_gy955"  pkg="s4_hardware"  type="s4_hardware_gy955" output="screen">
+          <param name="device_name" value="/dev/IMUadapter"/>
+          <param name="imu_frame_name" value="$(arg robot_name)/sensor0/imu0_link"/>
         </node>
       </group>
     </group>
