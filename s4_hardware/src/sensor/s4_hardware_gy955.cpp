@@ -376,7 +376,7 @@ public:
     float quat_size = quat_w * quat_w + quat_x * quat_x + quat_y * quat_y + quat_z * quat_z;
 
     sensor_msgs::Imu imu_msg;
-    imu_msg.header.frame_id = "map";
+    imu_msg.header.frame_id = imu_frame_name_;
     imu_msg.header.stamp = ros::Time::now();
     imu_msg.orientation.x = quat_x;
     imu_msg.orientation.y = quat_y;
