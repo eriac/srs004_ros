@@ -240,3 +240,6 @@ target_link_libraries(s4_hardware_omni_fix_joint ${catkin_LIBRARIES})
 #sensor
 add_executable(s4_hardware_call_camera_info src/sensor/s4_hardware_call_camera_info.cpp)
 target_link_libraries(s4_hardware_call_camera_info ${catkin_LIBRARIES})
+
+add_executable(s4_hardware_gy955 src/sensor/s4_hardware_gy955.cpp)
+target_link_libraries(s4_hardware_gy955 ${catkin_LIBRARIES})
