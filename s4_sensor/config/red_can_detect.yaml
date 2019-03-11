@@ -15,5 +15,5 @@ rects_tracker:
   category: red_can
 #s4_sensor_detect_geometry:
 s4_sensor_detect_merger:
-  distance_max: 0.06
+  distance_max: 0.10
   obstacle_height: 0.06

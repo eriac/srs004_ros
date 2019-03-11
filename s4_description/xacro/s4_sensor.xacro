@@ -28,7 +28,7 @@
         <update_rate>10.0</update_rate>
         <camera name="head_camera">
           <pose>0 0 0 0 ${radians(-90)} ${radians(90)}</pose>
-          <horizontal_fov>1.3962634</horizontal_fov>
+          <horizontal_fov>1.58</horizontal_fov>
           <image>
             <width>800</width>
             <height>600</height>
@@ -51,12 +51,12 @@
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <frameName>${prefix}/head_camera_link</frameName>
-          <hackBaseline>0.07</hackBaseline>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <hackBaseline>0.0</hackBaseline>
+          <distortionK1> 0.016</distortionK1>
+          <distortionK2>-0.026</distortionK2>
+          <distortionK3> 0.000</distortionK3>
+          <distortionT1> 0.002</distortionT1>
+          <distortionT2> 0.004</distortionT2>
         </plugin>
       </sensor>
     </gazebo>
@@ -115,9 +115,9 @@
     <joint name="${prefix}/imu_joint" type="fixed">
       <parent link="${parent}"/>
       <origin rpy="${radians(180)} 0 ${radians(90)}" xyz="${-0.078+0.005} 0 ${0.138+0.094}"/>
-      <child  link="${prefix}/imu_link"/>
+      <child  link="${prefix}/imu0_link"/>
     </joint>
-    <link name="${prefix}/imu_link">
+    <link name="${prefix}/imu0_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -126,7 +126,7 @@
         <material name="blue"/>
       </visual>
     </link>
-    <gazebo reference="${prefix}/imu_link">
+    <gazebo reference="${prefix}/imu0_link">
       <material>Gazebo/Blue</material>
       <gravity>true</gravity>
       <sensor name="imu_sensor" type="imu">
@@ -135,13 +135,13 @@
         <visualize>true</visualize>
         <topic>__default_topic__</topic>
         <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-          <topicName>device/${prefix}/imu/data</topicName>
-          <bodyName>imu_link</bodyName>
+          <topicName>device/${prefix}/imu0/data</topicName>
+          <bodyName>imu0_link</bodyName>
           <updateRateHZ>10.0</updateRateHZ>
           <gaussianNoise>0.0</gaussianNoise>
           <xyzOffset>0 0 0</xyzOffset>
           <rpyOffset>0 ${radians(180)} ${radians(-90)}</rpyOffset>
-          <frameName>${robot_name}/${prefix}/imu_link</frameName>
+          <frameName>${robot_name}/${prefix}/imu0_link</frameName>
         </plugin>
         <pose>0 0 0 0 0 0</pose>
       </sensor>
