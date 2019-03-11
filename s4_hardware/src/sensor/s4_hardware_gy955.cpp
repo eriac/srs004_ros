@@ -206,6 +206,7 @@ public:
     imu_pub_ = nh_.advertise<sensor_msgs::Imu>("imu", 10);
     //Param
     device_name_ = "/dev/ttyUSB0";
+    pnh_.getParam("device_name", device_name_);
     imu_frame_name_ = "imu_link";
     pnh_.getParam("imu_frame_name", imu_frame_name_);
     debug_ = false;
