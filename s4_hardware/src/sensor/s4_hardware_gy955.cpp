@@ -390,7 +390,7 @@ public:
       imu_msg.orientation_covariance[4] = orientation_covariance_[1];
       imu_msg.orientation_covariance[8] = orientation_covariance_[2];
     }
-    else ROS_ERROR_THROTTLE(5.0, "NOT IN %i", orientation_covariance_.size());
+    else ROS_ERROR_THROTTLE(5.0, "NOT IN %i", (int)orientation_covariance_.size());
     return imu_msg;
   }
 
