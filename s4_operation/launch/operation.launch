@@ -2,9 +2,13 @@
 <launch>
   <arg name="robot_name" default="default_robot" />
   <arg name="mode" default="none" />
+  <arg name="target" default="localhost" />
 
-  <arg name="rvizconfig" default="$(find s4_launch)/rviz/default.rviz" />
-  
+<!--
+  <arg  name="rvizconfig" default="$(find s4_launch)/rviz/default.rviz" />
+-->
+  <arg name="rvizconfig" default="$(find s4_description)/rviz/robot_test.rviz" />
+
   <group ns="$(arg robot_name)/operation">
     <node pkg="joy" type="joy_node" name="joy_node" >
     </node>  
@@ -19,7 +23,14 @@
       <param name="quality" value="10" />
     </node>
 
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/dual_robot.rviz" required="true" />
+    <node name="image_view" pkg="image_view" type="image_view" >
+      <remap from="image" to="/$(arg robot_name)/detection/image_rect_color"/>
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+<!--
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+-->
   </group>
 
 

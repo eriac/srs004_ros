@@ -28,5 +28,17 @@
       <!-- static -->
       <node pkg="tf" type="static_transform_publisher" name="tf_map_to_odom" args="0 0 0 0 0 0 $(arg robot_name)/map $(arg robot_name)/odom 50" />
     </group>
+    <group if="$(eval mode=='wheel_imu')">
+      <!-- robot_localization -->
+      <node pkg="robot_localization" type="ekf_localization_node" name="robot_localzation" clear_params="true">
+        <rosparam command="load" file="$(find s4_omni)/config/wheel_imu_localization.yaml" />
+        <param name="tf_prefix" value="$(arg robot_name)"/>
+        <remap from="/odometry/filtered" to="/$(arg robot_name)/lozalization/odom" />
+        <remap from="odom0" to="/$(arg robot_name)/device/omni0/odom" />
+        <remap from="imu0"  to="/$(arg robot_name)/device/sensor0/imu0/data" />
+      </node>
+      <!-- static -->
+      <node pkg="tf" type="static_transform_publisher" name="tf_map_to_odom" args="0 0 0 0 0 0 $(arg robot_name)/map $(arg robot_name)/odom 50" />
+    </group>
   </group>
 </launch>

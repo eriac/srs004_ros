@@ -1,7 +1,7 @@
-#include <s4_msgs/gameAppAction.h>
+#include <s4_msgs/GameAppAction.h>
 #include <actionlib/server/simple_action_server.h>
 
-typedef actionlib::SimpleActionServer<s4_msgs::gameAppAction> Server;
+typedef actionlib::SimpleActionServer<s4_msgs::GameAppAction> Server;
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "test_server");
@@ -10,7 +10,7 @@ int main(int argc, char** argv){
   server.start();
 
   ros::Rate loop_rate(10);
-  s4_msgs::gameAppGoalConstPtr goal;
+  s4_msgs::GameAppGoalConstPtr goal;
   while (ros::ok()){
     if(server.isNewGoalAvailable()){
       goal=server.acceptNewGoal();

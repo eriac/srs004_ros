@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   visualization_msgs
-  s4_comport
   tf
   s4_msgs
 )
@@ -203,6 +202,7 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
+#[[
 add_executable(s4_gun_demo src/s4_gun_demo.cpp)
 target_link_libraries(s4_gun_demo ${catkin_LIBRARIES})
 
@@ -233,7 +233,7 @@ target_link_libraries(s4_gun_shot_sim ${catkin_LIBRARIES})
 add_executable(s4_gun_joint_phycon src/s4_gun_joint_phycon.cpp)
 target_link_libraries(s4_gun_joint_phycon ${catkin_LIBRARIES})
 add_dependencies(s4_gun_joint_phycon ${catkin_EXPORTED_TARGETS})
-
+]]
 add_executable(s4_gun_turret_server src/s4_gun_turret_server.cpp)
 target_link_libraries(s4_gun_turret_server ${catkin_LIBRARIES})
 add_dependencies(s4_gun_turret_server ${catkin_EXPORTED_TARGETS})
