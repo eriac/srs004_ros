@@ -114,7 +114,7 @@
 
     <joint name="${prefix}/imu_joint" type="fixed">
       <parent link="${parent}"/>
-      <origin rpy="${radians(180)} 0 ${radians(90)}" xyz="${-0.078+0.005} 0 ${0.138+0.094}"/>
+      <origin rpy="0 0 ${radians(-90)}" xyz="-0.03 0 0.28"/>
       <child  link="${prefix}/imu0_link"/>
     </joint>
     <link name="${prefix}/imu0_link">
