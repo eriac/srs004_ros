@@ -199,16 +199,19 @@ public:
   std::deque<unsigned char> buffer_data_;
   std::string device_name_;
   std::string imu_frame_name_;
+  std::vector<double> orientation_covariance_;
   bool debug_;
   GY955Driver() : nh_(), pnh_("~")
   {
     //Publisher
-    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("imu", 10);
+    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("data", 10);
     //Param
     device_name_ = "/dev/ttyUSB0";
     pnh_.getParam("device_name", device_name_);
     imu_frame_name_ = "imu_link";
     pnh_.getParam("imu_frame_name", imu_frame_name_);
+    //orientation_covariance_.resize(6);
+    pnh_.getParam("orientation_covariance", orientation_covariance_);
     debug_ = false;
     pnh_.getParam("debug", debug_); 
     //Diagnostic
@@ -382,7 +385,12 @@ public:
     imu_msg.orientation.y = quat_y;
     imu_msg.orientation.z = quat_z;
     imu_msg.orientation.w = quat_w;
-
+    if(orientation_covariance_.size()==3){
+      imu_msg.orientation_covariance[0] = orientation_covariance_[0];
+      imu_msg.orientation_covariance[4] = orientation_covariance_[1];
+      imu_msg.orientation_covariance[8] = orientation_covariance_[2];
+    }
+    else ROS_ERROR_THROTTLE(5.0, "NOT IN %i", orientation_covariance_.size());
     return imu_msg;
   }
 
