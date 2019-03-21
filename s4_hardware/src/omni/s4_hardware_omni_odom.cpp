@@ -28,6 +28,9 @@ float wheel_base=0.100;
 float wheel_radius=0.20;
 float publish_rate=20;
 std::string frame_id="odom";
+std::vector<double> pose_covariance_;
+std::vector<double> twist_covariance_;
+
 geometry_msgs::Twist wheel_invert(float *in){
 	geometry_msgs::Twist out;
 	float lv=1.0/wheel_radius;
@@ -72,6 +75,8 @@ int main(int argc, char **argv)
 	pn.getParam("wheel_radius",  wheel_radius);
 	pn.getParam("publish_rate", publish_rate);
 	pn.getParam("frame_id", frame_id);
+	pn.getParam("pose_covariance", pose_covariance_);
+	pn.getParam("twist_covariance", twist_covariance_);
 
 	float dt=1.0/publish_rate;
 	ros::Rate loop_rate(publish_rate);
@@ -87,6 +92,24 @@ int main(int argc, char **argv)
 		odom_msg.header.stamp=ros::Time::now();
 		odom_msg.header.frame_id=frame_id;
 		odom_msg.twist.twist=body_speed;
+		if(twist_covariance_.size()==6){
+			odom_msg.twist.covariance[ 0] = twist_covariance_[0];
+			odom_msg.twist.covariance[ 7] = twist_covariance_[1];
+			odom_msg.twist.covariance[14] = twist_covariance_[2];
+			odom_msg.twist.covariance[21] = twist_covariance_[3];
+			odom_msg.twist.covariance[28] = twist_covariance_[4];
+			odom_msg.twist.covariance[35] = twist_covariance_[5];
+		}
+		else ROS_ERROR_THROTTLE(5, "NOT IN %i", twist_covariance_.size());
+		if(pose_covariance_.size()==6){
+			odom_msg.pose.covariance[ 0] = pose_covariance_[0];
+			odom_msg.pose.covariance[ 7] = pose_covariance_[1];
+			odom_msg.pose.covariance[14] = pose_covariance_[2];
+			odom_msg.pose.covariance[21] = pose_covariance_[3];
+			odom_msg.pose.covariance[28] = pose_covariance_[4];
+			odom_msg.pose.covariance[35] = pose_covariance_[5];
+		}
+		else ROS_ERROR_THROTTLE(5, "NOT IN %i", pose_covariance_.size());
 		odom_msg.pose.pose=body_position;
 		odom_pub.publish(odom_msg);
 		

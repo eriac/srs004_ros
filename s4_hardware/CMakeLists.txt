@@ -237,6 +237,24 @@ target_link_libraries(s4_hardware_omni_odom ${catkin_LIBRARIES})
 add_executable(s4_hardware_omni_fix_joint src/omni/s4_hardware_omni_fix_joint.cpp)
 target_link_libraries(s4_hardware_omni_fix_joint ${catkin_LIBRARIES})
 
+#gun
+add_executable(s4_hardware_gun_point src/gun/s4_hardware_gun_point.cpp)
+target_link_libraries(s4_hardware_gun_point ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_gun_point s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_gun_laser src/gun/s4_hardware_gun_laser.cpp)
+target_link_libraries(s4_hardware_gun_laser ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_gun_laser s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_gun_shot src/gun/s4_hardware_gun_shot.cpp)
+target_link_libraries(s4_hardware_gun_shot ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_gun_shot s4_hardware_generate_messages_cpp)
+
+#body
+add_executable(s4_hardware_body_battery src/body/s4_hardware_body_battery.cpp)
+target_link_libraries(s4_hardware_body_battery ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_body_battery s4_hardware_generate_messages_cpp)
+
 #sensor
 add_executable(s4_hardware_call_camera_info src/sensor/s4_hardware_call_camera_info.cpp)
 target_link_libraries(s4_hardware_call_camera_info ${catkin_LIBRARIES})

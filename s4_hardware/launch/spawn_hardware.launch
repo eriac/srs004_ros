@@ -11,7 +11,7 @@
       <param name="tf_prefix" value="$(arg robot_name)"/>
     </node>
     <group ns="device/comport">
-      <arg name="device_name" default="/dev/ttyUSB0"/>
+      <arg name="device_name" default="/dev/CANadapter"/>
       <node name="s4_hardware_canlink_to_seriallink" pkg="s4_hardware" type="s4_hardware_canlink_to_seriallink" />
       <node name="s4_hardware_seriallink_decoder"    pkg="s4_hardware" type="s4_hardware_seriallink_decoder" />
       <node machine="$(arg target)" name="s4_hardware_serialport" pkg="s4_hardware" type="s4_hardware_serialport">
@@ -55,11 +55,46 @@
         <param name="frame_id" value="$(arg robot_name)/odom"/>
         <param name="joint0_name" value="omni0/wheel0/housing_joint"/>
         <param name="joint1_name" value="omni0/wheel1/housing_joint"/>
-        <param name="joint2_name" value="omni0/wheel2/housing_joint"/>        
+        <param name="joint2_name" value="omni0/wheel2/housing_joint"/>
+        <rosparam param="pose_covariance">[0.0001, 0.0001, 0.0001, 0.01, 0.01, 0.001]</rosparam>
+        <rosparam param="twist_covariance">[0.0001, 0.0001, 0.0001, 0.01, 0.01, 0.01]</rosparam>
       </node>
       <node name="fixed_joint_publisher" pkg="s4_hardware" type="s4_hardware_omni_fix_joint" >
         <remap from="joint_states" to="/$(arg robot_name)/joint_states" />
       </node>
+    </group>
+
+    <group ns="device/gun0">
+      <node name="s4_hardware_gun_point" pkg="s4_hardware" type="s4_hardware_gun_point" output="screen">
+        <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />
+        <remap from="CANLink_in"  to="/$(arg robot_name)/device/comport/CANLink_in" />
+        <remap from="joint_states" to="/$(arg robot_name)/joint_states" />
+        <param name="CAN_CH" value="A" />
+        <param name="CAN_ID" value="5" />
+      </node>
+      <node name="s4_hardware_gun_laser" pkg="s4_hardware" type="s4_hardware_gun_laser" output="screen">
+        <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />
+        <remap from="CANLink_in"  to="/$(arg robot_name)/device/comport/CANLink_in" />
+        <param name="CAN_CH" value="A" />
+        <param name="CAN_ID" value="5" />
+      </node>
+      <node name="s4_hardware_gun_shot" pkg="s4_hardware" type="s4_hardware_gun_shot" output="screen">
+        <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />
+        <remap from="CANLink_in"  to="/$(arg robot_name)/device/comport/CANLink_in" />
+        <param name="CAN_CH" value="A" />
+        <param name="CAN_ID" value="5" />
+      </node>
+    </group>
+
+    <group ns="device/body">
+      <group ns="battery">
+        <node pkg="s4_body" type="s4_body_battery" name="s4_body_battery" >
+          <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />
+          <remap from="CANLink_in"  to="/$(arg robot_name)/device/comport/CANLink_in" />
+          <param name="CAN_CH" value="S" />
+          <param name="CAN_ID" value="1" />
+        </node>
+      </group>
     </group>
 
     <group ns="device/sensor0">
@@ -103,7 +138,8 @@
       <group ns="imu0">
         <node machine="$(arg target)" name="s4_hardware_gy955"  pkg="s4_hardware"  type="s4_hardware_gy955" output="screen">
           <param name="device_name" value="/dev/IMUadapter"/>
-          <param name="imu_frame_name" value="$(arg robot_name)/sensor0/imu0_link"/>
+          <param name="imu_frame_name" value="$(arg robot_name)/odom"/>
+          <rosparam param="orientation_covariance">[0.0001, 0.0001, 0.0001]</rosparam>
         </node>
       </group>
     </group>
