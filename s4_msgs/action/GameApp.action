@@ -5,11 +5,12 @@ uint32 mode
 bool on
 geometry_msgs/Twist twist
 geometry_msgs/Pose pose
-string target_id
+s4_msgs/TrackedInfo info
 
 uint32 NAV_VEL=11
 uint32 NAV_POS=12
 uint32 FC_POS=20
+uint32 FC_OBJECT=21
 uint32 FC_LASER=25
 uint32 FC_SHOT=26
 
