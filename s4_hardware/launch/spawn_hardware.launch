@@ -129,6 +129,7 @@
           <param name="width" value="800"/>
           <param name="height" value="600"/>
           <param name="fps" value="10"/>
+          <param name="frame_id " value="$(arg robot_name)/sensor0/head_camera_link" />
         </node>
         <node machine="$(arg target)" name="image_proc" pkg="image_proc" type="image_proc" />
         <node name="s4_hardware_call_camera_info" pkg="s4_hardware" type="s4_hardware_call_camera_info" output="screen">
