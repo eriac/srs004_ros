@@ -19,7 +19,7 @@
   <!-- localization function -->
   <include file="$(find s4_omni)/launch/localization.launch">
     <arg name="robot_name" value="$(arg robot_name)"/>
-    <arg name="mode" value="wheel_imu"/>
+    <arg name="mode" value="wheel"/>
   </include>
 
   <!-- detection function -->

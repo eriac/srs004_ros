@@ -1,5 +1,90 @@
-# a
-## b
+# SRS004 design
+
+## overview
+```dot
+digraph graph_name {
+  graph [
+    rankdir=LR;
+  ]
+
+  subgraph cluster_name1 {
+    label = "hardware";
+    subgraph cluster_name2 {
+      label = "sensor";
+      lidar
+      camera
+      imu
+    }
+
+    subgraph cluster_name3 {
+      label = "actuater";
+      "omni";
+      "gun";
+    }
+  }
+  lidar -> localization
+  camera -> localization
+  imu -> localization
+
+  lidar -> detection
+  camera -> detection
+
+  user -> navigation
+
+  localization -> navigation
+
+  navigation -> omni
+
+  sensor -> aaa
+}
+```
+
+## detection
+
+```dot
+digraph graph_name {
+  graph [
+    rankdir=LR;
+  ]
+
+  subgraph cluster_name1 {
+    label = "device/sensor";
+    "ydlidar";
+    "image_proc";
+  }
+
+  "image_proc" -> "hsv_detector" [label=image_color_proc];
+  "image_proc" -> "hsv_detector2" [label=image_color_proc];
+  "ydlidar" -> obstacle_exoractor [label=scan]
+
+  subgraph cluster_name2 {
+    label = "detection";
+    obstacle_exoractor -> obstacle_tracker
+    obstacle_tracker -> "object_merger"
+    obstacle_tracker -> "object_merger2"
+    
+    subgraph cluster_name3 {
+      label = "red_can";
+      "hsv_detector" -> "rect_tracker";
+      "rect_tracker" -> "rect_projector";
+      "rect_projector" -> "object_merger";
+    }
+    "object_merger" -> object_mixer
+  
+    subgraph cluster_name4 {
+      label = "green_board";
+      "hsv_detector2" -> "rect_tracker2";
+      "rect_tracker2" -> "rect_projector2";
+      "rect_projector2" -> "object_merger2";
+    }
+    "object_merger2" -> object_mixer
+
+    object_mixer -> output
+  }
+}
+```
+
+## uml
 
 ```plantuml
 skinparam packageStyle node

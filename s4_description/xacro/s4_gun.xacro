@@ -96,10 +96,10 @@
 
     <joint name="${prefix}/standard_joint" type="fixed">
       <parent link="${prefix}/base1_link"/>
-      <child  link="${prefix}/gun_standard"/>
+      <child  link="${prefix}/standard"/>
       <origin rpy="0 0 0" xyz="0 0 0.086"/>
     </joint>
-    <link name="${prefix}/gun_standard" />
+    <link name="${prefix}/standard" />
 
   </xacro:macro>
 </robot>
