@@ -138,6 +138,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/s4_operation_node.cpp)
 add_executable(s4_operation_test_app src/s4_operation_test_app.cpp)
+add_executable(s4_operation_joy_converter src/joy/s4_operation_joy_converter.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -149,12 +150,16 @@ add_executable(s4_operation_test_app src/s4_operation_test_app.cpp)
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(s4_operation_test_app ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(s4_operation_joy_converter ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(s4_operation_test_app
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(s4_operation_joy_converter
   ${catkin_LIBRARIES}
 )
 
