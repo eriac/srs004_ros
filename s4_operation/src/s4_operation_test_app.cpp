@@ -2,35 +2,10 @@
 #include <geometry_msgs/Point.h>
 #include <sensor_msgs/Joy.h>
 #include <actionlib/client/simple_action_client.h>
+#include <s4_msgs/Joy.h>
 #include <s4_msgs/GameAppAction.h>
 #include <s4_msgs/TrackedObjectArray.h>
 #include <algorithm>
-
-#define PS3_Button_Max 17
-#define PS3_Select 0
-#define PS3_L3     1
-#define PS3_R3     2
-#define PS3_Start  3
-#define PS3_Up     4
-#define PS3_Right  5
-#define PS3_Down   6
-#define PS3_Left   7
-#define PS3_L2     8
-#define PS3_R2     9
-#define PS3_L1    10
-#define PS3_R1    11
-#define PS3_triangle 12
-#define PS3_circle   13
-#define PS3_cross    14
-#define PS3_square   15
-#define PS3_PS 16
-
-#define PS3_LH 0
-#define PS3_LV 1
-#define PS3_RH 2
-#define PS3_RV 3
-#define PS3_AL2 12
-#define PS3_AR2 13
 
 typedef actionlib::SimpleActionClient<s4_msgs::GameAppAction> Client;
 
@@ -38,19 +13,26 @@ float scale_linear_x=0.3;
 float scale_linear_y=0.3;
 float scale_angular_z=2.5;
 
-std::vector<int> buttons_press;
-std::vector<int> buttons_release;
-sensor_msgs::Joy last_joy_msg;
-void joy_callback(const sensor_msgs::Joy& joy_msg){
-  int num = std::min(joy_msg.buttons.size(), last_joy_msg.buttons.size());
-  buttons_press.resize(num);
-  buttons_release.resize(num);
-  for (int i=0; i< num; i++){
-    if(joy_msg.buttons[i] && !last_joy_msg.buttons[i]) buttons_press[i] = 1;
-    else buttons_press[i] = 0;
-    if(!joy_msg.buttons[i] && last_joy_msg.buttons[i]) buttons_release[i] = 1;
-    else buttons_release[i] = 0;
-  }
+s4_msgs::JoySide set_press(s4_msgs::JoySide press, s4_msgs::JoySide current, s4_msgs::JoySide last){
+  s4_msgs::JoySide output;
+  output.B1 = (press.B1 > 0 || current.B1 > 0 &&  last.B1 == 0) ? 1.0 : 0.0;
+  output.B2 = (press.B2 > 0 || current.B2 > 0 &&  last.B2 == 0) ? 1.0 : 0.0;
+  output.B3 = (press.B3 > 0 || current.B3 > 0 &&  last.B3 == 0) ? 1.0 : 0.0;
+  output.CU = (press.CU > 0 || current.CU > 0 &&  last.CU == 0) ? 1.0 : 0.0;
+  output.CD = (press.CD > 0 || current.CD > 0 &&  last.CD == 0) ? 1.0 : 0.0;
+  output.CL = (press.CL > 0 || current.CL > 0 &&  last.CL == 0) ? 1.0 : 0.0;
+  output.CR = (press.CR > 0 || current.CR > 0 &&  last.CR == 0) ? 1.0 : 0.0;
+  return output;
+}
+
+s4_msgs::Joy buttons_press;
+s4_msgs::Joy buttons_release;
+s4_msgs::Joy last_joy_msg;
+void joy_callback(const s4_msgs::Joy& joy_msg){
+  //buttons_press
+  buttons_press.left = set_press(buttons_press.left, joy_msg.left, last_joy_msg.left);
+  buttons_press.right = set_press(buttons_press.right, joy_msg.right, last_joy_msg.right);
+  //buttons_release
   last_joy_msg = joy_msg;
 }
 
@@ -78,33 +60,33 @@ int main(int argc, char** argv){
   Client turret_client("turret_action", false);
   Client select_client("select_action", false);
 
-  ros::Subscriber joy_sub = nh.subscribe("joy", 1, joy_callback);
+  ros::Subscriber joy_sub = nh.subscribe("standard_joy", 1, joy_callback);
   ros::Subscriber object_sub = nh.subscribe("objects", 10, object_callback);
 
   ros::Rate loop_rate(10);
   
   while (ros::ok()){
     if(ros::Time::now() - last_joy_msg.header.stamp < ros::Duration(1.0)){
-      if(std::min(std::min(last_joy_msg.buttons.size(), buttons_press.size()), buttons_release.size())>=PS3_Button_Max){
+      if(true){
         //move
         if(move_client.isServerConnected()){
           ROS_INFO_ONCE("move server connected");
           geometry_msgs::Twist cmd_vel;
           float move_scale = 0.5;
-          if(last_joy_msg.buttons[PS3_L1])move_scale=1.0;
+          if(last_joy_msg.left.B1 > 0)move_scale = 1.0;
 
-          cmd_vel.linear.x = move_scale * last_joy_msg.axes[PS3_LV] * scale_linear_x;
-          cmd_vel.angular.z = move_scale * last_joy_msg.axes[PS3_LH] * scale_angular_z;
-          
-          if(last_joy_msg.axes[PS3_AL2]==1 && last_joy_msg.axes[PS3_AR2]<1){
-            cmd_vel.linear.y = -move_scale * scale_linear_y * std::min(1.0-last_joy_msg.axes[PS3_AR2], 1.0);
+          cmd_vel.linear.x = move_scale * last_joy_msg.left.AV * scale_linear_x;
+          cmd_vel.angular.z = move_scale * last_joy_msg.left.AH * scale_angular_z;
+          if(last_joy_msg.left.B2 > 0 && last_joy_msg.right.B2 == 0){
+            cmd_vel.linear.y = move_scale * scale_linear_y * last_joy_msg.left.B2;
           }
-          else if(last_joy_msg.axes[PS3_AR2]==1 && last_joy_msg.axes[PS3_AL2]<1){
-            cmd_vel.linear.y = move_scale * scale_linear_y * std::min(1.0-last_joy_msg.axes[PS3_AL2], 1.0);
+          else if(last_joy_msg.left.B2 == 0 && last_joy_msg.right.B2 > 0){
+            cmd_vel.linear.y = -move_scale * scale_linear_y * last_joy_msg.right.B2;
           }
           else{
             cmd_vel.linear.y = 0.0;
           }
+
           s4_msgs::GameAppGoal goal1;
           goal1.header.stamp=ros::Time::now();
           goal1.mode=s4_msgs::GameAppGoal::NAV_VEL;
@@ -116,19 +98,19 @@ int main(int argc, char** argv){
         if(turret_client.isServerConnected()){
           ROS_INFO_ONCE("turret server connected");
           s4_msgs::GameAppGoal goal2;
-          if(buttons_press[PS3_R1]){//laser on
+          if(buttons_press.right.B1){//laser on
             goal2.header.stamp=ros::Time::now();
             goal2.mode=s4_msgs::GameAppGoal::FC_LASER;
             goal2.on=true;
             turret_client.sendGoal(goal2);
           }
-          else if(buttons_press[PS3_triangle]){//laser off
+          else if(buttons_press.right.CU){//laser off
             goal2.header.stamp=ros::Time::now();
             goal2.mode=s4_msgs::GameAppGoal::FC_LASER;
             goal2.on=false;
             turret_client.sendGoal(goal2);
           }
-          else if(last_joy_msg.buttons[PS3_R1] && buttons_press[PS3_cross]){//shot
+          else if(last_joy_msg.right.B1 > 0 && buttons_press.right.CD){//shot
             goal2.header.stamp=ros::Time::now();
             goal2.mode=s4_msgs::GameAppGoal::FC_SHOT;
             goal2.on=true;
@@ -137,7 +119,8 @@ int main(int argc, char** argv){
 
           static geometry_msgs::Point aim_pos;
           float aim_scale = 1.0;
-          if(buttons_press[PS3_square]){//aim center
+          if(buttons_press.right.CL){//aim center
+            aim_pos.x = 1.0;
             aim_pos.y = 0.0;
             aim_pos.z = 0.0;
             goal2.header.stamp=ros::Time::now();
@@ -146,12 +129,12 @@ int main(int argc, char** argv){
             goal2.duration=3.0;
             turret_client.sendGoal(goal2);
           }
-          else if(std::fabs(last_joy_msg.axes[PS3_RH]) + std::fabs(last_joy_msg.axes[PS3_RV]) > 0.01){
+          else if(std::fabs(last_joy_msg.right.AH) + std::fabs(last_joy_msg.right.AV) > 0.01){
             float aim_scale = 1.0;
-            if(last_joy_msg.buttons[PS3_R1])aim_scale = 0.3;
+            if(last_joy_msg.right.B1)aim_scale = 0.3;
             static geometry_msgs::Twist aim_vel;
-            aim_vel.linear.y = aim_scale * 0.8 * last_joy_msg.axes[PS3_RH];
-            aim_vel.linear.z = aim_scale * 0.2 * -last_joy_msg.axes[PS3_RV];
+            aim_vel.linear.y = aim_scale * 0.8 * last_joy_msg.right.AH;
+            aim_vel.linear.z = aim_scale * 0.2 * -last_joy_msg.right.AV;
 
             goal2.header.stamp=ros::Time::now();
             goal2.mode=s4_msgs::GameAppGoal::FC_VEL;
@@ -159,7 +142,7 @@ int main(int argc, char** argv){
             goal2.duration=0.1;
             turret_client.sendGoal(goal2);
           }
-          else if(buttons_press[PS3_circle]){
+          else if(buttons_press.right.CR){
             goal2.header.stamp=ros::Time::now();
             //goal2.mode=s4_msgs::GameAppGoal::FC_OBJECT;
             goal2.mode=s4_msgs::GameAppGoal::FC_FOCUS;
@@ -171,7 +154,7 @@ int main(int argc, char** argv){
         }
         if(select_client.isServerConnected()){
           s4_msgs::GameAppGoal goal2;
-          if(buttons_press[PS3_Up]){//focus
+          if(buttons_press.left.CU){//focus
             goal2.header.stamp=ros::Time::now();
             goal2.mode=s4_msgs::GameAppGoal::SL_CHANGE;
             goal2.duration=1.0;
@@ -181,12 +164,12 @@ int main(int argc, char** argv){
       }
     }
     //buttons reset
-    for (int i=0; i< (int)buttons_press.size(); i++){
-      buttons_press[i] = 0;
-    }
-    for (int i=0; i< (int)buttons_release.size(); i++){
-      buttons_release[i] = 0;
-    }
+
+    s4_msgs::JoySide none;
+    buttons_press.left = none;
+    buttons_press.right = none;
+    buttons_release.left = none;
+    buttons_release.right = none;
     ros::spinOnce();
     loop_rate.sleep();
   }

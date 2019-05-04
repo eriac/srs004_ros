@@ -39,6 +39,11 @@
     <arg name="robot_name" value="$(arg robot_name)"/>
   </include>
 
+  <!-- selection system -->
+  <include file="$(find s4_sensor)/launch/selection.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
   <!-- driver -->
 <!-- 
   <include file="$(find s4_omni)/launch/main.launch" />
