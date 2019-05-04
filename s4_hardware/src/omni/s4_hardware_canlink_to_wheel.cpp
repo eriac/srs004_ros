@@ -43,6 +43,10 @@ void canin_callback(const s4_hardware::CANCode& can_msg){
 			if(last_time != ros::Time(0)){
 				float position_diff = current_position - last_position;
 				ros::Duration time_diff= current_time - last_time;
+				if(time_diff < ros::Duration(0.03)){
+					ROS_WARN("input come in %f[s] < 0.03", time_diff.toSec());
+					return;
+				}
 				state_msg.process_value = position_diff / time_diff.toSec();
 				//printf("cp:%f, lp:%f, ct:%f, lt:%f\n", current_position, last_position, current_time.toSec(), last_time.toSec());
 				//printf("dp:%f, dy:%f\n", current_position-last_position, (current_time-last_time).toSec());

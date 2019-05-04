@@ -146,6 +146,7 @@ add_executable(s4_sensor_lidar_check src/s4_sensor_lidar_check.cpp)
 add_executable(s4_sensor_detect_visualize src/s4_sensor_detect_visualize.cpp)
 add_executable(s4_sensor_detect_geometry src/s4_sensor_detect_geometry.cpp)
 add_executable(s4_sensor_detect_merger src/s4_sensor_detect_merger.cpp)
+add_executable(s4_sensor_selection_server src/s4_sensor_selection_server.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -158,6 +159,7 @@ add_executable(s4_sensor_detect_merger src/s4_sensor_detect_merger.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(s4_sensor_detect_geometry ${catkin_EXPORTED_TARGETS})
 add_dependencies(s4_sensor_detect_merger ${catkin_EXPORTED_TARGETS})
+add_dependencies(s4_sensor_selection_server ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
@@ -177,6 +179,11 @@ target_link_libraries(s4_sensor_detect_merger
   ${catkin_LIBRARIES}
   ${Eigen3_LIBRARIES}
 )
+target_link_libraries(s4_sensor_selection_server
+  ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+)
+
 #############
 ## Install ##
 #############

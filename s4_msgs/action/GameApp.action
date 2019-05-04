@@ -9,11 +9,13 @@ s4_msgs/TrackedInfo info
 
 uint32 NAV_VEL=11
 uint32 NAV_POS=12
-uint32 FC_POS=20
-uint32 FC_OBJECT=21
+uint32 FC_VEL=20
+uint32 FC_POS=21
+uint32 FC_OBJECT=22
+uint32 FC_FOCUS=23
 uint32 FC_LASER=25
 uint32 FC_SHOT=26
-
+uint32 SL_CHANGE=31
 ---
 # Define the result
 float64 distance

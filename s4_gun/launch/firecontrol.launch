@@ -4,16 +4,17 @@
   <arg name="mode" default="none" />
 
   <group ns="$(arg robot_name)/firecontrol">
-    <node pkg="s4_gun" type="s4_gun_aim_object" name="s4_gun_aim_object" output="screen">
+    <node pkg="s4_gun" type="s4_gun_aim_object" name="s4_gun_aim_object">
       <remap from="command" to="/$(arg robot_name)/device/gun0/command" />
       <remap from="objects" to="/$(arg robot_name)/detection/objects" />
       <param name="gun_standard_link" value="$(arg robot_name)/gun0/standard"/>
     </node>
 
-    <node pkg="s4_gun" type="s4_gun_turret_server" name="s4_gun_turret_server" >
+    <node pkg="s4_gun" type="s4_gun_turret_server" name="s4_gun_turret_server">
       <remap from="command" to="/$(arg robot_name)/device/gun0/command" />
       <remap from="laser" to="/$(arg robot_name)/device/gun0/laser" />
       <remap from="shot" to="/$(arg robot_name)/device/gun0/shot" />
+      <remap from="input_focus" to="/$(arg robot_name)/selection/focus"/>
     </node>      
   </group>
  </launch>

@@ -71,6 +71,7 @@
         <remap from="joint_states" to="/$(arg robot_name)/joint_states" />
         <param name="CAN_CH" value="A" />
         <param name="CAN_ID" value="5" />
+        <param name="train_trim" value="110" />
       </node>
       <node name="s4_hardware_gun_laser" pkg="s4_hardware" type="s4_hardware_gun_laser" output="screen">
         <remap from="CANLink_out" to="/$(arg robot_name)/device/comport/CANLink_out" />

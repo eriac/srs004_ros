@@ -61,6 +61,8 @@ add_message_files(
   TrackedRectArray.msg
   TrackedObject.msg
   TrackedObjectArray.msg
+  JoySide.msg
+  Joy.msg
 )
 
 ## Generate services in the 'srv' folder

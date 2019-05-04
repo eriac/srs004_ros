@@ -19,7 +19,8 @@ float train_min = -0.6;
 float train_max = 0.6;
 float elevation_min = -0.18;
 float elevation_max = 0.12;
-
+int elevation_trim = 0;
+int train_trim = 0;
 
 float train_target=0.0;
 float elevation_target=0.0;
@@ -29,8 +30,8 @@ void point_callback(const geometry_msgs::Point& point_msg){
     train_target = atan2(point_msg.y, point_msg.x);
     elevation_target = atan2(point_msg.z, holizon);
     if(train_min < train_target && train_target < train_max && elevation_min < elevation_target && elevation_target < elevation_max){
-      int train_command = -train_target*5333/3.1415+7500;
-      int elevation_command = elevation_target*8000/3.1415+7500;
+      int train_command = -train_target*5333/3.1415+7500+train_trim;
+      int elevation_command = elevation_target*8000/3.1415+7500+elevation_trim;
       //ROS_INFO("t: %f(%i), e:%f(%i)", train_target, train_command, elevation_target, elevation_command);
 
       s4_hardware::CANCode cancode;
@@ -85,6 +86,9 @@ int main(int argc, char **argv)
   ros::NodeHandle pnh("~");
   pnh.getParam("CAN_CH", CAN_CH);
   pnh.getParam("CAN_ID", CAN_ID);
+
+  pnh.getParam("elevation_trim", elevation_trim);
+  pnh.getParam("train_trim", train_trim);
 
   //publish
   point_pub  = nh.advertise<geometry_msgs::Point>("state", 10);
