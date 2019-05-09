@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "s4_hardware_seriallink_to_canlink");
 	ros::NodeHandle n;
 	//publicher
-	canlink_pub = n.advertise<s4_hardware::CANCode>("CANLink_in", 1000);
+	canlink_pub = n.advertise<s4_hardware::CANCode>("CANLink_in", 10);
 	//Subscriber
 	ros::Subscriber seriallink_sub = n.subscribe("SerialLink_in", 10, seriallink_callback); 
 	

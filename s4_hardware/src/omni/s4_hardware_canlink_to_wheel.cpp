@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 
 	ros::Duration(1.0).sleep();
 	
-	ros::Rate loop_rate(10); 
+	ros::Rate loop_rate(20); 
 	while (ros::ok()){
 
 		s4_hardware::CANCode cancode;

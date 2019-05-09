@@ -169,7 +169,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "s4_hardware_seriallink_encoder");
 	ros::NodeHandle n;
 	//publicher
-	seriallink_pub = n.advertise<s4_hardware::SerialCode>("SerialLink_in", 1000);
+	seriallink_pub = n.advertise<s4_hardware::SerialCode>("SerialLink_in", 10);
 	//Subscriber
 	ros::Subscriber serial_sub = n.subscribe("Serial_in", 10, serial_callback); 
 	

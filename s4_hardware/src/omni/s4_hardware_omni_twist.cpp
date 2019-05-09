@@ -8,13 +8,9 @@
 #include <sstream>
 #include <string>
 
-
-geometry_msgs::Twist twist_last;
-bool twist_enable;
-void twist_callback(const geometry_msgs::Twist& twist_msg){
-	twist_last=twist_msg;
-	twist_enable=true;
-}
+ros::Publisher wheel0_pub;
+ros::Publisher wheel1_pub;
+ros::Publisher wheel2_pub;
 
 float wheel_base=0.100;
 float wheel_radius=0.20;
@@ -29,8 +25,23 @@ void calculation(float *out, float *in){
 	}
 }
 
-int main(int argc, char **argv)
-{
+void twist_callback(const geometry_msgs::Twist& twist_msg){
+  float in[3]={0};
+  float out[3]={0};
+  in[0]=twist_msg.linear.x;
+  in[1]=twist_msg.linear.y;
+  in[2]=twist_msg.angular.z;
+  calculation(out,in);
+  std_msgs::Float64 data[3];
+  data[0].data=out[0];
+  data[1].data=out[1];
+  data[2].data=out[2];
+  wheel0_pub.publish(data[0]);
+  wheel1_pub.publish(data[1]);
+  wheel2_pub.publish(data[2]);
+}
+
+int main(int argc, char **argv){
 	ros::init(argc, argv, "s4_omni_twist");
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
@@ -43,35 +54,16 @@ int main(int argc, char **argv)
 	pn.getParam("wheel2", wheel[2]);
 
 	//publish
-	ros::Publisher wheel0_pub = n.advertise<std_msgs::Float64>("wheel0/command", 10);
-	ros::Publisher wheel1_pub = n.advertise<std_msgs::Float64>("wheel1/command", 10);
-	ros::Publisher wheel2_pub = n.advertise<std_msgs::Float64>("wheel2/command", 10);
+	wheel0_pub = n.advertise<std_msgs::Float64>("wheel0/command", 2);
+	wheel1_pub = n.advertise<std_msgs::Float64>("wheel1/command", 2);
+	wheel2_pub = n.advertise<std_msgs::Float64>("wheel2/command", 2);
 	//Subscribe
-	ros::Subscriber joy_sub     = n.subscribe("cmd_vel", 10, twist_callback); 
+	ros::Subscriber joy_sub     = n.subscribe("cmd_vel", 1, twist_callback); 
 
 	for(int i=0;i<3;i++)wheel_normal[i]=wheel[i]-M_PI/2;
 	
 	ros::Rate loop_rate(publish_rate); 
-	while (ros::ok()){
-		if(twist_enable){
-			float in[3]={0};
-			float out[3]={0};
-			in[0]=twist_last.linear.x;
-			in[1]=twist_last.linear.y;
-			in[2]=twist_last.angular.z;
-			calculation(out,in);
-			std_msgs::Float64 data[3];
-			data[0].data=out[0];
-			data[1].data=out[1];
-			data[2].data=out[2];
-			wheel0_pub.publish(data[0]);
-			wheel1_pub.publish(data[1]);
-			wheel2_pub.publish(data[2]);
-		}
-		
-		ros::spinOnce();
-		loop_rate.sleep();
-	} 
+	ros::spin();
  	return 0;
 }
 

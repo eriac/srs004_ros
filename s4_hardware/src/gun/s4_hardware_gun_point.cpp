@@ -18,7 +18,7 @@ int diagnostic_counter=0;
 float train_min = -0.6;
 float train_max = 0.6;
 float elevation_min = -0.18;
-float elevation_max = 0.12;
+float elevation_max = 0.17;//0.12
 int elevation_trim = 0;
 int train_trim = 0;
 

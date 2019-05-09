@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "s4_hardware_seriallink_decoder");
 	ros::NodeHandle n;
 	//publicher
-	serial_pub = n.advertise<std_msgs::String>("Serial_out", 1000);
+	serial_pub = n.advertise<std_msgs::String>("Serial_out", 10);
 	//Subscriber
 	ros::Subscriber seriallink_sub = n.subscribe("SerialLink_out", 10, seriallink_callback); 
 	

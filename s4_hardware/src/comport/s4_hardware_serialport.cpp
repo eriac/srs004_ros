@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	pn.getParam("device_name", device_name);
 
 	//Publisher
-	ros::Publisher serial_pub = n.advertise<std_msgs::String>("Serial_in", 1000);
+	ros::Publisher serial_pub = n.advertise<std_msgs::String>("Serial_in", 10);
 
 	//Subscriber
 	ros::Subscriber serial_sub = n.subscribe("Serial_out", 10, serial_callback); 
