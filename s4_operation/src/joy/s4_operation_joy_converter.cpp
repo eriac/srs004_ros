@@ -5,6 +5,7 @@
 
 ros::Publisher joy_pub;
 std::string joy_type = "none";
+bool restamp =false;
 
 #define PS3_Button_Max 17
 #define PS3_Select 0
@@ -61,6 +62,24 @@ s4_msgs::Joy convert_ps3(const sensor_msgs::Joy& joy_msg){
 s4_msgs::Joy convert_iphone(const sensor_msgs::Joy& joy_msg){
   s4_msgs::Joy joy_out;
   joy_out.header = joy_msg.header;
+  joy_out.left.AV = joy_msg.axes[1];
+  joy_out.left.AH = -joy_msg.axes[0];
+  joy_out.left.B1 = joy_msg.axes[10];
+  joy_out.left.B2 = joy_msg.axes[12];
+  joy_out.left.B3 = 0;
+  joy_out.left.CU = joy_msg.axes[5] > 0 ? 1 : 0;
+  joy_out.left.CD = joy_msg.axes[5] < 0 ? 1 : 0;
+  joy_out.left.CL = joy_msg.axes[4] < 0 ? 1 : 0;
+  joy_out.left.CR = joy_msg.axes[4] > 0 ? 1 : 0;
+  joy_out.right.AV = joy_msg.axes[3];
+  joy_out.right.AH = -joy_msg.axes[2];
+  joy_out.right.B1 = joy_msg.axes[11];
+  joy_out.right.B2 = joy_msg.axes[13];
+  joy_out.right.B3 = 0;
+  joy_out.right.CU = joy_msg.axes[9];
+  joy_out.right.CD = joy_msg.axes[6];
+  joy_out.right.CL = joy_msg.axes[8];
+  joy_out.right.CR = joy_msg.axes[7];
   return joy_out;
 }
 
@@ -92,21 +111,25 @@ s4_msgs::Joy convert_elecom(const sensor_msgs::Joy& joy_msg){
 }
 
 void joy_callback(const sensor_msgs::Joy& joy_msg){
+  s4_msgs::Joy joy_out;
   if(joy_type == "elecom"){
-    s4_msgs::Joy joy_out = convert_elecom(joy_msg);
-    joy_pub.publish(joy_out);
+    joy_out = convert_elecom(joy_msg);
   }
   else if(joy_type == "ps3"){
-    s4_msgs::Joy joy_out = convert_ps3(joy_msg);
-    joy_pub.publish(joy_out);
+    joy_out = convert_ps3(joy_msg);
   }
   else if(joy_type == "iphone"){
-    s4_msgs::Joy joy_out = convert_iphone(joy_msg);
-    joy_pub.publish(joy_out);
+    joy_out = convert_iphone(joy_msg);
   }
   else{
     ROS_WARN_THROTTLE(5.0, "joy_type is illegal");
+    return;
   }
+
+  if(restamp){
+    joy_out.header.stamp = ros::Time::now();
+  }
+  joy_pub.publish(joy_out);
 }
 
 int main(int argc, char** argv){
@@ -114,6 +137,7 @@ int main(int argc, char** argv){
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
   pnh.getParam("joy_type", joy_type);
+  pnh.getParam("restamp", restamp);
 
   joy_pub = nh.advertise<s4_msgs::Joy>("standard_joy", 10);
   ros::Subscriber joy_sub = nh.subscribe("joy", 1, joy_callback);
