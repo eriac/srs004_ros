@@ -1,5 +1,8 @@
 #include "ros/ros.h"
-  
+
+#include <message_filters/subscriber.h>
+#include <message_filters/sync_policies/approximate_time.h>
+
 #include "std_msgs/Float32.h"
 #include "geometry_msgs/Twist.h"
 #include "geometry_msgs/Pose.h"
@@ -12,6 +15,13 @@
 #include "math.h"
 #include <sstream>
 #include <string>
+
+typedef message_filters::sync_policies::ApproximateTime<control_msgs::JointControllerState, control_msgs::JointControllerState, control_msgs::JointControllerState> StateSyncPolicy;
+void sync_callback(const control_msgs::JointControllerState &point0_msg,
+                   const control_msgs::JointControllerState &point1_msg,
+                   const control_msgs::JointControllerState &point2_msg) {
+  ROS_ERROR("sync");
+}
 
 float wheel_speed[3]={0};
 void state0_callback(const control_msgs::JointControllerState& state_msg){
@@ -56,22 +66,26 @@ geometry_msgs::Pose update_pose(geometry_msgs::Pose last_pose, geometry_msgs::Tw
 	return next_pose;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
 	ros::init(argc, argv, "s4_omni_odom");
-	ros::NodeHandle n;
-	ros::NodeHandle pn("~");
+	ros::NodeHandle nh;
+	ros::NodeHandle pnh("~");
 	//publish
-	ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 10);
+	ros::Publisher odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 10);
 	//Subscribe
-	ros::Subscriber odometry0 = n.subscribe("wheel0/state", 10, state0_callback); 
-	ros::Subscriber odometry1 = n.subscribe("wheel1/state", 10, state1_callback); 
-	ros::Subscriber odometry2 = n.subscribe("wheel2/state", 10, state2_callback); 
+	//ros::Subscriber odometry0 = nh.subscribe("wheel0/state", 10, state0_callback); 
+	//ros::Subscriber odometry1 = nh.subscribe("wheel1/state", 10, state1_callback); 
+	//ros::Subscriber odometry2 = nh.subscribe("wheel2/state", 10, state2_callback); 
+  message_filters::Subscriber<control_msgs::JointControllerState> state_sub0(nh, "wheel0/state", 10);
+  message_filters::Subscriber<control_msgs::JointControllerState> state_sub1(nh, "wheel1/state", 10);
+  message_filters::Subscriber<control_msgs::JointControllerState> state_sub2(nh, "wheel2/state", 10);
+  message_filters::Synchronizer<StateSyncPolicy> sync(StateSyncPolicy(20), state_sub0, state_sub1, state_sub2);
+  sync.registerCallback(&sync_callback);
 
-	pn.getParam("wheel_base",    wheel_base);
-	pn.getParam("wheel_radius",  wheel_radius);
-	pn.getParam("publish_rate", publish_rate);
-	pn.getParam("frame_id", frame_id);
+	pnh.getParam("wheel_base",    wheel_base);
+	pnh.getParam("wheel_radius",  wheel_radius);
+	pnh.getParam("publish_rate", publish_rate);
+	pnh.getParam("frame_id", frame_id);
 
 	float dt=1.0/publish_rate;
 	ros::Rate loop_rate(publish_rate);

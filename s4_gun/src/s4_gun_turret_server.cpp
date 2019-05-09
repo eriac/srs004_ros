@@ -35,8 +35,8 @@ int main(int argc, char** argv) {
   ros::Rate loop_rate(10);
   s4_msgs::GameAppGoalConstPtr goal;
 
-  float aim_lim_y = 0.6;
-  float aim_lim_z = 0.12;
+  float aim_lim_y = 0.62;
+  float aim_lim_z = 0.16;//0.12
 
   static geometry_msgs::Point aim_pos;
   while (ros::ok()) {
