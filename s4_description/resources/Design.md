@@ -180,7 +180,7 @@ salt
 
 ## Part List (Mechanical)
 
-| Group | Name | Quantity | @price | shop |
+| Group | Name | Quantity | price | shop |
 |:-:|:-:|:-:|:-:|:-:|
 | Wheel | GA370 | 3 | \1100 | Aliexpress |
 |  | 38mmOmni | 3 | \432 | Viston |
@@ -189,10 +189,12 @@ salt
 |  | StepperMotor | 1 | \400 | ? |
 |  | GreenLaser | 1 | \1000 | Aliexpress |
 |  | KRS4031 | 2 | \7000 | KondoKagaku |
-| Sensor | WebCamera | 1 | ?? | Baffalo |
-|  | YDLIDAR | 1 | ?? | Aliexpress |
-|  | US15 | 3 | \500 | Akiduki |
+| Sensor | WebCamera | 1 | \2300 | Baffalo |
+|  | YDLIDAR | 1 | \11000 | Aliexpress |
+|  | US-15 | 3 | \500 | Akizuki |
 | Power | LiPo | 1 | \3000 | ? |
+| System | RaspberryPi3B | 1 | \6000 | ? |
+|  | WiFiModule | 1 | \4000 | ? |
 
 
 ||||||

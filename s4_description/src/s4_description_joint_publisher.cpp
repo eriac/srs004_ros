@@ -1,3 +1,11 @@
+/**
+ * The time class represents a moment of time.
+ *
+ * \author Erio Akanuma
+ * 
+ * \todo refactoring
+ */
+
 #include "ros/ros.h"
 
 #include "std_msgs/Float32.h"

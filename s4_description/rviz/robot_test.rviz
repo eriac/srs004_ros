@@ -4,7 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded: ~
-      Splitter Ratio: 0.672413766
+      Splitter Ratio: 0.441988945
     Tree Height: 650
   - Class: rviz/Selection
     Name: Selection
@@ -24,7 +24,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -54,21 +54,23 @@ Visualization Manager:
         s4n1/base_link:
           Value: true
         s4n1/body0/battery_link:
-          Value: true
+          Value: false
         s4n1/body0/body2_link:
-          Value: true
+          Value: false
         s4n1/body0/body_link:
-          Value: true
+          Value: false
         s4n1/body0/bridge_link:
-          Value: true
+          Value: false
         s4n1/body0/tracker_link:
           Value: true
         s4n1/gun0/base1_link:
-          Value: true
+          Value: false
+        s4n1/gun0/base2_link:
+          Value: false
         s4n1/gun0/gun_link:
           Value: true
         s4n1/gun0/laser_link:
-          Value: true
+          Value: false
         s4n1/gun0/standard:
           Value: true
         s4n1/map:
@@ -76,141 +78,147 @@ Visualization Manager:
         s4n1/odom:
           Value: true
         s4n1/omni0/wheel0/barrel_0_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_0_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_1_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_1_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_2_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_2_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_3_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_3_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_4_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_4_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_5_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_5_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_6_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_6_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_7_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/barrel_7_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/motor_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/sus_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel0/wheel_link:
           Value: true
         s4n1/omni0/wheel0/wheel_s_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_0_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_0_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_1_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_1_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_2_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_2_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_3_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_3_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_4_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_4_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_5_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_5_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_6_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_6_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_7_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/barrel_7_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/motor_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/sus_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel1/wheel_link:
           Value: true
         s4n1/omni0/wheel1/wheel_s_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_0_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_0_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_1_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_1_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_2_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_2_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_3_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_3_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_4_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_4_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_5_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_5_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_6_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_6_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_7_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/barrel_7_mark_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/motor_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/sus_link:
-          Value: true
+          Value: false
         s4n1/omni0/wheel2/wheel_link:
           Value: true
         s4n1/omni0/wheel2/wheel_s_link:
-          Value: true
+          Value: false
         s4n1/sensor0/front_laser_link:
           Value: true
         s4n1/sensor0/head_camera_link:
           Value: true
         s4n1/sensor0/imu0_link:
           Value: true
-        s4n1/targets0/target0/frame_link:
+        s4n1/sensor0/range0_link:
           Value: true
+        s4n1/sensor0/range1_link:
+          Value: true
+        s4n1/sensor0/range2_link:
+          Value: true
+        s4n1/targets0/target0/frame_link:
+          Value: false
         s4n1/targets0/target0/plate_link:
           Value: true
         s4n1/targets0/target1/frame_link:
-          Value: true
+          Value: false
         s4n1/targets0/target1/plate_link:
           Value: true
         s4n1/targets0/target2/frame_link:
-          Value: true
+          Value: false
         s4n1/targets0/target2/plate_link:
           Value: true
       Marker Scale: 0.5
@@ -231,6 +239,10 @@ Visualization Manager:
                   s4n1/body0/tracker_link:
                     {}
               s4n1/gun0/base1_link:
+                s4n1/gun0/base2_link:
+                  s4n1/gun0/gun_link:
+                    s4n1/gun0/laser_link:
+                      {}
                 s4n1/gun0/standard:
                   {}
               s4n1/omni0/wheel0/sus_link:
@@ -322,6 +334,12 @@ Visualization Manager:
               s4n1/sensor0/head_camera_link:
                 {}
               s4n1/sensor0/imu0_link:
+                {}
+              s4n1/sensor0/range0_link:
+                {}
+              s4n1/sensor0/range1_link:
+                {}
+              s4n1/sensor0/range2_link:
                 {}
               s4n1/targets0/target0/frame_link:
                 s4n1/targets0/target0/plate_link:
@@ -705,6 +723,18 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        sensor0/range0_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        sensor0/range1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        sensor0/range2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         targets0/target0/frame_link:
           Alpha: 1
           Show Axes: false
@@ -878,6 +908,36 @@ Visualization Manager:
       size: 128
       text size: 14
       top: 10
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Range
+      Queue Size: 10
+      Topic: /s4n1/device/body/back_range/range0
+      Unreliable: false
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Range
+      Queue Size: 10
+      Topic: /s4n1/device/body/back_range/range1
+      Unreliable: false
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Range
+      Queue Size: 10
+      Topic: /s4n1/device/body/back_range/range2
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -903,25 +963,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.23662472
+      Distance: 5.07436562
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.376327753
-        Y: 0.036305137
-        Z: 0.0701315999
+        X: -0.0239922442
+        Y: -0.0260847062
+        Z: 0.11355488
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.774796009
+      Pitch: 1.28979516
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.85228586
+      Yaw: 3.02228642
     Saved: ~
 Window Geometry:
   Displays:
@@ -931,7 +991,7 @@ Window Geometry:
   Hide Right Dock: true
   Image:
     collapsed: true
-  QMainWindow State: 000000ff00000000fd00000004000000000000016b00000319fc0200000008fb0000001200530065006c0065006300740069006f006e00000000280000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000002800000319000000d700fffffffa000000020100000003fb0000001c00710074005f00740077006900730074005f00700061006e0065006c0000000000ffffffff0000000000000000fb0000001c00710074005f00740077006900730074005f00700061006e0065006c0000000000ffffffff0000000000000000fb000000100044006900730070006c0061007900730100000000000001ba0000016a00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000014e00000319fc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0049006d0061006700650000000028000001670000001600fffffffb0000000a005600690065007700730000000195000001ac000000ad00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004490000003efc0100000002fb0000000800540069006d00650100000000000004490000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000002d80000031900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000022e00000319fc0200000008fb0000001200530065006c0065006300740069006f006e00000000280000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000002800000319000000d700fffffffa000000020100000003fb0000001c00710074005f00740077006900730074005f00700061006e0065006c0000000000ffffffff0000000000000000fb0000001c00710074005f00740077006900730074005f00700061006e0065006c0000000000ffffffff0000000000000000fb000000100044006900730070006c0061007900730100000000000001ba0000016a00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000014e00000319fc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0049006d0061006700650000000028000001670000001600fffffffb0000000a005600690065007700730000000195000001ac000000ad00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004490000003efc0100000002fb0000000800540069006d00650100000000000004490000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000002150000031900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
