@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  sensor_msgs
   tf
   message_generation
 )
@@ -254,6 +255,18 @@ add_dependencies(s4_hardware_gun_shot s4_hardware_generate_messages_cpp)
 add_executable(s4_hardware_body_battery src/body/s4_hardware_body_battery.cpp)
 target_link_libraries(s4_hardware_body_battery ${catkin_LIBRARIES})
 add_dependencies(s4_hardware_body_battery s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_body_light src/body/s4_hardware_body_light.cpp)
+target_link_libraries(s4_hardware_body_light ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_body_light s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_body_range src/body/s4_hardware_body_range.cpp)
+target_link_libraries(s4_hardware_body_range ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_body_range s4_hardware_generate_messages_cpp)
+
+add_executable(s4_hardware_body_hitsensor src/body/s4_hardware_body_hitsensor.cpp)
+target_link_libraries(s4_hardware_body_hitsensor ${catkin_LIBRARIES})
+add_dependencies(s4_hardware_body_hitsensor s4_hardware_generate_messages_cpp)
 
 #sensor
 add_executable(s4_hardware_call_camera_info src/sensor/s4_hardware_call_camera_info.cpp)

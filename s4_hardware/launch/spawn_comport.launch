@@ -2,7 +2,6 @@
 <launch>
   <arg name="robot_name" default="default_robot"/>
   <arg name="target" default="localhost"/>
-  <arg name="init_pose" default=""/>
   <arg name="model" default="$(find s4_description)/xacro/s4_robot.xacro"/>
 
   <group ns="$(arg robot_name)">
