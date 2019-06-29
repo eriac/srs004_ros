@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   jsk_recognition_msgs
   s4_msgs
+  obstacle_detector
 )
 find_package(Eigen3 REQUIRED)
 
