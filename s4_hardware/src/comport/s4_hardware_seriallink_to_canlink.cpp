@@ -57,11 +57,7 @@ int main(int argc, char **argv)
 	//Subscriber
 	ros::Subscriber seriallink_sub = n.subscribe("SerialLink_in", 10, seriallink_callback); 
 	
-	ros::Rate loop_rate(100); 
-	while (ros::ok()){ 		
-		ros::spinOnce();
-		loop_rate.sleep();
-	} 
+	ros::spin();
  	return 0;
 }
 

@@ -160,7 +160,7 @@
         </node>
         <node machine="$(arg target)" name="image_proc" pkg="image_proc" type="image_proc" />
         <node name="s4_hardware_call_camera_info" pkg="s4_hardware" type="s4_hardware_call_camera_info" output="screen">
-          <rosparam command="load" file="$(find s4_hardware)/config/camera_remote2.yaml" />
+          <rosparam command="load" file="$(find s4_hardware)/config/camera_$(arg target).yaml" />
         </node>
       </group>
       <group ns="imu0">

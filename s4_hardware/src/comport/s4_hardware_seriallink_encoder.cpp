@@ -173,11 +173,7 @@ int main(int argc, char **argv)
 	//Subscriber
 	ros::Subscriber serial_sub = n.subscribe("Serial_in", 10, serial_callback); 
 	
-	ros::Rate loop_rate(100); 
-	while (ros::ok()){ 		
-		ros::spinOnce();
-		loop_rate.sleep();
-	} 
+	ros::spin();
  	return 0;
 }
 

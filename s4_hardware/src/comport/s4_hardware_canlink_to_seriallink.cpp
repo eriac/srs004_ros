@@ -42,11 +42,7 @@ int main(int argc, char **argv)
 	//Subscriber
 	ros::Subscriber canlink_sub = n.subscribe("CANLink_out", 10, canlink_callback); 
 	
-	ros::Rate loop_rate(100); 
-	while (ros::ok()){ 		
-		ros::spinOnce();
-		loop_rate.sleep();
-	} 
- 	return 0;
+	ros::spin();
+	return 0;
 }
 
