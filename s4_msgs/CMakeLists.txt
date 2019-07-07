@@ -63,6 +63,7 @@ add_message_files(
   TrackedObjectArray.msg
   JoySide.msg
   Joy.msg
+  ViewCommand.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -119,7 +120,7 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES s4_msgs
 #  CATKIN_DEPENDS roscpp rospy std_msgs tf message_runtime actionlib_msgs geometry_msgs
 #  DEPENDS system_lib
