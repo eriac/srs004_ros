@@ -10,14 +10,40 @@
 class TestApp{
 public:
   TestApp(void);
+  void timer_callback(const ros::TimerEvent&);
   void joyCallback(const s4_msgs::Joy& joy_msg);
   void objectCallback(const s4_msgs::TrackedObjectArray& objects_msg);
-  void timer_callback(const ros::TimerEvent&);
-  
+
+
+	typedef actionlib::SimpleActionClient<s4_msgs::NavigationAction> NavClient;
+	typedef actionlib::SimpleActionClient<s4_msgs::FireControlAction> FireClient;
+  NavClient navigation_client_;
+  FireClient fire_control_client_;
+  ros::Publisher view_command_pub_;
+  ros::Subscriber joy_sub_;
+  ros::Subscriber object_sub_;
+  ros::Subscriber odom_sub_;
+  ros::Subscriber map_sub_;
+  ros::Subscriber system_status_sub_;
 };
 
+TestApp::TestApp(void) : navigation_client("nagivation_action", false), fire_control_client("fire_control_action", false){
 
-typedef actionlib::SimpleActionClient<s4_msgs::GameAppAction> Client;
+	ros::Publisher odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 10);
+  ros::Subscriber joy_sub = nh.subscribe("standard_joy", 1, joy_callback);
+  ros::Subscriber object_sub = nh.subscribe("objects", 10, object_callback);
+}
+
+
+
+int main(int argc, char** argv){
+  ros::init(argc, argv, "s4_operation_test_app");
+  TestApp test_app;
+  ros::spin();
+  return 0;
+}
+
+/*
 
 float scale_linear_x=0.3;
 float scale_linear_y=0.3;
@@ -185,3 +211,4 @@ int main(int argc, char** argv){
   }
   return 0;
 }
+*/

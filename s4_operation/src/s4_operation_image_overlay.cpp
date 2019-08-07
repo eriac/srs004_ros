@@ -1,69 +1,76 @@
+// OSS
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <opencv/cv.h>
+
+// ROS
 #include <ros/ros.h>
+#include <tf/transform_listener.h>
+#include <actionlib/client/simple_action_client.h>
+#include <image_transport/image_transport.h>
+#include <image_geometry/pinhole_camera_model.h>
+#include <cv_bridge/cv_bridge.h>
+#include <laser_geometry/laser_geometry.h>
+#include <pcl_ros/transforms.h>
+
+// ROS msg
+#include <std_msgs/Float32.h>
 #include <geometry_msgs/Point.h>
 #include <sensor_msgs/Joy.h>
-#include <actionlib/client/simple_action_client.h>
-#include <s4_msgs/Joy.h>
-#include <s4_msgs/GameAppAction.h>
-#include <s4_msgs/TrackedObjectArray.h>
-#include <opencv/cv.h>
-#include <image_transport/image_transport.h>
-#include <cv_bridge/cv_bridge.h>
-#include <algorithm>
-#include <s4_msgs/objects_accessor.h>
 #include <sensor_msgs/LaserScan.h>
-
-#include <laser_geometry/laser_geometry.h>
-#include <tf/transform_listener.h>
-#include <pcl_ros/transforms.h>
 #include <sensor_msgs/PointCloud.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/point_cloud_conversion.h>
-#include <std_msgs/Float32.h>
-#include <image_geometry/pinhole_camera_model.h>
 
+// SRS004
+#include <s4_msgs/Joy.h>
+#include <s4_msgs/GameAppAction.h>
 #include <s4_msgs/TrackedObjectArray.h>
-
-
-#include <string>
-#include <sstream>
+#include <s4_msgs/objects_accessor.h>
+#include <s4_msgs/TrackedObjectArray.h>
+#include <s4_msgs/ViewCommand.h>
 
 class ImageOverlay{
 public:
   ImageOverlay();
+
+private:
+  void viewCommandCallback(const s4_msgs::ViewCommand& view_command_msg);
   void imageCallback(const sensor_msgs::ImageConstPtr& image_msg, const sensor_msgs::CameraInfoConstPtr& info_msg);
-                 
   void objectsCallback(const s4_msgs::TrackedObjectArray& objects_msg);
   void laserScanCallback(const sensor_msgs::LaserScan& laser_scan_msg);
   void voltageCallback(const std_msgs::Float32& float_msg);
   void aimPointCallback(const geometry_msgs::Point& point_msg);
 
-private:
   ros::NodeHandle nh_;
   ros::NodeHandle pnh_;
   image_transport::ImageTransport it_;
   tf::TransformListener ln_;
 
-  s4_msgs::ObjectsAccessor objects_accessor_;
-
-
+  ros::Subscriber view_command_sub_;
   image_transport::CameraSubscriber camera_sub_;
   image_transport::Publisher camera_pub_;
+  ros::Subscriber objects_sub_;
   ros::Subscriber laser_scan_sub_;
-  sensor_msgs::LaserScan last_laser_scan_;
   ros::Subscriber voltage_sub_;
-  double last_voltage_;
   ros::Subscriber aim_point_sub_;
+
+  s4_msgs::ObjectsAccessor objects_accessor_;
+  sensor_msgs::LaserScan last_laser_scan_;
+  double last_voltage_;
+  double last_hp_;
   geometry_msgs::PointStamped last_aim_point_;
 
-  ros::Subscriber objects_sub_;
-
-  bool overlayVoltage(cv::Mat& image, const double voltage);
-  bool overlayLaser(cv::Mat& image, const sensor_msgs::LaserScan& laser_scan);
-  bool overlayAim(cv::Mat& image, const sensor_msgs::CameraInfo& info, const geometry_msgs::PointStamped& point);
   bool overlayObjects(cv::Mat& image, const s4_msgs::ObjectsAccessor& accessor);
+  bool overlayLaser(cv::Mat& image, const sensor_msgs::LaserScan& laser_scan);
+  bool overlayVoltage(cv::Mat& image, const double voltage);
+  bool overlayAim(cv::Mat& image, const sensor_msgs::CameraInfo& info, const geometry_msgs::PointStamped& point);
+  bool overlayHP(cv::Mat& image, const double hp);
 };
 
 ImageOverlay::ImageOverlay() : nh_(), pnh_(), it_(nh_), ln_(), objects_accessor_() {
+  view_command_sub_ = nh_.subscribe("view_command", 1, &ImageOverlay::viewCommandCallback, this);;
   objects_sub_ = nh_.subscribe("objects", 1, &ImageOverlay::objectsCallback, this);
   camera_sub_ = it_.subscribeCamera("image_rect_color", 1, &ImageOverlay::imageCallback, this);
   camera_pub_ = it_.advertise("image_overlay", 1);
@@ -72,17 +79,15 @@ ImageOverlay::ImageOverlay() : nh_(), pnh_(), it_(nh_), ln_(), objects_accessor_
   aim_point_sub_ = nh_.subscribe("aim_point", 1, &ImageOverlay::aimPointCallback, this);;
 }
 
+void ImageOverlay::viewCommandCallback(const s4_msgs::ViewCommand& view_command_msg){
+  ROS_INFO("VIEW COMMNAD");
+  objects_accessor_.SetFocus(view_command_msg.info);
+  last_hp_ = view_command_msg.hp;
+}
+
+
 void ImageOverlay::objectsCallback(const s4_msgs::TrackedObjectArray& objects_msg){
   objects_accessor_.UpdateObjects(objects_msg);
-  
-  //SetFocus
-  std::vector<std::string> categories;
-  objects_accessor_.GetCategories(categories);
-  if(!categories.empty()){
-    objects_accessor_.SetCategory(categories[0]);
-    geometry_msgs::Point refferece_point;
-    objects_accessor_.SetNearest(refferece_point);
-  }
 }
 
 void ImageOverlay::laserScanCallback(const sensor_msgs::LaserScan& laser_scan_msg){
@@ -105,6 +110,7 @@ void ImageOverlay::imageCallback(const sensor_msgs::ImageConstPtr& image_msg, co
   cv::Mat image = input_bridge->image;
 
   overlayVoltage(image, last_voltage_);
+  overlayHP(image, last_hp_);
   overlayLaser(image, last_laser_scan_);
   overlayAim(image, *info_msg, last_aim_point_);
   overlayObjects(image, objects_accessor_);
@@ -118,6 +124,19 @@ bool ImageOverlay::overlayVoltage(cv::Mat& image, const double voltage){
   std::string str = "V: ";
   ss << str <<  std::fixed << std::setprecision(1) << voltage;
   cv::putText(image, ss.str().c_str(), cv::Point(10,50), cv::FONT_HERSHEY_SIMPLEX, 2.0, CV_RGB(255,0,0), 3, CV_AA);
+}
+
+bool ImageOverlay::overlayHP(cv::Mat& image, const double hp){
+  double scale = 200;
+  cv::Point point1, point2, point3;
+  point1.x = 10;
+  point1.y = 100;
+  point2.x = 10 + scale * hp;
+  point2.y = 120;
+  point3.x = 10 + scale * 1.0;
+  point3.y = 120;
+  cv::rectangle(image, point1, point2, CV_RGB(255, 0, 0), -1);
+  cv::rectangle(image, point1, point3, CV_RGB(255, 0, 0), 3);
 }
 
 bool ImageOverlay::overlayLaser(cv::Mat& image, const sensor_msgs::LaserScan& laser_scan){
