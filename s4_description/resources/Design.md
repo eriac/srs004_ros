@@ -9,49 +9,69 @@ node user{
   node GlobalSetting
 }
 
-node GameSystem
+node GameApp
+
 node NavigationSystem
 node FireControlSystem
 node ViewSystem
+node SelectionSystem
 
 node LocalizeFunction
 node DetectFunction
 database tf
 
-Joy -d-> GameSystem: joy
+Joy -d-> GameApp: joy
 ViewSystem -u-> View: image
+GlobalSetting --> GameApp: Freeze
+GlobalSetting --> ViewSystem: HP
 
-GameSystem =d=> NavigationSystem: NavAction
-GameSystem =d=> FireControlSystem: GunAction
-GameSystem =d=> ViewSystem: ViewAction
+GameApp =d=> NavigationSystem: NavAction
+GameApp =d=> FireControlSystem: GunAction
+GameApp =d=> SelectionSystem: SelectionAction
+GameApp =d=> ViewSystem: ViewAction
 
 LocalizeFunction -u-> tf: self position
 tf -u-> NavigationSystem
 tf -u-> FireControlSystem
 tf -u-> ViewSystem
+
+SelectionSystem -l-> ViewSystem: focus
+
 DetectFunction -u-> NavigationSystem: object
 DetectFunction -u-> FireControlSystem: object
+DetectFunction -u-> SelectionSystem: object
 DetectFunction -u-> ViewSystem: object
+/'
+database objects
+DetectFunction -u-> objects
+objects -u-> NavigationSystem: object
+objects -u-> FireControlSystem: object
+objects -u-> SelectionSystem: object
+objects -u-> ViewSystem: object
+'/
 
-frame actuator {
+
+frame CAN {
   node Omni
   node Gun
   node Body
+  node System
 }
 NavigationSystem -d-> Omni: cmd_vel
 Omni -u-> LocalizeFunction: odom
 FireControlSystem -d-> Gun: point, shot, laser
 Gun -u-> FireControlSystem: point
-Body -u-> GameSystem: HP
-FireControlSystem -d-> Body: Light
-Body -u-> ViewSystem: HP, Bat
-GlobalSetting -d-> Body: ResetHP, Color
+Body -u-> GlobalSetting: Hit
+ViewSystem -d-> Body: Light
+System -u-> ViewSystem: Bat
+GlobalSetting -d-> Body: Color
+Body -u-> NavigationSystem: range
+Body -u-> ViewSystem: range
 
-frame sensor {
+frame USB {
   node HeadCamera
   node FrontLidar
   node IMU
-  node Sonor
 }
 FrontLidar -u-> NavigationSystem: scan
 FrontLidar -u-> LocalizeFunction: scan
@@ -60,8 +80,13 @@ FrontLidar -u-> ViewSystem: scan
 HeadCamera -u-> DetectFunction: image
 HeadCamera -u-> ViewSystem: image
 IMU -u-> LocalizeFunction: imu
-Sonor -u-> NavigationSystem: range
 ```
+
+* s4_opertion: GameApp, ViewSystem
+* s4_omni: NavigationSystem, LocalizeFunction
+* s4_gun: FireControlSystem
+* s4_sensor: SelectionSystem, DetectFunction
+
 
 # Software Detail
 
@@ -144,7 +169,7 @@ digraph graph_name {
 salt
 {
   {T
-    + PowerHab
+    + PowerHub
     ++ WheelModule(ID:1)
     +++ GeerMotor
     +++ Encoder
@@ -168,11 +193,12 @@ salt
     +++ GunMotor
     +++ GunSW
     +++ Laser
-    +++ Magagene
+    +++ MagageneMotor
     ++ CANAdapter(ID:Master)
     +++ RaspberryPi
     ++++ Camera
     ++++ IMU
+    ++++ WiFi
     ++ LIDARPower(ID:None)
   }
 }
@@ -196,8 +222,26 @@ salt
 | System | RaspberryPi3B | 1 | \6000 | ? |
 |  | WiFiModule | 1 | \4000 | ? |
 
+SubTotal: \43200
 
-||||||
-Hit
-Power
-System
+## Part List (Electric boards)
+
+| Group | Name | Quantity | price | shop |
+|:-:|:-:|:-:|:-:|:-:|
+| Wheel | WheelModuleController | 3 | \2000 | Make |
+| Gun | GunModuleController | 1 | \3000 | Make |
+| Body | BodyModuleController | 1 | \1500 | Make |
+|  | LightBoard | 1 | \500 | Make |
+|  | HitSensor | 3 | \1500 | Make |
+| Sensor | YdlidarPowor | 1 | \1000 | Make |
+| Power | PowerHub | 1 | \1500 | Make |
+|  | PowerSwitchBoard | 1 | \1000 | Make |
+| System | RasPower | 1 | \1000 | Make |
+|  | ImuUSB | 1 | \1000 | Make |
+
+Subtotal: \21000
+
+## Develope Tool
+| Group | Name | Quantity | price | shop |
+|:-:|:-:|:-:|:-:|:-:|
+| Develope | USBSerial | 1 | \1500 | Make |

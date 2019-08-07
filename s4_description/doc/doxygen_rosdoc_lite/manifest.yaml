@@ -1,0 +1,18 @@
+actions: []
+authors: ''
+brief: ''
+bugtracker: ''
+depends:
+- tf
+- std_msgs
+- rospy
+- roscpp
+- catkin
+description: The s4_description package
+license: TODO
+maintainers: erio <erio@todo.todo>
+msgs: []
+package_type: package
+repo_url: ''
+srvs: []
+url: ''
