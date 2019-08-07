@@ -6,6 +6,7 @@
 
 
   <machine name="localhost"  address="localhost" />
+  <machine name="remote1" address="remote1" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
   <machine name="remote2" address="remote2" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
   <machine name="remote3" address="remote3" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
   <machine name="OptiPlex-9010" address="OptiPlex-9010" env-loader="/home/erio/catkin_ws/devel/env.sh" user="erio" password="419000"/>

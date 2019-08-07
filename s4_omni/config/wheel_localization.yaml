@@ -10,6 +10,7 @@ publish_acceleration: false
 #map_frame: default_robot/map              # Defaults to "map" if unspecified
 #odom_frame: default_robot/odom            # Defaults to "odom" if unspecified
 #base_link_frame: default_robot/base_link  # Defaults to "base_link" if unspecified
+#base_link_frame: s4n1/base_link
 #world_frame: default_robot/odom           # Defaults to the value of odom_frame if unspecified
 
 #odom0: wheel odometry
