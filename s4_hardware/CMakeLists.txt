@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   tf
   message_generation
+  pluginlib
   s4_msgs
 )
 
@@ -126,7 +127,8 @@ include_directories(
 
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
-  src/canadapter_plugins/test_plugin.cpp
+  src/canadapter_plugins/master_plugin.cpp
+  #src/canadapter_plugins/test_plugin.cpp
 )
 
 ## Add cmake target dependencies of the library

@@ -1,41 +1,67 @@
 #include "s4_hardware/usb_adapter.h"
 #include "s4_hardware/msg_converter.h"
+
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
 // ROS
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
+#include <pluginlib/class_loader.h>
+// SRS004
+#include <s4_hardware/canlink_plugins_base.h>
 
 class CANAdapter : public USBSerial{
  public:
   CANAdapter();
+  bool addPlugin(std::string plugin_name, std::string channel, int id);
+  bool outputCode(s4_msgs::CANCode code);
+
   bool process(std::deque<unsigned char>& buffer);
   void timerCallback(const ros::TimerEvent& event);
   bool exact(std::string data);
-  sensor_msgs::Imu convert_data(std::vector<unsigned char> data);
-  bool checkSum(std::vector<unsigned char> data);
-  bool checkSize(sensor_msgs::Imu imu_msg);
+  ros::Timer interval_timer_;
 
-  ros::Publisher imu_pub_;
-  ros::Timer timer_dummy_;
-
-  std::string imu_frame_name_;
-  std::vector<double> orientation_covariance_;
-  bool debug_;
+  pluginlib::ClassLoader<s4_hardware::CANLinkPluginsBase> plugins_loader_;
+  std::vector<boost::shared_ptr<s4_hardware::CANLinkPluginsBase>> plugin_list_;
 };
 
-CANAdapter::CANAdapter(): USBSerial{}{
-  imu_pub_ = nh_.advertise<sensor_msgs::Imu>("data", 10);
-  timer_dummy_ = nh_.createTimer(ros::Duration(1.0), &CANAdapter::timerCallback, this);
-
-  imu_frame_name_ = "imu_frame";
-  pnh_.getParam("imu_frame_name", imu_frame_name_);
-  orientation_covariance_.resize(3);
-  pnh_.getParam("orientation_covariance", orientation_covariance_);
+CANAdapter::CANAdapter(): USBSerial{}, plugins_loader_("s4_hardware", "s4_hardware::CANLinkPluginsBase"){
+  double hz_ = 10.0;
+  pnh_.getParam("hz", hz_);
+  interval_timer_ = nh_.createTimer(ros::Duration(1.0/hz_), &CANAdapter::timerCallback, this);
 }
 
+bool CANAdapter::addPlugin(std::string plugin_name, std::string channel, int id){
+  try{
+    boost::shared_ptr<s4_hardware::CANLinkPluginsBase> test0 = plugins_loader_.createInstance(plugin_name);
+    boost::function<bool(s4_msgs::CANCode)> func= boost::bind(&CANAdapter::outputCode, this, _1);
+    test0->initialize(nh_, pnh_, channel, id, func);
+    plugin_list_.push_back(test0);
+  }
+  catch(pluginlib::PluginlibException& ex) {
+    ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
+  }
+}
+
+bool CANAdapter::outputCode(s4_msgs::CANCode code){
+  //ROS_WARN("OUTPUT");
+
+  s4_msgs::SerialCode s_code;
+  std::string out0;
+  
+  cancode_to_serialcode(&s_code, code);
+  serialcode_to_serial(&out0, s_code);
+
+  std::vector<unsigned char> activate_data;
+  activate_data.resize((int)out0.size());
+  for(int i=0;i<out0.size();i++)activate_data[i]=out0[i];
+  output(activate_data);
+}
+
+
 bool CANAdapter::process(std::deque<unsigned char>& buffer){
-  ROS_WARN("INPUT");
+  //ROS_WARN("INPUT");
   std::string s0(buffer.begin(), buffer.end());
-  printf("%s\n", s0.c_str());
   buffer.clear();
 
 	static std::string serial_buffer="";
@@ -60,19 +86,21 @@ bool CANAdapter::process(std::deque<unsigned char>& buffer){
 }
 
 void CANAdapter::timerCallback(const ros::TimerEvent& event){
-  std::string out0("#CANLINK.S-ID.1-COM.1-REMOTE;");
-  std::vector<unsigned char> activate_data;
-  activate_data.resize((int)out0.size());
-  for(int i=0;i<out0.size();i++)activate_data[i]=out0[i];
-  //std::vector<unsigned char> activate_data({'#',';'});
-  output(activate_data);
-  output(activate_data);
-  output(activate_data);
+  for(int i=0;i<plugin_list_.size();i++){
+    plugin_list_[i]->sync();
+  }
+
+
+  // std::string out0("#CANLINK.S-ID.1-COM.1-REMOTE;");
+  // std::vector<unsigned char> activate_data;
+  // activate_data.resize((int)out0.size());
+  // for(int i=0;i<out0.size();i++)activate_data[i]=out0[i];
+  // output(activate_data);
 }
 
 bool CANAdapter::exact(std::string data){
   //extract
-  printf("code: %s\n", data.c_str());
+  //printf("code: %s\n", data.c_str());
 
   s4_msgs::SerialCode s_code;
   s4_msgs::CANCode c_code;
@@ -80,86 +108,37 @@ bool CANAdapter::exact(std::string data){
 	serial_to_serialcode(&s_code, data);
   serialcode_to_cancode(&c_code, s_code);
 
-  printf("c: %s, id: %i, com: %i, ", c_code.channel.c_str(), c_code.id, c_code.com);
-  if(c_code.remote)printf("remote: true\n");
-  else printf("remote: false\n");
-  printf("[%i] ", c_code.length);
-  for(int i=0;i<8;i++)printf("%i, ", c_code.data[i]);
-  printf("\n");
-}
-
-sensor_msgs::Imu CANAdapter::convert_data(std::vector<unsigned char> data){
-  int mode = data[2];
-  int size = data[3];
-  int16_t tmp_w = (data[4] * 256 + data[5]);
-  float quat_w = tmp_w / 10000.0;
-  int16_t tmp_x = (data[6] * 256 + data[7]);
-  float quat_x = tmp_x / 10000.0;
-  int16_t tmp_y = (data[8] * 256 + data[9]);
-  float quat_y = tmp_y / 10000.0;
-  int16_t tmp_z = (data[10] * 256 + data[11]);
-  float quat_z = tmp_z / 10000.0;
-  int d0 = (data[12] >> 6) & 0x03;
-  int d1 = (data[12] >> 4) & 0x03;
-  int d2 = (data[12] >> 2) & 0x03;
-  int d3 = (data[12] >> 0) & 0x03;
-  float quat_size = quat_w * quat_w + quat_x * quat_x + quat_y * quat_y + quat_z * quat_z;
-
-  sensor_msgs::Imu imu_msg;
-  imu_msg.header.frame_id = imu_frame_name_;
-  imu_msg.header.stamp = ros::Time::now();
-  imu_msg.orientation.x = quat_x;
-  imu_msg.orientation.y = quat_y;
-  imu_msg.orientation.z = quat_z;
-  imu_msg.orientation.w = quat_w;
-  if(orientation_covariance_.size()==3){
-    imu_msg.orientation_covariance[0] = orientation_covariance_[0];
-    imu_msg.orientation_covariance[4] = orientation_covariance_[1];
-    imu_msg.orientation_covariance[8] = orientation_covariance_[2];
+  for(int i=0;i<plugin_list_.size();i++){
+    plugin_list_[i]->inputCode(c_code);
   }
-  else ROS_ERROR_THROTTLE(5.0, "covariance size is not 3 but %i", (int)orientation_covariance_.size());
-  return imu_msg;
+
+  // printf("c: %s, id: %i, com: %i, ", c_code.channel.c_str(), c_code.id, c_code.com);
+  // if(c_code.remote)printf("remote: true\n");
+  // else printf("remote: false\n");
+  // printf("[%i] ", c_code.length);
+  // for(int i=0;i<8;i++)printf("%i, ", c_code.data[i]);
+  // printf("\n");
 }
 
-bool CANAdapter::checkSum(std::vector<unsigned char> data){
-  if ((int)data.size() >= 2){
-    int sum = 0;
-    for (int i = 0; i < (int)data.size() - 1; i++){
-      sum += data[i];
-    }
-    if (sum % 256 == data.back() % 256){
-      // ROS_ERROR("OK");
-      // for (auto d: data){
-      //   printf("%i,", d);
-      // }
-      // printf("\n");
-      return true;
-    }
-    else{
-      // ROS_ERROR("sum:%i, last:%i", sum % 256, data.back() % 256);
-      // for (auto d: data){
-      //   printf("%i,", d);
-      // }
-      // printf("\n");
-      return false;
-    }
-  }
-  return false;
-}
-
-bool CANAdapter::checkSize(sensor_msgs::Imu imu_msg){
-  float x2 = imu_msg.orientation.x * imu_msg.orientation.x;
-  float y2 = imu_msg.orientation.y * imu_msg.orientation.y;
-  float z2 = imu_msg.orientation.z * imu_msg.orientation.z;
-  float w2 = imu_msg.orientation.w * imu_msg.orientation.w;
-  float size2 = x2 + y2 + z2 + w2;
-  if (0.9 < size2 && size2 < 1.1)
-    return true;
-  return false;
-}
 
 int main(int argc, char **argv){
   ros::init(argc, argv, "usb_test");
   CANAdapter usb_serial_test{};
+
+  // pluginlib::ClassLoader<s4_hardware::CANLinkPluginsBase> plugins_loader("s4_hardware", "s4_hardware::CANLinkPluginsBase");
+
+  // std::string plugin_name = "s4_hardware/TestPlugin";
+  // try{
+  //   boost::shared_ptr<s4_hardware::CANLinkPluginsBase> test0 = plugins_loader.createInstance(plugin_name);
+  //   ROS_INFO("SUCCESS PLUGIN");
+  // }
+  // catch(pluginlib::PluginlibException& ex)
+  // {
+  //   ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
+  // }
+
+  usb_serial_test.addPlugin("s4_hardware/MasterPlugin", "S", 1);
+  //usb_serial_test.addPlugin("s4_hardware/TestPlugin", "S", 1);
+
   ros::spin();
 }
