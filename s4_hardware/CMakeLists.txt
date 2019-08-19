@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   tf
   message_generation
+  s4_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -50,11 +51,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  CANCode.msg
-  SerialCode.msg
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -71,10 +72,10 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -119,7 +120,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -202,75 +203,88 @@ include_directories(
 # catkin_add_nosetests(test)
 
 #comport
-add_executable(s4_hardware_serialport src/comport/s4_hardware_serialport.cpp)
-target_link_libraries(s4_hardware_serialport ${catkin_LIBRARIES})
+add_executable(${PROJECT_NAME}_canadapter_node src/canadapter_main/canadapter_node.cpp)
+add_dependencies(${PROJECT_NAME}_canadapter_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(${PROJECT_NAME}_canadapter_node ${catkin_LIBRARIES})
 
-add_executable(s4_hardware_serialport_retry src/comport/s4_hardware_serialport_retry.cpp)
-target_link_libraries(s4_hardware_serialport_retry ${catkin_LIBRARIES})
+add_executable(${PROJECT_NAME}_usb_adapter_test src/usb_adapter_test.cpp)
+target_link_libraries(${PROJECT_NAME}_usb_adapter_test ${catkin_LIBRARIES})
 
-add_executable(s4_hardware_canlink_to_seriallink src/comport/s4_hardware_canlink_to_seriallink.cpp)
-target_link_libraries(s4_hardware_canlink_to_seriallink ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_canlink_to_seriallink s4_hardware_generate_messages_cpp)
+# sensor
+add_executable(${PROJECT_NAME}_gy955_node src/sensor/gy955_node.cpp)
+target_link_libraries(${PROJECT_NAME}_gy955_node ${catkin_LIBRARIES})
 
-add_executable(s4_hardware_seriallink_to_canlink src/comport/s4_hardware_seriallink_to_canlink.cpp)
-target_link_libraries(s4_hardware_seriallink_to_canlink ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_seriallink_to_canlink s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_seriallink_decoder src/comport/s4_hardware_seriallink_decoder.cpp)
-target_link_libraries(s4_hardware_seriallink_decoder ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_seriallink_decoder s4_hardware_generate_messages_cpp)
+#comport
+# add_executable(s4_hardware_serialport src/comport/s4_hardware_serialport.cpp)
+# target_link_libraries(s4_hardware_serialport ${catkin_LIBRARIES})
 
-add_executable(s4_hardware_seriallink_encoder src/comport/s4_hardware_seriallink_encoder.cpp)
-target_link_libraries(s4_hardware_seriallink_encoder ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_seriallink_encoder s4_hardware_generate_messages_cpp)
+# add_executable(s4_hardware_serialport_retry src/comport/s4_hardware_serialport_retry.cpp)
+# target_link_libraries(s4_hardware_serialport_retry ${catkin_LIBRARIES})
 
-#omni
-add_executable(s4_hardware_canlink_to_wheel src/omni/s4_hardware_canlink_to_wheel.cpp)
-target_link_libraries(s4_hardware_canlink_to_wheel ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_canlink_to_wheel s4_hardware_generate_messages_cpp)
+# add_executable(s4_hardware_canlink_to_seriallink src/comport/s4_hardware_canlink_to_seriallink.cpp)
+# target_link_libraries(s4_hardware_canlink_to_seriallink ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_canlink_to_seriallink s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_omni_twist src/omni/s4_hardware_omni_twist.cpp)
-target_link_libraries(s4_hardware_omni_twist ${catkin_LIBRARIES})
+# add_executable(s4_hardware_seriallink_to_canlink src/comport/s4_hardware_seriallink_to_canlink.cpp)
+# target_link_libraries(s4_hardware_seriallink_to_canlink ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_seriallink_to_canlink s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_omni_odom src/omni/s4_hardware_omni_odom.cpp)
-target_link_libraries(s4_hardware_omni_odom ${catkin_LIBRARIES})
+# add_executable(s4_hardware_seriallink_decoder src/comport/s4_hardware_seriallink_decoder.cpp)
+# target_link_libraries(s4_hardware_seriallink_decoder ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_seriallink_decoder s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_omni_fix_joint src/omni/s4_hardware_omni_fix_joint.cpp)
-target_link_libraries(s4_hardware_omni_fix_joint ${catkin_LIBRARIES})
+# add_executable(s4_hardware_seriallink_encoder src/comport/s4_hardware_seriallink_encoder.cpp)
+# target_link_libraries(s4_hardware_seriallink_encoder ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_seriallink_encoder s4_hardware_generate_messages_cpp)
 
-#gun
-add_executable(s4_hardware_gun_point src/gun/s4_hardware_gun_point.cpp)
-target_link_libraries(s4_hardware_gun_point ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_gun_point s4_hardware_generate_messages_cpp)
+# #omni
+# add_executable(s4_hardware_canlink_to_wheel src/omni/s4_hardware_canlink_to_wheel.cpp)
+# target_link_libraries(s4_hardware_canlink_to_wheel ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_canlink_to_wheel s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_gun_laser src/gun/s4_hardware_gun_laser.cpp)
-target_link_libraries(s4_hardware_gun_laser ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_gun_laser s4_hardware_generate_messages_cpp)
+# add_executable(s4_hardware_omni_twist src/omni/s4_hardware_omni_twist.cpp)
+# target_link_libraries(s4_hardware_omni_twist ${catkin_LIBRARIES})
 
-add_executable(s4_hardware_gun_shot src/gun/s4_hardware_gun_shot.cpp)
-target_link_libraries(s4_hardware_gun_shot ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_gun_shot s4_hardware_generate_messages_cpp)
+# add_executable(s4_hardware_omni_odom src/omni/s4_hardware_omni_odom.cpp)
+# target_link_libraries(s4_hardware_omni_odom ${catkin_LIBRARIES})
 
-#body
-add_executable(s4_hardware_body_battery src/body/s4_hardware_body_battery.cpp)
-target_link_libraries(s4_hardware_body_battery ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_body_battery s4_hardware_generate_messages_cpp)
+# add_executable(s4_hardware_omni_fix_joint src/omni/s4_hardware_omni_fix_joint.cpp)
+# target_link_libraries(s4_hardware_omni_fix_joint ${catkin_LIBRARIES})
 
-add_executable(s4_hardware_body_light src/body/s4_hardware_body_light.cpp)
-target_link_libraries(s4_hardware_body_light ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_body_light s4_hardware_generate_messages_cpp)
+# #gun
+# add_executable(s4_hardware_gun_point src/gun/s4_hardware_gun_point.cpp)
+# target_link_libraries(s4_hardware_gun_point ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_gun_point s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_body_range src/body/s4_hardware_body_range.cpp)
-target_link_libraries(s4_hardware_body_range ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_body_range s4_hardware_generate_messages_cpp)
+# add_executable(s4_hardware_gun_laser src/gun/s4_hardware_gun_laser.cpp)
+# target_link_libraries(s4_hardware_gun_laser ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_gun_laser s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_body_hitsensor src/body/s4_hardware_body_hitsensor.cpp)
-target_link_libraries(s4_hardware_body_hitsensor ${catkin_LIBRARIES})
-add_dependencies(s4_hardware_body_hitsensor s4_hardware_generate_messages_cpp)
+# add_executable(s4_hardware_gun_shot src/gun/s4_hardware_gun_shot.cpp)
+# target_link_libraries(s4_hardware_gun_shot ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_gun_shot s4_hardware_generate_messages_cpp)
 
-#sensor
-add_executable(s4_hardware_call_camera_info src/sensor/s4_hardware_call_camera_info.cpp)
-target_link_libraries(s4_hardware_call_camera_info ${catkin_LIBRARIES})
+# #body
+# add_executable(s4_hardware_body_battery src/body/s4_hardware_body_battery.cpp)
+# target_link_libraries(s4_hardware_body_battery ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_body_battery s4_hardware_generate_messages_cpp)
 
-add_executable(s4_hardware_gy955 src/sensor/s4_hardware_gy955.cpp)
-target_link_libraries(s4_hardware_gy955 ${catkin_LIBRARIES})
+# add_executable(s4_hardware_body_light src/body/s4_hardware_body_light.cpp)
+# target_link_libraries(s4_hardware_body_light ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_body_light s4_hardware_generate_messages_cpp)
+
+# add_executable(s4_hardware_body_range src/body/s4_hardware_body_range.cpp)
+# target_link_libraries(s4_hardware_body_range ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_body_range s4_hardware_generate_messages_cpp)
+
+# add_executable(s4_hardware_body_hitsensor src/body/s4_hardware_body_hitsensor.cpp)
+# target_link_libraries(s4_hardware_body_hitsensor ${catkin_LIBRARIES})
+# add_dependencies(s4_hardware_body_hitsensor s4_hardware_generate_messages_cpp)
+
+# #sensor
+# add_executable(s4_hardware_call_camera_info src/sensor/s4_hardware_call_camera_info.cpp)
+# target_link_libraries(s4_hardware_call_camera_info ${catkin_LIBRARIES})
+
+# add_executable(s4_hardware_gy955 src/sensor/s4_hardware_gy955.cpp)
+# target_link_libraries(s4_hardware_gy955 ${catkin_LIBRARIES})
