@@ -4,8 +4,8 @@
 // ROS
 #include <ros/ros.h>
 // SRS004
-#include "s4_msgs/CANCode.h"
-#include "s4_msgs/SerialCode.h"
+#include <s4_msgs/CANCode.h>
+#include <s4_msgs/SerialCode.h>
 
 int hexconvert(char c1, char c0){
 	char value1, value0 =0;
@@ -61,6 +61,37 @@ int cancode_to_serialcode(s4_msgs::SerialCode *serialcode, s4_msgs::CANCode canc
   *serialcode = midcode;
   return 0;
 }
+
+int serialcode_to_cancode(s4_msgs::CANCode *cancode, s4_msgs::SerialCode serialcode_msg) {
+	if(serialcode_msg.command[0]=="CANLINK"){
+		s4_msgs::CANCode outdata;
+		outdata.channel=serialcode_msg.command[1];
+		outdata.id=0;//default?
+		outdata.com=0;//default?
+		outdata.remote=false;
+		for(int i=0;i<4;i++){
+			if(serialcode_msg.option[i]=="ID"){
+				int ret=hex_convert(serialcode_msg.suboption[i]);
+				if(0<=ret && ret<=15)outdata.id=ret;
+			}
+			else if(serialcode_msg.option[i]=="COM"){
+				int ret=hex_convert(serialcode_msg.suboption[i]);
+				if(0<=ret && ret<=15)outdata.com=ret;
+			}
+			else if(serialcode_msg.option[i]=="REMOTE"){
+				outdata.remote=true;
+			}
+		}
+		int data_size=serialcode_msg.datanum;
+		if(data_size>8)data_size=8;
+		for(int i=0;i<data_size;i++){
+			outdata.data[i]=serialcode_msg.data[i];
+		}
+		outdata.length=data_size;
+    *cancode =outdata;
+  }
+}
+
 
 int serialcode_to_serial(std::string *outstring, s4_msgs::SerialCode serialcode) {
   char tmp_data[2];

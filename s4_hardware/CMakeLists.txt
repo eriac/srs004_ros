@@ -125,9 +125,9 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/s4_hardware.cpp
-# )
+add_library(${PROJECT_NAME}
+  src/canadapter_plugins/test_plugin.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

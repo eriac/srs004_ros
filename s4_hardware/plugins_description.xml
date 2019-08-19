@@ -1,0 +1,5 @@
+<library path="lib/libs4_hardware">
+  <class name="s4_hardware/TestPlugin" type="s4_hardware::CANLinkPluginsBase" base_class_type="s4_hardware::TestPlugin">
+    <description>This is a add plugin.</description>
+  </class>
+</library>

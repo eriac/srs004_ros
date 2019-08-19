@@ -57,8 +57,6 @@ bool CANAdapter::process(std::deque<unsigned char>& buffer){
 		else break;
 	
 	}
-
-
 }
 
 void CANAdapter::timerCallback(const ros::TimerEvent& event){
@@ -75,6 +73,19 @@ void CANAdapter::timerCallback(const ros::TimerEvent& event){
 bool CANAdapter::exact(std::string data){
   //extract
   printf("code: %s\n", data.c_str());
+
+  s4_msgs::SerialCode s_code;
+  s4_msgs::CANCode c_code;
+
+	serial_to_serialcode(&s_code, data);
+  serialcode_to_cancode(&c_code, s_code);
+
+  printf("c: %s, id: %i, com: %i, ", c_code.channel.c_str(), c_code.id, c_code.com);
+  if(c_code.remote)printf("remote: true\n");
+  else printf("remote: false\n");
+  printf("[%i] ", c_code.length);
+  for(int i=0;i<8;i++)printf("%i, ", c_code.data[i]);
+  printf("\n");
 }
 
 sensor_msgs::Imu CANAdapter::convert_data(std::vector<unsigned char> data){
