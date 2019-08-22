@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   pluginlib
   s4_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -127,7 +128,9 @@ include_directories(
 
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
+  src/canadapter_plugins/canlink_plugins_base.cpp
   src/canadapter_plugins/master_plugin.cpp
+  src/canadapter_plugins/wheel_plugin.cpp
   #src/canadapter_plugins/test_plugin.cpp
 )
 
@@ -205,9 +208,9 @@ add_library(${PROJECT_NAME}
 # catkin_add_nosetests(test)
 
 #comport
-add_executable(${PROJECT_NAME}_canadapter_node src/canadapter_main/canadapter_node.cpp)
+add_executable(${PROJECT_NAME}_canadapter_node src/canadapter_main/canadapter_node.cpp src/canadapter_plugins/canlink_plugins_base.cpp)
 add_dependencies(${PROJECT_NAME}_canadapter_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(${PROJECT_NAME}_canadapter_node ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_canadapter_node yaml-cpp ${catkin_LIBRARIES})
 
 add_executable(${PROJECT_NAME}_usb_adapter_test src/usb_adapter_test.cpp)
 target_link_libraries(${PROJECT_NAME}_usb_adapter_test ${catkin_LIBRARIES})
@@ -215,6 +218,10 @@ target_link_libraries(${PROJECT_NAME}_usb_adapter_test ${catkin_LIBRARIES})
 # sensor
 add_executable(${PROJECT_NAME}_gy955_node src/sensor/gy955_node.cpp)
 target_link_libraries(${PROJECT_NAME}_gy955_node ${catkin_LIBRARIES})
+
+# omni
+add_executable(${PROJECT_NAME}_try_omni_converter src/omni/try_omni_converter.cpp)
+target_link_libraries(${PROJECT_NAME}_try_omni_converter ${catkin_LIBRARIES})
 
 
 #comport

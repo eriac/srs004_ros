@@ -7,13 +7,14 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
 #include <pluginlib/class_loader.h>
+#include <yaml-cpp/yaml.h>
 // SRS004
 #include <s4_hardware/canlink_plugins_base.h>
 
 class CANAdapter : public USBSerial{
  public:
   CANAdapter();
-  bool addPlugin(std::string plugin_name, std::string channel, int id);
+  bool addPlugin(std::string name, std::string type, std::string channel, int id);
   bool outputCode(s4_msgs::CANCode code);
 
   bool process(std::deque<unsigned char>& buffer);
@@ -26,16 +27,36 @@ class CANAdapter : public USBSerial{
 };
 
 CANAdapter::CANAdapter(): USBSerial{}, plugins_loader_("s4_hardware", "s4_hardware::CANLinkPluginsBase"){
-  double hz_ = 10.0;
-  pnh_.getParam("hz", hz_);
-  interval_timer_ = nh_.createTimer(ros::Duration(1.0/hz_), &CANAdapter::timerCallback, this);
+  double hz = 10.0;
+  pnh_.getParam("hz", hz);
+  interval_timer_ = nh_.createTimer(ros::Duration(1.0/hz), &CANAdapter::timerCallback, this);
+  std::string config = "";
+  pnh_.getParam("config", config);
+
+
+  ROS_INFO("read");
+
+  if(config != ""){
+    YAML::Node conf = YAML::LoadFile(config);
+    for(int i = 0 ; i <(int)conf["plugins"].size(); i++){
+      std::string name = conf["plugins"][i]["name"].as<std::string>();
+      std::string type = conf["plugins"][i]["type"].as<std::string>();
+      std::string channel = conf["plugins"][i]["channel"].as<std::string>();
+      int id = conf["plugins"][i]["id"].as<int>();      
+      addPlugin(name, type, channel, id);
+    }
+  }
+  else{
+    ROS_INFO("empty");
+  }
+
 }
 
-bool CANAdapter::addPlugin(std::string plugin_name, std::string channel, int id){
+bool CANAdapter::addPlugin(std::string name, std::string type, std::string channel, int id){
   try{
-    boost::shared_ptr<s4_hardware::CANLinkPluginsBase> test0 = plugins_loader_.createInstance(plugin_name);
+    boost::shared_ptr<s4_hardware::CANLinkPluginsBase> test0 = plugins_loader_.createInstance(type);
     boost::function<bool(s4_msgs::CANCode)> func= boost::bind(&CANAdapter::outputCode, this, _1);
-    test0->initialize(nh_, pnh_, channel, id, func);
+    test0->initialize(nh_, pnh_, name, channel, id, func);
     plugin_list_.push_back(test0);
   }
   catch(pluginlib::PluginlibException& ex) {
@@ -137,7 +158,8 @@ int main(int argc, char **argv){
   //   ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
   // }
 
-  usb_serial_test.addPlugin("s4_hardware/MasterPlugin", "S", 1);
+  //usb_serial_test.addPlugin("s4_hardware/MasterPlugin", "S", 1);
+  //usb_serial_test.addPlugin("s4_hardware/WheelPlugin", "A", 1);
   //usb_serial_test.addPlugin("s4_hardware/TestPlugin", "S", 1);
 
   ros::spin();

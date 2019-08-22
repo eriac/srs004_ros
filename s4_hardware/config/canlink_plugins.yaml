@@ -1,0 +1,13 @@
+plugins:
+  - name: wheel0
+    type: s4_hardware/WheelPlugin
+    channel: "A"
+    id: 1
+  - name: wheel1
+    type: s4_hardware/WheelPlugin
+    channel: "A"
+    id: 2
+  - name: wheel2
+    type: s4_hardware/WheelPlugin
+    channel: "A"
+    id: 3
