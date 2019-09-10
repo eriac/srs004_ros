@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="target" default="localhost"/>
+  <arg name="robot_name" default="s4n1"/>
+  <arg name="rvizconfig" default="$(find s4_description)/rviz/default.rviz" />
+
+  <machine name="localhost"  address="localhost" />
+  <machine name="remote2" address="remote2" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="remote3" address="remote3" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="OptiPlex-9010" address="OptiPlex-9010" env-loader="/home/erio/catkin_ws/devel/env.sh" user="erio" password="419000"/>
+
+  <!-- gazebo(world) -->
+  <include file="$(find s4_gazebo)/launch/launch_gazebo.launch" >
+    <arg name="target" value="$(arg target)" /> 
+    <arg name="world_name" value="s4_room1.world" />
+  </include>
+
+  <!-- gazebo(robot) -->
+  <include file="$(find s4_gazebo)/launch/spawn_gazebo.launch">
+    <arg name="robot_name" default="$(arg robot_name)"/>
+    <arg name="target" value="$(arg target)" /> 
+  </include>
+
+  <!-- localization function -->
+  <include file="$(find s4_omni)/launch/localization.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="mode" value="wheel"/>
+  </include>
+
+  <!-- detection function -->
+  <include file="$(find s4_sensor)/launch/detection.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
+  <!-- body function -->
+
+  <!-- navigation system -->
+  <include file="$(find s4_omni)/launch/navigation.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
+  <!-- fire control system -->
+<!--
+  <include file="$(find s4_gun)/launch/firecontrol.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+-->
+  <!-- operation & ui -->
+  <include file="$(find s4_operation)/launch/operation.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+</launch>

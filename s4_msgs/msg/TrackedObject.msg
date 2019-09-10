@@ -1,5 +1,4 @@
 s4_msgs/TrackedInfo info
+string camera_name
 jsk_recognition_msgs/Rect rect
-geometry_msgs/Point center
-geometry_msgs/Vector3 velocity
-geometry_msgs/Vector3 size
+s4_msgs/Presence presence

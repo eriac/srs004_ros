@@ -11,3 +11,7 @@ plugins:
     type: s4_hardware/WheelPlugin
     channel: "A"
     id: 3
+  - name: gun0
+    type: s4_hardware/GunPlugin
+    channel: "A"
+    id: 5

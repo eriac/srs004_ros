@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="robot_name" default="default_robot" />
+  <arg name="mode" default="wheel" />
+<!--
+            odom         map
+  fix:      fixed        fixed
+  wheel:    wheel        fixed
+  internal: wheel & IMU  fixed
+  gmapping: wheel        gmapping
+  amcl:     wheel        amcl
+  tracker:  wheel & Vive fixed
+-->
+
+  <group ns="$(arg robot_name)/localization">
+    <group if="$(eval mode=='fix')">
+      <node pkg="tf" type="static_transform_publisher" name="tf_map_to_odom"  args="0 0 0 0 0 0 $(arg robot_name)/map  $(arg robot_name)/odom 50" />
+      <node pkg="tf" type="static_transform_publisher" name="tf_odom_to_base" args="0 0 0 0 0 0 $(arg robot_name)/odom $(arg robot_name)/base_link 50" />
+    </group>
+    <group if="$(eval mode=='wheel')">
+      <!-- robot_localization -->
+      <node pkg="robot_localization" type="ekf_localization_node" name="robot_localzation" clear_params="true">
+        <rosparam command="load" file="$(find s4_localization)/config/wheel_localization.yaml" />
+        <param name="tf_prefix" value="$(arg robot_name)"/>
+        <param name="base_link_frame" value="$(arg robot_name)/base_link" />
+        <remap from="odometry/filtered" to="odom" />
+        <remap from="odom0" to="/$(arg robot_name)/can_device/omni/odom" />
+      </node>
+      <!-- static -->
+      <node pkg="tf" type="static_transform_publisher" name="tf_map_to_odom" args="0 0 0 0 0 0 $(arg robot_name)/map $(arg robot_name)/odom 50" />
+    </group>
+    <group if="$(eval mode=='wheel_imu')">
+      <!-- robot_localization -->
+      <node pkg="robot_localization" type="ekf_localization_node" name="robot_localzation" clear_params="true">
+        <rosparam command="load" file="$(find s4_localization)/config/wheel_imu_localization.yaml" />
+        <param name="tf_prefix" value="$(arg robot_name)"/>
+        <remap from="odometry/filtered" to="odom" />
+        <remap from="odom0" to="/$(arg robot_name)/device/omni0/odom" />
+        <remap from="imu0"  to="/$(arg robot_name)/device/sensor0/imu0/data" />
+      </node>
+      <!-- static -->
+      <node pkg="tf" type="static_transform_publisher" name="tf_map_to_odom" args="0 0 0 0 0 0 $(arg robot_name)/map $(arg robot_name)/odom 50" />
+    </group>
+  </group>
+</launch>

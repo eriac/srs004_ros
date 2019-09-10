@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name="my_robo" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find s4_system)/urdf/s4_body.urdf.xacro"/>
+  <xacro:include filename="$(find s4_omni)/urdf/s4_omni.urdf.xacro"/>
+  <xacro:include filename="$(find s4_gun)/urdf/s4_gun.urdf.xacro"/>
+  <xacro:include filename="$(find s4_hitsensor)/urdf/s4_hitsensor.urdf.xacro"/>
+
+  <xacro:macro name="s4_robot">
+    <link name="base_link"/>
+    <xacro:s4_body      prefix="body0"      parent="base_link" pos_z="0.044"/>
+    <xacro:s4_omni      prefix="omni0"      parent="base_link" />
+    <xacro:s4_gun       prefix="gun0"       parent="base_link" pos_x="0.020" pos_z="0.082" />
+    <xacro:s4_hitsensor prefix="hitsensor0" parent="base_link" radius="0.106" height="0.082" />
+  </xacro:macro>
+
+  <!-- ===============  Gazebo =============== -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>my_robo</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>

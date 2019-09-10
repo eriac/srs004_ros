@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot"/>
+  <arg name="target" default="localhost"/>
+  <arg name="debug" default="false"/>
+  <group ns="$(arg robot_name)">
+    <group ns="detection">
+      <group ns="obstacle_detector">
+        <rosparam command="load" file="$(find s4_detection)/config/obstacle_detector.yaml" />
+        <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node">
+          <param name="frame_id" value="$(arg robot_name)/odom" />
+          <remap from="scan" to="/$(arg robot_name)/usb_device/front_laser/scan_filtered" />
+        </node>
+        <node name="obstacle_tracker" pkg="obstacle_detector" type="obstacle_tracker_node">
+          <param name="frame_id" value="$(arg robot_name)/odom" />
+        </node>
+      </group>
+      <group ns="redcan">
+        <node name="hsv_extractor" pkg="s4_detection" type="s4_detection_hsv_extractor" output="screen">
+          <remap from="image_raw" to="/$(arg robot_name)/usb_device/head_camera/image_raw"/>
+          <param name="category" value="redcan"/>
+          <param name="frame_id" value="$(arg robot_name)/sensor0/head_camera_link"/>
+          <param name="camera_name" value="head_camera"/>
+          <param name="debug" value="$(arg debug)" />
+          <rosparam command="load" file="$(find s4_detection)/config/extract_redcan.yaml" />
+        </node>
+        <node name="obstacle_fusion" pkg="s4_detection" type="s4_detection_obstacle_fusion" output="screen">
+          <remap from="tracked_obstacles" to="/$(arg robot_name)/detection/obstacle_detector/tracked_obstacles"/>
+        </node>
+        <group if="$(arg debug)">
+          <node name="image_view" pkg="image_view" type="image_view">
+            <remap from="image" to="image_debug"/>
+          </node>
+          <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
+        </group>
+      </group>
+    </group>
+  </group>
+</launch>

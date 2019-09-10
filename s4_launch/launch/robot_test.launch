@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="target" default="localhost"/>
+  <arg name="robot_name" default="s4n1"/>
+  <arg name="rvizconfig" default="$(find s4_description)/rviz/robot_test.rviz" />
+
+  <machine name="localhost"  address="localhost" />
+  <machine name="remote1" address="remote1" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="remote2" address="remote2" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="remote3" address="remote3" env-loader="/home/pi/catkin_ws/devel/env.sh"  user="pi"  password="raspberry"/>
+  <machine name="OptiPlex-9010" address="OptiPlex-9010" env-loader="/home/erio/catkin_ws/devel/env.sh" user="erio" password="419000"/>
+
+  <!-- device function -->
+  <include file="$(find s4_hardware)/launch/spawn_hardware.launch" >
+    <arg name="robot_name" value="$(arg robot_name)" />
+    <arg name="target" value="$(arg target)" />
+  </include>
+
+  <!-- localization function -->
+  <include file="$(find s4_localization)/launch/main.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="mode" value="wheel"/>
+  </include>
+
+  <!-- detection function -->
+<!-- 
+  <include file="$(find s4_detection)/launch/main.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+ -->
+  <!-- operation & ui -->
+  <include file="$(find s4_operation)/launch/main.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="target" value="$(arg target)" />
+  </include>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" output="screen"/>
+
+  <!-- navigation system -->
+  <include file="$(find s4_navigation)/launch/main.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
+  <!-- fire control system -->
+  <include file="$(find s4_firecontrol)/launch/main.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
+  <!-- app -->
+  <include file="$(find s4_app)/launch/joy_app.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
+</launch>

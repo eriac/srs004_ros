@@ -5,6 +5,9 @@
   <class name="s4_hardware/WheelPlugin" type="s4_hardware::WheelPlugin" base_class_type="s4_hardware::CANLinkPluginsBase">
     <description>This is a add plugin.</description>
   </class>
+  <class name="s4_hardware/GunPlugin" type="s4_hardware::GunPlugin" base_class_type="s4_hardware::CANLinkPluginsBase">
+    <description>This is a add plugin.</description>
+  </class>
 
 
   <class name="s4_hardware/TestPlugin" type="s4_hardware::TestPlugin" base_class_type="s4_hardware::CANLinkPluginsBase">

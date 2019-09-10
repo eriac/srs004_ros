@@ -33,9 +33,6 @@ CANAdapter::CANAdapter(): USBSerial{}, plugins_loader_("s4_hardware", "s4_hardwa
   std::string config = "";
   pnh_.getParam("config", config);
 
-
-  ROS_INFO("read");
-
   if(config != ""){
     YAML::Node conf = YAML::LoadFile(config);
     for(int i = 0 ; i <(int)conf["plugins"].size(); i++){

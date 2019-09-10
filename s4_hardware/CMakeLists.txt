@@ -131,6 +131,7 @@ add_library(${PROJECT_NAME}
   src/canadapter_plugins/canlink_plugins_base.cpp
   src/canadapter_plugins/master_plugin.cpp
   src/canadapter_plugins/wheel_plugin.cpp
+  src/canadapter_plugins/gun_plugin.cpp
   #src/canadapter_plugins/test_plugin.cpp
 )
 
@@ -138,6 +139,7 @@ add_library(${PROJECT_NAME}
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
@@ -218,6 +220,8 @@ target_link_libraries(${PROJECT_NAME}_usb_adapter_test ${catkin_LIBRARIES})
 # sensor
 add_executable(${PROJECT_NAME}_gy955_node src/sensor/gy955_node.cpp)
 target_link_libraries(${PROJECT_NAME}_gy955_node ${catkin_LIBRARIES})
+add_executable(${PROJECT_NAME}_call_camera_info src/sensor/call_camera_info.cpp)
+target_link_libraries(${PROJECT_NAME}_call_camera_info ${catkin_LIBRARIES})
 
 # omni
 add_executable(${PROJECT_NAME}_try_omni_converter src/omni/try_omni_converter.cpp)

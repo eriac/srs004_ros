@@ -10,12 +10,12 @@ project(s4_msgs)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  tf
+  actionlib
+  message_generation
+
   std_msgs
   geometry_msgs
-  tf
-  message_generation
-  genmsg
-  actionlib
   actionlib_msgs
   jsk_recognition_msgs
 )
@@ -61,6 +61,9 @@ add_message_files(
   TrackedInfo.msg
   TrackedRect.msg
   TrackedRectArray.msg
+  TrackedRay.msg
+  TrackedRayArray.msg
+  Presence.msg
   TrackedObject.msg
   TrackedObjectArray.msg
   JoySide.msg
@@ -124,7 +127,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES s4_msgs
-#  CATKIN_DEPENDS roscpp rospy std_msgs tf message_runtime actionlib_msgs geometry_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs tf message_runtime std_msgs geometry_msgs actionlib_msgs
 #  DEPENDS system_lib
 )
 

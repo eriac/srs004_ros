@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot" default="default_robot"/>
+    <arg name="target" default="sim"/>
+
+    <group ns="share">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/single_robot.rviz" required="true" />
+		<node name="joy_node"  pkg="joy" type="joy_node" />
+		<node name="s4_operate_manual" pkg="s4_operate" type="s4_operate_manual">
+			<remap from="cmd_vel" to="/$(arg robot)/omni0/cmd_vel"/>
+			<remap from="aim_vel" to="/$(arg robot)/gun0/aim_vel"/>
+		</node>
+		<node name="s4_operate_position" pkg="s4_operate" type="s4_operate_position">
+			<param name="base_link"  value="$(arg robot)/base_link" />
+			<param name="world_link" value="world" />
+			<remap from="odm_vel" to="/$(arg robot)/omni0/odm_vel"/>
+		</node>
+
+    </group>
+
+	<include file="$(find s4_system)/launch/srs004_spawn.launch" >
+		<arg name="robot"  value="$(arg robot)"/>
+		<arg name="target" value="$(arg target)"/>
+	</include>
+
+</launch>
+

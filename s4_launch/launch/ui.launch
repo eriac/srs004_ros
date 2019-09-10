@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="rvizconfig" default="$(find s4_launch)/rviz/default.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find s4_launch)/rviz/dual_robot.rviz" required="true" />
+  
+  <node pkg="web_video_server" type="web_video_server" name="web_video_server">
+    <param name="port" value="1080" />
+    <param name="quality" value="10" />
+  </node>
+</launch>

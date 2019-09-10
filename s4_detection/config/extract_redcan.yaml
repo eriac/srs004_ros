@@ -1,0 +1,11 @@
+reduction: 2
+h_min: 170
+h_max: 10
+s_min: 100
+s_max: 255
+v_min: 100
+v_max: 250
+close_size: 2
+open_size: 2
+size_weight: 1.0
+category: redcan

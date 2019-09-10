@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot"/>
+  <arg name="target" default="localhost"/>
+
+  <group ns="$(arg robot_name)">
+    <group ns="navigation">
+      <node name="joy_navigation" pkg="s4_navigation" type="s4_navigation_joy_navigation" output="screen">
+        <remap from="input_twist" to="/s4n1/operation/cmd_vel" />
+        <remap from="output_twist" to="/s4n1/can_device/omni/cmd_vel" />
+      </node>
+    </group>
+  </group>
+</launch>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot"/>
+  <arg name="target" default="localhost" />
+
+  <group ns="$(arg robot_name)">
+    <group ns="operation">
+
+      <node name="joy_node" pkg="joy" type="joy_node" output="screen">
+        <remap from="joy" to="ps3_joy" />
+      </node>
+      <node name="joy_commander" pkg="s4_operation" type="s4_operation_joy_commander" output="screen">
+        <!-- <remap from="cmd_vel" to="/s4n1/can_device/omni/cmd_vel" /> -->
+      </node>
+
+    </group>
+  </group>
+</launch>
+
+

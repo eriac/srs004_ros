@@ -6,16 +6,55 @@
   <arg name="model" default="$(find s4_description)/xacro/s4_robot.xacro"/>
 
   <group ns="$(arg robot_name)">
+    <!-- system -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_name:=$(arg robot_name)" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+      <param name="tf_prefix" value="$(arg robot_name)"/>
+    </node>
+
+    <!-- CAN -->
     <group ns="can_device">
       <node name="canadapter_node" pkg="s4_hardware" type="s4_hardware_canadapter_node" output="screen">
+        <param name="device_name" value="/dev/CANadapter"/>
         <param name="baud_rate" value="1000000"/>
-        <param name="hz" value="10.0"/>
-        <param name="ppr" value="400"/>
+        <param name="hz" value="20.0"/>
         <param name="config" value="$(find s4_hardware)/config/canlink_plugins.yaml"/>
+        <param name="ppr" value="1600"/>
       </node>
       <node name="try_omni_converter" pkg="s4_hardware" type="s4_hardware_try_omni_converter" output="screen">
       </node>
     </group>
-  </group>
 
+    <!-- USB -->
+    <group ns="usb_device">
+      <group ns="head_camera">
+        <node machine="$(arg target)" name="uvc_camera_node"  pkg="uvc_camera"  type="uvc_camera_node" output="screen">
+          <param name="width" value="800"/>
+          <param name="height" value="600"/>
+          <param name="fps" value="10"/>
+          <param name="frame_id " value="$(arg robot_name)/sensor0/head_camera_link" />
+          <remap from="image_raw" to="image_raw_in_device"/>
+        </node>
+        <node name="image_republish" pkg="image_transport" type="republish" args="compressed raw">
+          <remap from="in" to="image_raw_in_device" />
+          <remap from="out" to="image_raw" />
+        </node>
+        <node name="image_proc" pkg="image_proc" type="image_proc" />
+        <node name="s4_hardware_call_camera_info" pkg="s4_hardware" type="s4_hardware_call_camera_info" output="screen">
+          <rosparam command="load" file="$(find s4_hardware)/config/camera_$(arg target).yaml" />
+        </node>
+      </group>
+      <group ns="front_laser">
+        <node machine="$(arg target)" name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen">
+          <param name="port"         type="string" value="/dev/ydlidar"/>
+          <param name="baudrate"     type="int"    value="115200"/>
+          <param name="frame_id"     type="string" value="$(arg robot_name)/sensor0/front_laser_link"/>
+          <rosparam command="load" file="$(find s4_hardware)/config/ydlidar.yaml" />
+        </node>
+        <node machine="$(arg target)" pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+          <rosparam command="load" file="$(find s4_hardware)/config/laser_filter.yaml" />
+        </node>
+      </group>
+    </group>
+  </group>
 </launch>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot"/>
+  <arg name="target" default="localhost"/>
+
+  <group ns="$(arg robot_name)">
+    <group ns="app">
+      <node name="joy_app" pkg="s4_app" type="joy_app.py" output="screen">
+        <remap from="joy_navigation" to="/$(arg robot_name)/navigation/joy_navigation" />
+      </node>
+    </group>
+  </group>
+</launch>

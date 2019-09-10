@@ -1,0 +1,5 @@
+<library path="lib/libs4_plugins">
+  <class name="s4_plugins/rays_display" type="s4_plugins::RaysDisplay" base_class_type="rviz::Display">
+    <description>display PointStamped</description>
+  </class>
+</library>

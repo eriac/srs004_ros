@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="default_robot"/>
+  <arg name="target" default="localhost"/>
+
+  <group ns="$(arg robot_name)">
+    <group ns="firecontrol">
+      <node name="joy_firecontrol" pkg="s4_firecontrol" type="s4_firecontrol_joy_firecontrol" output="screen">
+        <remap from="input_twist" to="/$(arg robot_name)/operation/gun_cmd_vel" />
+        <remap from="output_point" to="/$(arg robot_name)/can_device/gun0/carriage/command" />
+      </node>
+    </group>
+  </group>
+</launch>
