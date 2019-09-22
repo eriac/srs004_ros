@@ -15,7 +15,6 @@
 // SRS004
 #include <s4_detection/extractorConfig.h>
 #include <s4_msgs/TrackedRayArray.h>
-#include <s4_msgs/TrackedRectArray.h>
 
 class HSVExtractor{
 
@@ -57,7 +56,7 @@ public:
     pnh_.getParam("category", category_);
 
     if(debug_)debug_pub_ = it_.advertise("image_debug", 1);
-    rays_pub_ = nh_.advertise<s4_msgs::TrackedRectArray>("tracked_rays", 10);
+    rays_pub_ = nh_.advertise<s4_msgs::TrackedRayArray>("tracked_rays", 10);
     camera_sub_ = it_.subscribeCamera("image_raw", 1, &HSVExtractor::imageCallback, this);
     
     if(debug_){
@@ -66,7 +65,7 @@ public:
     }
 
     last_id_ = 0;
-    last_rects_.rects.clear();
+    last_rays_.rays.clear();
   }
 
   void reconfigureCallback(s4_detection::extractorConfig &config, uint32_t level) {
@@ -119,27 +118,38 @@ public:
 
     if(debug_ && debug_type_ == 2){
       debug_image = src_image;
-      for(s4_msgs::TrackedRect rect : last_rects_.rects){      
-        cv::putText(debug_image, std::to_string(rect.info.id).c_str(), cv::Point(rect.rect.x, rect.rect.y - 10), cv::FONT_HERSHEY_PLAIN, 2.0, cv::Scalar(255,0,0), 2, CV_AA);
-        cv::rectangle(debug_image, cv::Point(rect.rect.x, rect.rect.y), cv::Point(rect.rect.x + rect.rect.width, rect.rect.y + rect.rect.height), cv::Scalar(255, 0, 0), 3);
+      for(s4_msgs::TrackedRay ray : last_rays_.rays){      
+        cv::putText(debug_image, std::to_string(ray.info.id).c_str(), cv::Point(ray.roi.x_offset, ray.roi.y_offset - 10), cv::FONT_HERSHEY_PLAIN, 2.0, cv::Scalar(255,0,0), 2, CV_AA);
+        cv::rectangle(debug_image, cv::Point(ray.roi.x_offset, ray.roi.y_offset), cv::Point(ray.roi.x_offset + ray.roi.width, ray.roi.y_offset + ray.roi.height), cv::Scalar(255, 0, 0), 3);
       }
     }
 
     cam_model_.fromCameraInfo(*info_msg);
-    for(s4_msgs::TrackedRect& rect : last_rects_.rects){
+    for(s4_msgs::TrackedRay& ray : last_rays_.rays){
       cv::Point2d uv;
-      uv.x = rect.rect.x + rect.rect.width / 2.0;
-      uv.y = rect.rect.y + rect.rect.height / 2.0;
+      uv.x = ray.roi.x_offset + ray.roi.width / 2.0;
+      uv.y = ray.roi.y_offset + ray.roi.height / 2.0;
       cv::Point3d xyz = cam_model_.projectPixelTo3dRay(uv);
-      rect.ray.x = xyz.x;
-      rect.ray.y = xyz.y;
-      rect.ray.z = xyz.z;
+      ray.ray.x = xyz.x;
+      ray.ray.y = xyz.y;
+      ray.ray.z = xyz.z;
+
+      // get width & height
+      cv::Point2d uv1, uv2;
+      uv1.x = ray.roi.x_offset;
+      uv1.y = ray.roi.y_offset;
+      cv::Point3d xyz1 = cam_model_.projectPixelTo3dRay(uv1);
+      uv2.x = ray.roi.x_offset + ray.roi.width;
+      uv2.y = ray.roi.y_offset + ray.roi.height;
+      cv::Point3d xyz2 = cam_model_.projectPixelTo3dRay(uv2);
+
+      ray.width = xyz2.x - xyz1.x;
+      ray.height = xyz2.y - xyz1.y;
     }
 
-    last_rects_.header.frame_id = frame_id_;
-    last_rects_.header.stamp = ros::Time::now();
-    last_rects_.camera_name = camera_name_;   
-    rays_pub_.publish(last_rects_);
+    last_rays_.header.frame_id = frame_id_;
+    last_rays_.header.stamp = image_msg->header.stamp;
+    rays_pub_.publish(last_rays_);
 
     if(debug_){
       cv_bridge::CvImage output_bridge;
@@ -208,6 +218,7 @@ public:
       rects.push_back(cv::boundingRect(cv::Mat(hull)));
     }
   }
+  
   void resumeRects(std::vector<cv::Rect> reduction_rects, std::vector<cv::Rect>& original_rects){
     original_rects.clear();
     for(cv::Rect rect : reduction_rects){
@@ -217,28 +228,28 @@ public:
 
   void updateTracking(std::vector<cv::Rect> original_rects){
     //tracking
-    if(last_rects_.rects.empty()){
+    if(last_rays_.rays.empty()){
       for(cv::Rect rect_cv : original_rects){
         if(rect_cv.width > 10 && rect_cv.height > 10){
-          s4_msgs::TrackedRect rect_msg;
-          rect_msg.info.category = category_;
-          rect_msg.info.id = last_id_;
+          s4_msgs::TrackedRay ray_msg;
+          ray_msg.info.category = category_;
+          ray_msg.info.id = last_id_;
           last_id_++;
-          rect_msg.info.age = 0;
-          rect_msg.info.category = category_;
-          rect_msg.rect.x = rect_cv.x;
-          rect_msg.rect.y = rect_cv.y;
-          rect_msg.rect.width = rect_cv.width;
-          rect_msg.rect.height = rect_cv.height;
-          last_rects_.rects.push_back(rect_msg);
+          ray_msg.info.age = 0;
+          ray_msg.roi.camera_name = camera_name_;       
+          ray_msg.roi.x_offset = rect_cv.x;
+          ray_msg.roi.y_offset = rect_cv.y;
+          ray_msg.roi.width = rect_cv.width;
+          ray_msg.roi.height = rect_cv.height;
+          last_rays_.rays.push_back(ray_msg);
         }
       }
     }
     else if(original_rects.empty()){
-      last_rects_.rects.clear();
+      last_rays_.rays.clear();
     }
     else{
-      int old_size = last_rects_.rects.size();
+      int old_size = last_rays_.rays.size();
       int new_size = original_rects.size();
       std::vector<std::vector<float> > relation_matrix;
       relation_matrix.resize(old_size);
@@ -248,7 +259,7 @@ public:
 
       for(int i = 0; i< old_size; i++){
         for(int j = 0; j< new_size; j++){
-          relation_matrix[i][j] = calcDistance(original_rects[j], last_rects_.rects[i].rect);
+          relation_matrix[i][j] = calcDistance(original_rects[j], last_rays_.rays[i].roi);
         }
       }
 
@@ -280,43 +291,44 @@ public:
       // }
       // printf("\n\n");
 
-      s4_msgs::TrackedRectArray next_rects;
+      s4_msgs::TrackedRayArray next_rays;
       for(int j = 0; j < new_size; j++){
         cv::Rect rect_cv = original_rects[j];
         if(relation_new[j] < 0){
           if(rect_cv.width > 10 && rect_cv.height > 10){
-            s4_msgs::TrackedRect rect_msg;
-            rect_msg.info.category = category_;
-            rect_msg.info.id = last_id_;
+            s4_msgs::TrackedRay ray_msg;
+            ray_msg.info.category = category_;
+            ray_msg.info.id = last_id_;
             last_id_++;
-            rect_msg.info.age = 0;
-            rect_msg.info.category = category_;
-            rect_msg.rect.x = rect_cv.x;
-            rect_msg.rect.y = rect_cv.y;
-            rect_msg.rect.width = rect_cv.width;
-            rect_msg.rect.height = rect_cv.height;
-            next_rects.rects.push_back(rect_msg);
+            ray_msg.info.age = 0;
+            ray_msg.roi.camera_name = camera_name_;
+            ray_msg.roi.x_offset = rect_cv.x;
+            ray_msg.roi.y_offset = rect_cv.y;
+            ray_msg.roi.width = rect_cv.width;
+            ray_msg.roi.height = rect_cv.height;
+            next_rays.rays.push_back(ray_msg);
           }
         }
         else{
-          s4_msgs::TrackedRect rect_msg = last_rects_.rects[relation_new[j]];
-          rect_msg.info.age++;
-          rect_msg.rect.x = rect_cv.x;
-          rect_msg.rect.y = rect_cv.y;
-          rect_msg.rect.width = rect_cv.width;
-          rect_msg.rect.height = rect_cv.height;
-          next_rects.rects.push_back(rect_msg);
+          s4_msgs::TrackedRay ray_msg = last_rays_.rays[relation_new[j]];
+          ray_msg.info.age++;
+          ray_msg.roi.camera_name = camera_name_;
+          ray_msg.roi.x_offset = rect_cv.x;
+          ray_msg.roi.y_offset = rect_cv.y;
+          ray_msg.roi.width = rect_cv.width;
+          ray_msg.roi.height = rect_cv.height;
+          next_rays.rays.push_back(ray_msg);
         }
       }
-      last_rects_ = next_rects;
+      last_rays_ = next_rays;
     }
   }
 
-  float calcDistance(cv::Rect rect1, jsk_recognition_msgs::Rect rect2){
-    float dx = (rect1.x + rect1.width / 2) - (rect2.x + rect2.width / 2);
-    float dy = (rect1.y + rect1.height / 2) - (rect2.y + rect2.height / 2);
-    float dw = rect1.width - rect2.width;
-    float dh = rect1.height - rect2.height;
+  float calcDistance(cv::Rect rect, s4_msgs::ROI roi){
+    float dx = (rect.x + rect.width / 2) - (roi.x_offset + roi.width / 2);
+    float dy = (rect.y + rect.height / 2) - (roi.y_offset + roi.height / 2);
+    float dw = rect.width - roi.width;
+    float dh = rect.height - roi.height;
     return sqrt(dx * dx + dy * dy) + size_weight_ * sqrt(dw * dw + dh * dh);
   }
 
@@ -370,7 +382,7 @@ public:
   dynamic_reconfigure::Server<s4_detection::extractorConfig>::CallbackType reconfigure_f_;
   image_geometry::PinholeCameraModel cam_model_;
 
-  s4_msgs::TrackedRectArray last_rects_;
+  s4_msgs::TrackedRayArray last_rays_;
   int last_id_;
 };
 

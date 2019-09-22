@@ -135,7 +135,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
-  src/rays_display/rays_display.cpp
+  # src/rays_display/rays_display.cpp
   src/objects_display/objects_display.cpp
 ) 
 

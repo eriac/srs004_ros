@@ -14,8 +14,8 @@
 #include <tf/transform_broadcaster.h>
 #include <obstacle_detector/Obstacles.h>
 // SRS004
+#include <s4_msgs/TrackedRayArray.h>
 #include <s4_msgs/TrackedObjectArray.h>
-#include <s4_msgs/TrackedRectArray.h>
 
 class ObstacleFusion{
 public:

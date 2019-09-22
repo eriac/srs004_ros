@@ -5,6 +5,7 @@
 #include <boost/circular_buffer.hpp>
 #include <rviz/message_filter_display.h>
 #include <rviz/ogre_helpers/shape.h>
+#include <s4_msgs/TrackedRayArray.h>
 #include <s4_msgs/TrackedObjectArray.h>
 #endif
 

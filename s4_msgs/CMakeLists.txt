@@ -58,9 +58,8 @@ add_message_files(
   FILES
   CANCode.msg
   SerialCode.msg
+  ROI.msg
   TrackedInfo.msg
-  TrackedRect.msg
-  TrackedRectArray.msg
   TrackedRay.msg
   TrackedRayArray.msg
   Presence.msg
