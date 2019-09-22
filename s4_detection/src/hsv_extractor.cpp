@@ -313,8 +313,8 @@ public:
   }
 
   float calcDistance(cv::Rect rect1, jsk_recognition_msgs::Rect rect2){
-    float dx = rect1.x - rect2.x;
-    float dy = rect1.y - rect2.y;
+    float dx = (rect1.x + rect1.width / 2) - (rect2.x + rect2.width / 2);
+    float dy = (rect1.y + rect1.height / 2) - (rect2.y + rect2.height / 2);
     float dw = rect1.width - rect2.width;
     float dh = rect1.height - rect2.height;
     return sqrt(dx * dx + dy * dy) + size_weight_ * sqrt(dw * dw + dh * dh);

@@ -81,7 +81,7 @@ void RaysDisplay::processMessage(const s4_msgs::TrackedRectArray::ConstPtr& msg)
     arrow->setColor(color.r, color.g, color.b, alpha);
 
     Ogre::Vector3 arrow_dir(ray.ray.x, ray.ray.y, ray.ray.z);
-    float arrow_length = arrow_dir.length() * 0.77 * length_property_->getFloat();;
+    float arrow_length = arrow_dir.length() * 0.77 * length_property_->getFloat();
     Ogre::Vector3 arrow_scale(arrow_length, arrow_length, arrow_length);
     arrow->setScale(arrow_scale);
     arrow->setDirection(arrow_dir);

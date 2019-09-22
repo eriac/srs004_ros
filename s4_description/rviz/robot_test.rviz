@@ -777,7 +777,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.00999999978
       Style: Flat Squares
-      Topic: /s4n1/device/sensor0/front_laser/scan_filtered
+      Topic: /s4n1/usb_device/front_laser/scan_filtered
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -871,6 +871,13 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Class: s4_plugins/obstacles_display
+      Enabled: false
+      Name: obstacles_display
+      Topic: /s4n1/detection/redcan/objects
+      Unreliable: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -896,25 +903,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 1.67015743
+      Distance: 2.34645104
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.213639557
-        Y: -0.097685501
-        Z: 0
+        X: 0.182999969
+        Y: 0.350301862
+        Z: 2.98023224e-07
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.599796474
+      Pitch: 0.399796188
       Target Frame: s4n1/map
       Value: ThirdPersonFollower (rviz)
-      Yaw: 2.78040624
+      Yaw: 2.86540794
     Saved: ~
 Window Geometry:
   Displays:

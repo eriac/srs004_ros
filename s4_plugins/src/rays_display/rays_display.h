@@ -1,5 +1,5 @@
-#ifndef POINT_DISPLAY_H
-#define POINT_DISPLAY_H
+#ifndef RAYS_DISPLAY_H
+#define RAYS_DISPLAY_H
 
 #ifndef Q_MOC_RUN
 #include <boost/circular_buffer.hpp>
@@ -44,4 +44,4 @@ private:
 
 } // namespace s4_detection
 
-#endif // POINT_DISPLAY_H
+#endif // RAYS_DISPLAY_H

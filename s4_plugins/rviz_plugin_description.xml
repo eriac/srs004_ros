@@ -2,4 +2,7 @@
   <class name="s4_plugins/rays_display" type="s4_plugins::RaysDisplay" base_class_type="rviz::Display">
     <description>display PointStamped</description>
   </class>
+  <class name="s4_plugins/obstacles_display" type="s4_plugins::ObjectsDisplay" base_class_type="rviz::Display">
+    <description>display TrackedObstackeArray</description>
+  </class>
 </library>

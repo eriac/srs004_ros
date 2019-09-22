@@ -47,11 +47,11 @@ public:
     int ray_size = rays_msg.rects.size();
     int obstacle_size;
     if(last_obstacles_ptr_)obstacle_size = last_obstacles_ptr_->circles.size();
-    ROS_INFO("recv %i %i", ray_size, obstacle_size);
-
     //asart obstacle_frame_id is odom
 
     s4_msgs::TrackedObjectArray output_objects;
+    output_objects.header.frame_id = fusion_frame_;
+    output_objects.header.stamp = ros::Time::now();    
     
     Eigen::Vector3d origin_point = convertPoint(fusion_frame_, rays_msg.header.frame_id);
     //ROS_INFO("origin: %f %f %f", origin_point[0], origin_point[1], origin_point[2]);
@@ -137,8 +137,11 @@ public:
     std::vector<double>::iterator iter = std::min_element(distances.begin(), distances.end());
     int index = std::distance(distances.begin(), iter);
     //ROS_INFO("obs length:%f, distance:%f", lengthes[index], distances[index]);
-    fusion_point = points[index];
-    return index;
+    if(distances[index] < distance_max_ && lengthes[index] > 0){
+      fusion_point = points[index];
+      return index;
+    }
+    else return -1;
   }
 
   s4_msgs::TrackedObject makeObject(int index, Eigen::Vector3d fusion_point, s4_msgs::TrackedRect rect){

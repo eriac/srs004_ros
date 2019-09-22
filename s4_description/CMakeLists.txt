@@ -205,5 +205,5 @@ target_link_libraries(s4_description_joint_publisher
 # catkin_add_nosetests(test)
 
 ## Generate package documentation with rosdoc_lite
-execute_process(COMMAND rospack find s4_description OUTPUT_VARIABLE S4_DESCRIPTION_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND rosdoc_lite -o ${S4_DESCRIPTION_DIR}/doc/doxygen_rosdoc_lite ${S4_DESCRIPTION_DIR} )
+# execute_process(COMMAND rospack find s4_description OUTPUT_VARIABLE S4_DESCRIPTION_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+# execute_process(COMMAND rosdoc_lite -o ${S4_DESCRIPTION_DIR}/doc/doxygen_rosdoc_lite ${S4_DESCRIPTION_DIR} )
