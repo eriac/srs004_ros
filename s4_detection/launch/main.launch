@@ -15,14 +15,14 @@
           <param name="frame_id" value="$(arg robot_name)/odom" />
         </node>
       </group>
-      <group ns="redcan">
+      <group ns="red_can">
         <node name="hsv_extractor" pkg="s4_detection" type="s4_detection_hsv_extractor" output="screen">
           <remap from="image_raw" to="/$(arg robot_name)/usb_device/head_camera/image_raw"/>
-          <param name="category" value="redcan"/>
+          <param name="category" value="red_can"/>
           <param name="frame_id" value="$(arg robot_name)/sensor0/head_camera_link"/>
           <param name="camera_name" value="head_camera"/>
           <param name="debug" value="$(arg debug)" />
-          <rosparam command="load" file="$(find s4_detection)/config/extract_redcan.yaml" />
+          <rosparam command="load" file="$(find s4_detection)/config/extract_red_can.yaml" />
         </node>
         <node name="obstacle_fusion" pkg="s4_detection" type="s4_detection_obstacle_fusion" output="screen">
           <remap from="tracked_obstacles" to="/$(arg robot_name)/detection/obstacle_detector/tracked_obstacles"/>
@@ -33,6 +33,22 @@
           </node>
           <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
         </group>
+      </group>
+      <group ns="alvar">
+        <arg name="marker_size" default="4.4" />
+        <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false">
+          <param name="marker_size" value="10.0" />
+          <param name="max_new_marker_error" value="0.08" />
+          <param name="max_track_error" value="0.2" />
+          <param name="output_frame" value="s4n1/sensor0/head_camera_link" />
+          <remap from="camera_image"  to="/s4n1/usb_device/head_camera/image_raw" />
+          <remap from="camera_info"   to="/s4n1/usb_device/head_camera/camera_info" />
+          <remap from="/tf" to="/tf_dummy"/>
+          <remap from="/tf_static" to="/tf_static_dummy"/>
+        </node>
+        <node name="alvar_object_converter" pkg="s4_detection" type="s4_detection_alvar_object_converter" output="screen">
+         <rosparam command="load" file="$(find s4_detection)/config/alvar_list.yaml"/>
+        </node>
       </group>
     </group>
   </group>

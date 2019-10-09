@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   dynamic_reconfigure
   s4_msgs
+  ar_track_alvar_msgs
 )
 find_package(Eigen3 REQUIRED)
 
@@ -143,7 +144,8 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/s4_detection_node.cpp)
 add_executable(${PROJECT_NAME}_hsv_extractor src/hsv_extractor.cpp)
-# add_executable(${PROJECT_NAME}_obstacle_fusion src/obstacle_fusion.cpp)
+add_executable(${PROJECT_NAME}_obstacle_fusion src/obstacle_fusion.cpp)
+add_executable(${PROJECT_NAME}_alvar_object_converter src/alvar_object_converter.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -154,7 +156,8 @@ add_executable(${PROJECT_NAME}_hsv_extractor src/hsv_extractor.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(${PROJECT_NAME}_hsv_extractor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-# add_dependencies(${PROJECT_NAME}_obstacle_fusion ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_obstacle_fusion ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_alvar_object_converter ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME}_hsv_extractor s4_detection_gencfg)
@@ -166,10 +169,15 @@ add_dependencies(${PROJECT_NAME}_hsv_extractor s4_detection_gencfg)
 target_link_libraries(${PROJECT_NAME}_hsv_extractor
   ${catkin_LIBRARIES}
 )
-# target_link_libraries(${PROJECT_NAME}_obstacle_fusion
-#   ${catkin_LIBRARIES}
-#   ${Eigen3_LIBRARIES}
-# )
+target_link_libraries(${PROJECT_NAME}_obstacle_fusion
+  ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+)
+target_link_libraries(${PROJECT_NAME}_alvar_object_converter
+  ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+)
+
 
 #############
 ## Install ##

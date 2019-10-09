@@ -22,7 +22,7 @@
       <node pkg="robot_localization" type="ekf_localization_node" name="robot_localzation" clear_params="true">
         <rosparam command="load" file="$(find s4_localization)/config/wheel_localization.yaml" />
         <param name="tf_prefix" value="$(arg robot_name)"/>
-        <param name="base_link_frame" value="$(arg robot_name)/base_link" />
+        <param name="base_link_frame" value="base_link" />
         <remap from="odometry/filtered" to="odom" />
         <remap from="odom0" to="/$(arg robot_name)/can_device/omni/odom" />
       </node>

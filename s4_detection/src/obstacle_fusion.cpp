@@ -38,13 +38,13 @@ public:
     obstacle_height_ = 0.05;
   }
 
-  void raysCallback(const s4_msgs::TrackedRectArray& rays_msg){
+  void raysCallback(const s4_msgs::TrackedRayArray& rays_msg){
     if(!last_obstacles_ptr_ || last_obstacles_ptr_->circles.empty()){
       ROS_WARN_DELAYED_THROTTLE(5.0, "obstacle not available");
       return;
     }
 
-    int ray_size = rays_msg.rects.size();
+    int ray_size = rays_msg.rays.size();
     int obstacle_size;
     if(last_obstacles_ptr_)obstacle_size = last_obstacles_ptr_->circles.size();
     //asart obstacle_frame_id is odom
@@ -55,14 +55,16 @@ public:
     
     Eigen::Vector3d origin_point = convertPoint(fusion_frame_, rays_msg.header.frame_id);
     //ROS_INFO("origin: %f %f %f", origin_point[0], origin_point[1], origin_point[2]);
-    for(int i = 0; i < (int)rays_msg.rects.size(); i++){
-      Eigen::Vector3d normal_point = convertPoint(fusion_frame_, rays_msg.header.frame_id, rays_msg.rects[i].ray);
+    for(int i = 0; i < (int)rays_msg.rays.size(); i++){
+      Eigen::Vector3d normal_point = convertPoint(fusion_frame_, rays_msg.header.frame_id, rays_msg.rays[i].ray);
       //ROS_INFO("ray: %f %f %f", normal_point[0], normal_point[1], normal_point[2]);
 
       Eigen::Vector3d fusion_point;
-      int index = getNearestObstacle(origin_point, normal_point, fusion_point);
-      if(index >= 0){
-        s4_msgs::TrackedObject object = makeObject(index, fusion_point, rays_msg.rects[i]);
+      int index;
+      float length;
+      bool ret = getNearestObstacle(origin_point, normal_point, index, fusion_point, length);
+      if(ret){
+        s4_msgs::TrackedObject object = makeObject(index, fusion_point, rays_msg.rays[i], length);
         output_objects.objects.push_back(object);
       }
     }
@@ -109,7 +111,7 @@ public:
     return output;
   }
 
-  int getNearestObstacle(Eigen::Vector3d origin_point, Eigen::Vector3d normal_point, Eigen::Vector3d& fusion_point){
+  bool getNearestObstacle(Eigen::Vector3d origin_point, Eigen::Vector3d normal_point, int& output_index, Eigen::Vector3d& fusion_point, float& output_length){
     int obstacle_size = last_obstacles_ptr_->circles.size();
     std::vector<double> lengthes;
     lengthes.resize(obstacle_size);
@@ -138,22 +140,25 @@ public:
     int index = std::distance(distances.begin(), iter);
     //ROS_INFO("obs length:%f, distance:%f", lengthes[index], distances[index]);
     if(distances[index] < distance_max_ && lengthes[index] > 0){
+      output_index = index;
       fusion_point = points[index];
-      return index;
+      output_length = lengthes[index];
+      return true;
     }
-    else return -1;
+    return false;
   }
 
-  s4_msgs::TrackedObject makeObject(int index, Eigen::Vector3d fusion_point, s4_msgs::TrackedRect rect){
+  s4_msgs::TrackedObject makeObject(int index, Eigen::Vector3d fusion_point, s4_msgs::TrackedRay rect, float distance){
     s4_msgs::TrackedObject output;
     output.info = rect.info;
-    output.rect = rect.rect;
-    output.presence.point.x = fusion_point[0];
-    output.presence.point.y = fusion_point[1];
-    output.presence.point.z = fusion_point[2];
+    output.roi = rect.roi;
+    output.presence.pose.position.x = fusion_point[0];
+    output.presence.pose.position.y = fusion_point[1];
+    output.presence.pose.position.z = fusion_point[2];
+    output.presence.pose.orientation.w = 1.0;
     output.presence.velocity = last_obstacles_ptr_->circles[index].velocity;
-    output.presence.height.data = 1.0;
-    output.presence.radius.data = 1.0;
+    output.presence.height.data = rect.height * distance;
+    output.presence.radius.data = rect.width * distance / 2.0;
     return output;
   }
 

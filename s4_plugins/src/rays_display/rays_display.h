@@ -5,7 +5,7 @@
 #include <boost/circular_buffer.hpp>
 #include <rviz/message_filter_display.h>
 #include <rviz/ogre_helpers/arrow.h>
-#include <s4_msgs/TrackedRectArray.h>
+#include <s4_msgs/TrackedRayArray.h>
 #endif
 
 namespace Ogre{
@@ -20,7 +20,7 @@ class IntProperty;
 
 namespace s4_plugins{
 
-class RaysDisplay: public rviz::MessageFilterDisplay<s4_msgs::TrackedRectArray>{
+class RaysDisplay: public rviz::MessageFilterDisplay<s4_msgs::TrackedRayArray>{
 Q_OBJECT
 public:
   RaysDisplay();
@@ -34,7 +34,7 @@ private Q_SLOTS:
   void updateLength();
 
 private:
-  void processMessage( const s4_msgs::TrackedRectArray::ConstPtr& msg );
+  void processMessage( const s4_msgs::TrackedRayArray::ConstPtr& msg );
   Ogre::SceneNode* frame_node_;
   std::vector<rviz::Arrow *>vis_arrows_;
   rviz::ColorProperty* color_property_;

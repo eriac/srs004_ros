@@ -5,6 +5,7 @@
 #include <boost/circular_buffer.hpp>
 #include <rviz/message_filter_display.h>
 #include <rviz/ogre_helpers/shape.h>
+#include <rviz/ogre_helpers/arrow.h>
 #include <s4_msgs/TrackedRayArray.h>
 #include <s4_msgs/TrackedObjectArray.h>
 #endif
@@ -34,11 +35,16 @@ private Q_SLOTS:
   void updateAlpha();
 
 private:
+  void clearVis();
   void processMessage(const s4_msgs::TrackedObjectArray::ConstPtr& msg);
+  geometry_msgs::Vector3 getDirection(const geometry_msgs::Quaternion& quat);
   Ogre::SceneNode* frame_node_;
-
-  std::vector<rviz::Shape *>vis_cylinder_;
   rviz::FloatProperty* alpha_property_;
+
+  std::vector<rviz::Shape *>vis_red_can_cylinder_;
+  std::vector<rviz::Shape *>vis_alvar_marker_cylinder_;
+  std::vector<rviz::Arrow *>vis_alvar_marker_arrow_;
+
 };
 
 } // namespace s4_detection

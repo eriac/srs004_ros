@@ -10,7 +10,7 @@
 #include <rviz/properties/int_property.h>
 #include <rviz/frame_manager.h>
 #include <pluginlib/class_list_macros.h>
-#include <s4_msgs/TrackedRectArray.h>
+#include <s4_msgs/TrackedRayArray.h>
 
 namespace s4_plugins{
 
@@ -55,7 +55,7 @@ void RaysDisplay::updateColorAndAlpha(){
 void RaysDisplay::updateLength(){
 }
 
-void RaysDisplay::processMessage(const s4_msgs::TrackedRectArray::ConstPtr& msg){
+void RaysDisplay::processMessage(const s4_msgs::TrackedRayArray::ConstPtr& msg){
   Ogre::Quaternion orientation;
   Ogre::Vector3 position;
   if( !context_->getFrameManager()->getTransform(msg->header.frame_id, msg->header.stamp, position, orientation)){
@@ -73,7 +73,7 @@ void RaysDisplay::processMessage(const s4_msgs::TrackedRectArray::ConstPtr& msg)
   frame_node_->setPosition(position);
   frame_node_->setOrientation(orientation);
 
-  for(auto ray : msg->rects){
+  for(auto ray : msg->rays){
     rviz::Arrow *arrow;
     arrow = new rviz::Arrow(scene_manager_, frame_node_);
     float alpha = alpha_property_->getFloat();

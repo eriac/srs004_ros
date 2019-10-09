@@ -23,11 +23,10 @@
   </include>
 
   <!-- detection function -->
-<!-- 
   <include file="$(find s4_detection)/launch/main.launch">
     <arg name="robot_name" value="$(arg robot_name)"/>
   </include>
- -->
+
   <!-- operation & ui -->
   <include file="$(find s4_operation)/launch/main.launch">
     <arg name="robot_name" value="$(arg robot_name)"/>
