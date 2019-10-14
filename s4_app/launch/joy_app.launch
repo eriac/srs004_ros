@@ -7,6 +7,7 @@
     <group ns="app">
       <node name="joy_app" pkg="s4_app" type="joy_app.py" output="screen">
         <remap from="joy_navigation" to="/$(arg robot_name)/navigation/joy_navigation" />
+        <remap from="joy_firecontrol" to="/$(arg robot_name)/firecontrol/joy_firecontrol" />
       </node>
     </group>
   </group>

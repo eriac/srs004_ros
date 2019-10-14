@@ -2,6 +2,8 @@
 #include <math.h>
 // ROS
 #include <ros/ros.h>
+#include <std_msgs/Bool.h>
+#include <std_msgs/Int32.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/PointStamped.h>
 #include <actionlib/server/simple_action_server.h>
@@ -12,9 +14,13 @@ typedef actionlib::SimpleActionServer<s4_msgs::GameAppAction> Server;
 
 class JoyFireControl{
 public:
-  JoyFireControl() : nh_(), pnh_("~"), server_(nh_, "joy_navigation", false) {
+  JoyFireControl() : nh_(), pnh_("~"), server_(nh_, "joy_firecontrol", false) {
     cmd_pos_pub_ = nh_.advertise<geometry_msgs::PointStamped>("output_point", 10);
+    laser_pub_ = nh_.advertise<std_msgs::Bool>("output_laser", 10);
+    shot_pub_ = nh_.advertise<std_msgs::Int32>("output_shot", 10);
     cmd_vel_sub_ = nh_.subscribe("input_twist", 10, &JoyFireControl::twistCallback, this);
+    laser_sub_ = nh_.subscribe("input_laser", 10, &JoyFireControl::laserCallback, this);
+    shot_sub_ = nh_.subscribe("input_shot", 10, &JoyFireControl::shotCallback, this);
     timer_ = nh_.createTimer(ros::Duration(1.0/20.0), &JoyFireControl::timerCallback, this);
 
     server_.start();
@@ -25,12 +31,22 @@ public:
     last_twist_ = twist_msg;
   }
 
+  void laserCallback(const std_msgs::Bool& bool_msg){
+    if(updateState())laser_pub_.publish(bool_msg);
+  }
+
+  void shotCallback(const std_msgs::Int32 int_msg){
+    if(updateState())shot_pub_.publish(int_msg);
+  }
+
   void timerCallback(const ros::TimerEvent& event){
-    if(last_twist_.linear.y != 0 || last_twist_.linear.z != 0){
-      last_point_.point.x = 1.0;
-      last_point_.point.y += last_twist_.linear.y /20.0;
-      last_point_.point.z += last_twist_.linear.z /20.0;
-      cmd_pos_pub_.publish(last_point_);
+    if(updateState()){
+      if(last_twist_.linear.y != 0 || last_twist_.linear.z != 0){
+        last_point_.point.x = 1.0;
+        last_point_.point.y += last_twist_.linear.y /20.0;
+        last_point_.point.z -= last_twist_.linear.z /20.0;
+        cmd_pos_pub_.publish(last_point_);
+      }
     }
   }
 
@@ -63,6 +79,10 @@ public:
   Server server_;
   ros::Publisher cmd_pos_pub_;
   ros::Subscriber cmd_vel_sub_;
+  ros::Publisher laser_pub_;
+  ros::Subscriber laser_sub_;
+  ros::Publisher shot_pub_;
+  ros::Subscriber shot_sub_;
   ros::Timer timer_;
 
   geometry_msgs::PointStamped last_point_;

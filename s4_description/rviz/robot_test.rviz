@@ -3,9 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Pose1
-        - /obstacles_display1
+      Expanded: ~
       Splitter Ratio: 0.441988945
     Tree Height: 340
   - Class: rviz/Selection
@@ -831,9 +829,23 @@ Visualization Manager:
           Class: s4_plugins/obstacles_display
           Enabled: true
           Name: obstacles_display
-          Topic: /s4n1/detection/red_can/objects
+          Topic: /s4n1/detection/objects
           Unreliable: false
           Value: true
+        - Alpha: 1
+          Class: s4_plugins/obstacles_display
+          Enabled: false
+          Name: obstacles_display
+          Topic: /s4n1/detection/red_can/objects
+          Unreliable: false
+          Value: false
+        - Alpha: 1
+          Class: s4_plugins/obstacles_display
+          Enabled: false
+          Name: alvar_marker
+          Topic: /s4n1/detection/alvar/objects
+          Unreliable: false
+          Value: false
         - Alpha: 1
           Class: s4_plugins/rays_display
           Color: 200; 50; 50
@@ -845,28 +857,6 @@ Visualization Manager:
           length: 1
       Enabled: true
       Name: detection
-    - Alpha: 1
-      Axes Length: 0.200000003
-      Axes Radius: 0.0199999996
-      Class: rviz/Pose
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.300000012
-      Head Radius: 0.100000001
-      Name: Pose
-      Shaft Length: 1
-      Shaft Radius: 0.0500000007
-      Shape: Axes
-      Topic: /s4n1/detection/alvar/debug_pose
-      Unreliable: false
-      Value: true
-    - Alpha: 1
-      Class: s4_plugins/obstacles_display
-      Enabled: true
-      Name: obstacles_display
-      Topic: /s4n1/detection/alvar/objects
-      Unreliable: false
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -892,25 +882,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 2.51612115
+      Distance: 4.43426514
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0346859097
-        Y: 0.51328063
-        Z: 1.78813934e-07
+        X: 0.345383108
+        Y: 0.80412662
+        Z: -1.78813934e-07
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.6547966
+      Pitch: 0.774796069
       Target Frame: s4n1/map
       Value: ThirdPersonFollower (rviz)
-      Yaw: 1.77541113
+      Yaw: 2.60541344
     Saved: ~
 Window Geometry:
   Displays:

@@ -50,6 +50,11 @@
          <rosparam command="load" file="$(find s4_detection)/config/alvar_list.yaml"/>
         </node>
       </group>
+      <node name="object_merger" pkg="s4_detection" type="s4_detection_object_merger" output="screen">
+        <remap from="input0" to="red_can/objects" />
+        <remap from="input1" to="alvar/objects" />
+        <param name="input_num" value="2" />
+      </node>
     </group>
   </group>
 </launch>

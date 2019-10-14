@@ -7,7 +7,11 @@
     <group ns="firecontrol">
       <node name="joy_firecontrol" pkg="s4_firecontrol" type="s4_firecontrol_joy_firecontrol" output="screen">
         <remap from="input_twist" to="/$(arg robot_name)/operation/gun_cmd_vel" />
+        <remap from="input_laser" to="/$(arg robot_name)/operation/gun_laser" />
+        <remap from="input_shot" to="/$(arg robot_name)/operation/gun_shot" />
         <remap from="output_point" to="/$(arg robot_name)/can_device/gun0/carriage/command" />
+        <remap from="output_laser" to="/$(arg robot_name)/can_device/gun0/laser/on" />
+        <remap from="output_shot" to="/$(arg robot_name)/can_device/gun0/shot/command" />
       </node>
     </group>
   </group>

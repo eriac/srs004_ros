@@ -2,7 +2,9 @@
 #include <s4_hardware/canlink_plugins_base.h>
 // ROS
 #include <ros/ros.h>
+#include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
+#include <std_msgs/Int32.h>
 #include <geometry_msgs/PointStamped.h>
 #include <control_msgs/JointControllerState.h>
 // SRS004
@@ -14,20 +16,27 @@ public:
   void init(void){
     state_pub_ = nh_.advertise<geometry_msgs::PointStamped>(name_ + "/carriage/state", 10);
     set_point_pub_ = nh_.advertise<geometry_msgs::PointStamped>(name_ + "/carriage/set_point", 10);
-    //current_pub_  = nh_.advertise<std_msgs::Float64>(name_ + "/current", 10);
     command_sub_ = nh_.subscribe(name_ + "/carriage/command", 10, &GunPlugin::commandCallback, this);
 
+    shot_pub_ = nh_.advertise<std_msgs::Int32>(name_ + "/shot/state", 10);
+    laser_sub_ = nh_.subscribe(name_ + "/laser/on", 10, &GunPlugin::laserCallback, this);
+    shot_sub_ = nh_.subscribe(name_ + "/shot/command", 10, &GunPlugin::shotCallback, this);
+    
     last_time_ = ros::Time(0);
 		last_position_ = 0;
     train_trim_ = 0;
     elevation_trim_ = 0;
   }
   void sync(void){
+    s4_msgs::CANCode c_code0, c_code1;
     // request speed
-    s4_msgs::CANCode c_code;
-    c_code.com = 1;
-    c_code.remote = true;
-    output(c_code);
+    c_code0.com = 1;
+    c_code0.remote = true;
+    output(c_code0);
+    // request shot
+    c_code1.com = 2;
+    c_code1.remote = true;
+    output(c_code1);
   }
   void input(s4_msgs::CANCode code){
     if(code.com==1 /*&&code.length==6*/){
@@ -57,6 +66,11 @@ public:
       //ROS_INFO("t: %f(%i), e:%f(%i)", joint1, temp1, joint2, temp2);
       state_pub_.publish(point_msg);
     }
+    else if(code.com==2 /*&&code.length==6*/){
+      std_msgs::Int32 int_msg;
+      int_msg.data = code.data[0];
+      shot_pub_.publish(int_msg);
+    }
   }
   void commandCallback(const geometry_msgs::PointStamped& point_msg){
     float holizon = sqrt(point_msg.point.x * point_msg.point.x + point_msg.point.y * point_msg.point.y);
@@ -80,11 +94,31 @@ public:
     }
   }
 
+  void laserCallback(const std_msgs::Bool& bool_msg){
+    s4_msgs::CANCode cancode;
+    cancode.com=3;
+    cancode.length=1;
+    cancode.data[0] = bool_msg.data ? 1 : 0;
+    output(cancode);
+  }
+
+  void shotCallback(const std_msgs::Int32& int_msg){
+    s4_msgs::CANCode cancode;
+    cancode.com=2;
+    cancode.length=1;
+    cancode.data[0]=int_msg.data;
+    output(cancode);
+  }
+
+  // carriage
   ros::Publisher state_pub_;
   ros::Publisher set_point_pub_;
-  ros::Publisher current_pub_;
   ros::Subscriber command_sub_;
-  double ppr_;
+  // shot
+  ros::Subscriber shot_sub_;
+  ros::Publisher shot_pub_;
+  // laser
+  ros::Subscriber laser_sub_;
 
   ros::Time last_time_;
   double last_position_;

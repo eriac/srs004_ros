@@ -146,6 +146,7 @@ include_directories(
 add_executable(${PROJECT_NAME}_hsv_extractor src/hsv_extractor.cpp)
 add_executable(${PROJECT_NAME}_obstacle_fusion src/obstacle_fusion.cpp)
 add_executable(${PROJECT_NAME}_alvar_object_converter src/alvar_object_converter.cpp)
+add_executable(${PROJECT_NAME}_object_merger src/object_merger.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -158,6 +159,7 @@ add_executable(${PROJECT_NAME}_alvar_object_converter src/alvar_object_converter
 add_dependencies(${PROJECT_NAME}_hsv_extractor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME}_obstacle_fusion ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME}_alvar_object_converter ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_object_merger ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME}_hsv_extractor s4_detection_gencfg)
@@ -177,7 +179,10 @@ target_link_libraries(${PROJECT_NAME}_alvar_object_converter
   ${catkin_LIBRARIES}
   ${Eigen3_LIBRARIES}
 )
-
+target_link_libraries(${PROJECT_NAME}_object_merger
+  ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+)
 
 #############
 ## Install ##
