@@ -14,11 +14,11 @@
 
     <!-- CAN -->
     <group ns="can_device">
-      <node name="canadapter_node" pkg="s4_hardware" type="s4_hardware_canadapter_node" output="screen">
+      <node machine="$(arg target)" name="canadapter_node" pkg="s4_hardware" type="s4_hardware_canadapter_node" output="screen">
         <param name="device_name" value="/dev/CANadapter"/>
         <param name="baud_rate" value="1000000"/>
         <param name="hz" value="20.0"/>
-        <param name="config" value="$(find s4_hardware)/config/canlink_plugins.yaml"/>
+        <rosparam command="load" file="$(find s4_hardware)/config/canlink_plugins.yaml" />
         <param name="ppr" value="1600"/>
       </node>
       <node name="try_omni_converter" pkg="s4_hardware" type="s4_hardware_try_omni_converter" output="screen">

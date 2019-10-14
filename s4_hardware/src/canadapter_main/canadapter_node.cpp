@@ -30,23 +30,19 @@ CANAdapter::CANAdapter(): USBSerial{}, plugins_loader_("s4_hardware", "s4_hardwa
   double hz = 10.0;
   pnh_.getParam("hz", hz);
   interval_timer_ = nh_.createTimer(ros::Duration(1.0/hz), &CANAdapter::timerCallback, this);
-  std::string config = "";
-  pnh_.getParam("config", config);
 
-  if(config != ""){
-    YAML::Node conf = YAML::LoadFile(config);
-    for(int i = 0 ; i <(int)conf["plugins"].size(); i++){
-      std::string name = conf["plugins"][i]["name"].as<std::string>();
-      std::string type = conf["plugins"][i]["type"].as<std::string>();
-      std::string channel = conf["plugins"][i]["channel"].as<std::string>();
-      int id = conf["plugins"][i]["id"].as<int>();      
-      addPlugin(name, type, channel, id);
-    }
+  XmlRpc::XmlRpcValue plugin_list;
+  pnh_.getParam("plugin_list", plugin_list);
+  ROS_ASSERT(plugin_list.getType() == XmlRpc::XmlRpcValue::TypeArray);
+  for(int i = 0; i < plugin_list.size(); i++){
+    XmlRpc::XmlRpcValue plugin = plugin_list[i];
+    std::string name = static_cast<std::string>(plugin["name"]);
+    std::string type = static_cast<std::string>(plugin["type"]);
+    std::string channel = static_cast<std::string>(plugin["channel"]);
+    int id = static_cast<int>(plugin["id"]);
+    ROS_WARN("%s %s %s %i", name.c_str(), type.c_str(), channel.c_str(), id);
+    addPlugin(name, type, channel, id);
   }
-  else{
-    ROS_INFO("empty");
-  }
-
 }
 
 bool CANAdapter::addPlugin(std::string name, std::string type, std::string channel, int id){

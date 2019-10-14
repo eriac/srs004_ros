@@ -1,4 +1,4 @@
-plugins:
+plugin_list:
   - name: wheel0
     type: s4_hardware/WheelPlugin
     channel: "A"
